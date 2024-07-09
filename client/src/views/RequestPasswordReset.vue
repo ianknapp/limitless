@@ -19,7 +19,13 @@
         />
 
         <LoadingSpinner v-if="loading" />
-        <button v-else-if="!loading && !passwordResetSuccess" type="submit" :disabled="loading||!form.email.isValid" class="btn--primary bg-primary" data-cy="submit">
+        <button
+          v-else-if="!loading && !passwordResetSuccess"
+          type="submit"
+          :disabled="loading || !form.email.isValid"
+          class="btn--primary bg-primary"
+          data-cy="submit"
+        >
           Request Password Reset
         </button>
       </form>

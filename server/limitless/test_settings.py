@@ -1,7 +1,7 @@
 from decouple import config
 
-from limitless.settings import LOGGING
 from limitless.settings import *  # noqa
+from limitless.settings import LOGGING
 
 # Override staticfiles setting to avoid cache issues with whitenoise Manifest staticfiles storage
 # See: https://stackoverflow.com/a/69123932
