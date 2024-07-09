@@ -1,0 +1,55 @@
+{
+  "name": "Limitless",
+  "env": {
+    "ALLOWED_HOSTS": {
+      "value": ".herokuapp.com"
+    },
+    "DEBUG": {
+      "value": "True"
+    },
+    "DISABLE_COLLECTSTATIC": {
+      "value": 0
+    },
+    "ENVIRONMENT": {
+      "value": "review"
+    },
+    "PROJECT_PATH": {
+      "value": "limitless"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "value": "false"
+    },
+    "DJANGO_SUPERUSER_PASSWORD": {
+      "value": "i_zxa%2$(5jnc#x$mg45m$+(h8q92r7031$*+na2wy1yo%=_dv"
+    },
+    "CYPRESS_TEST_USER_PASS": {
+      "value": "i_zxa%2$(5jnc#x$mg45m$+(h8q92r7031$*+na2wy1yo%=_dv"
+    },
+    "SECRET_KEY": {
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:standard-0",
+    "papertrail:choklad"
+  ],
+  "environments": {
+    "review": {
+      "addons": [
+        "heroku-postgresql:essential-0",
+        "papertrail:choklad"
+      ]
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "./scripts/db_setup.sh"
+  }
+}
