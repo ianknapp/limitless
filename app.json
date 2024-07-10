@@ -46,12 +46,6 @@
       "url": "heroku-community/apt"
     },
     {
-      "url": "https://github.com/thinknimble/heroku-buildpack-slic3r"
-    },
-    {
-      "url": "heroku/nodejs"
-    },
-    {
       "url": "heroku/python"
     }
   ],
