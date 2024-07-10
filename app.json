@@ -47,7 +47,7 @@
     },
     {
       "url": "heroku/python"
-    }
+    },
     {
       "url": "https://github.com/thinknimble/heroku-buildpack-slic3r"
     }
