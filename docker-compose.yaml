@@ -20,6 +20,26 @@ services:
       - local_postgres_data:/var/lib/postgresql/data/
       - local_postgres_data_backups:/backups
 
+  prusaslicer-novnc:
+    image: mikeah/prusaslicer-novnc
+    container_name: prusaslicer-novnc
+    environment:
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+      - NVIDIA_VISIBLE_DEVICES=0
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=:0
+      - VGL_DISPLAY=egl # needed to run without X server
+      - SUPD_LOGLEVEL=INFO 
+      - ENABLEHWGPU=true
+      - VNC_RESOLUTION=1920x1080
+      - NOVNC_PORT=8080
+    ports:
+      - 8080:8080
+    volumes:
+      - ./prusaprints:/prints/
+      - ./prusadata:/configs/
+    restart: unless-stopped
+
   server:
     build:
       context: .
