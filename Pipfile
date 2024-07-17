@@ -31,7 +31,8 @@ django-anymail = "==8.4"  # https://github.com/anymail/django-anymail
 rollbar = "==0.16.2"
 premailer = "*"
 drf-spectacular = "*"
-conan = "*"
+conan = "==1.56"
+distro = "==1.7.0"
 
 [requires]
 python_version = "3.10"
