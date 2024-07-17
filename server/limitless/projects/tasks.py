@@ -10,18 +10,18 @@ ROOT = "/tmp"
 
 def slice_model(project):
     logger.info(f"About to slice model at location: {project.model_3d.url}")
-    output = run_command("", "CuraEngine help")
-    logger.info(f"Cura response: {output}")
     response = requests.get(project.model_3d.url)
-    with open(project.model_3d.name, mode="wb") as f:
+    with open(f"{ROOT}/{project.model_3d.name}", mode="wb") as f:
         f.write(response.content)
     ls = run_command("", "ls -la")
     logger.info(f"files look like: {ls}")
+    output = run_command("", f"CuraEngine slice -l {project.model_3d.name}")
+    logger.info(f"Cura response: {output}")
 
 
 def run_command(folder, command):
     code_root = f"{ROOT}/{folder}"
     response = subprocess.run(command, cwd=code_root, capture_output=True, shell=True)
-    if response.returncode:
+    if response.returncode or response.stderr:
         logger.info(f"Error while running '{command}' - {response.stdout.decode('UTF-8')} - {response.stderr.decode('UTF-8')}")
     return response.stdout.decode("UTF-8").rstrip("\n")
