@@ -8,7 +8,8 @@ ROOT = "/tmp"
 
 def slice_model(project):
     logger.info(f"About to slice model at location: {project.model_3d.url}")
-    run_command("", "CuraEngine help")
+    output = run_command("", "CuraEngine help")
+    logger.info(f"Cura response: {output}")
 
 
 def run_command(folder, command):
