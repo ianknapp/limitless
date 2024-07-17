@@ -1,0 +1,13 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block submit_buttons_bottom %}
+{{ block.super }}
+{% if build_project %}
+<div class="submit-row">
+    GENERATE GCODE FILE
+    <input type="submit" value="{% translate 'Slice Model' %}" name="_build_project">
+</div>
+{% endif %}
+{% endblock %}

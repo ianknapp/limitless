@@ -11,3 +11,9 @@ class Project(AbstractBaseModel):
     description = models.TextField(blank=True, null=True)
     model_3d = models.FileField(upload_to=datetime_appended_filepath, blank=True, null=True)
     print_config = models.FileField(upload_to=datetime_appended_filepath, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ["-last_edited"]
