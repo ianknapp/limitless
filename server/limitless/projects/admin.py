@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpResponse
 
 from .models import Project
 from .tasks import slice_model
@@ -11,15 +12,20 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context["build_project"] = True
+        if not request.path.endswith("/add/"):
+            # Only allow for slicing after creation
+            extra_context["build_project"] = True
         return super().changeform_view(request, object_id, form_url, extra_context)
-
-    def response_add(self, request, obj, post_url_continue=None):
-        if "_build_project" in request.POST:
-            slice_model(obj)
-        return super().response_add(request, obj, post_url_continue)
 
     def response_change(self, request, obj):
         if "_build_project" in request.POST:
-            slice_model(obj)
+            file_path = slice_model(obj)
+
+            file_name = file_path.stem[:-18]
+            file_data = {}
+            with open(file_path, "rb") as f:
+                file_data = f.read()
+            response = HttpResponse(file_data, content_type='application/json')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+            return response
         return super().response_change(request, obj)
