@@ -372,3 +372,4 @@ SWAGGER_SETTINGS = {
 
 # Ultimaker Cura
 CURA_ENGINE_SEARCH_PATH = "/tmp;/app"
+CURA_ENGINE_SEARCH_PATH = "/app/.apt/usr/share/cura/resources/definitions"

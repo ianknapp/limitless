@@ -8,5 +8,9 @@
 #cmake --preset release
 #cmake --build --preset release
 #source build/generators/Release/conanrun.sh
+
+curl -L https://github.com/Ultimaker/Cura/archive/refs/heads/4.13.zip > cura-4-13.zip
+unzip -q cura-4-13.zip
+
 echo "Done with Buildpack Run"
 
