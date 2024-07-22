@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CuraEngine installed van the Apt Heroku buildpack
+# CuraEngine installed via the Apt Heroku buildpack
 # But we also need the printer definition configs from Cura itself
 # They differ per release so fetch the right ones
 
@@ -10,7 +10,7 @@ CuraEngine help > cura_help.txt 2>&1
 version_line=$(cat cura_help.txt | grep "Cura_SteamEngine version")
 echo "Version string is $version_line"
 # We only need the first X.XX part of the version number
-version_number=${version_line#*version } | cut -d '.' -f 1-2
+version_number=$(echo ${version_line#*version } | cut -d '.' -f 1-2)
 echo "Version number is $version_number"
 # Write it to file so we can export it later
 # We could set it as a Heroku env var, but it might/will change
