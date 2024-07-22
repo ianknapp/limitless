@@ -36,6 +36,8 @@ def slice_model(project):
     logger.info(f"files look like: {ls}")
     file_name_root = _get_file_name_root(project.model_3d.name)
     file_name = f"{file_name_root}.gcode"
+    # Need to export this here for reasons. See buildpack-run.sh
+    run_command("", "export CURA_ENGINE_SEARCH_PATH=/Cura-$(cat cura_version.txt)/resources/definitions")
     run_command("", f"CuraEngine slice -v -p -l {project.model_3d.name} -j {project.print_config.name} -o {file_name}")
     return Path(ROOT, file_name)
 
