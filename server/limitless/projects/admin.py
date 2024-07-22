@@ -25,12 +25,11 @@ class ProjectAdmin(admin.ModelAdmin):
         if "_build_project" in request.POST:
             file_path = slice_model(obj)
 
-            file_name = file_path.stem[:-18]
-            logger.info(f"Returning file: {file_name}")
+            logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:
                 file_data = f.read()
             response = HttpResponse(file_data, content_type='application/gcode')
-            response["Content-Disposition"] = f'attachment; filename="{file_name}"'
+            response["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
             return response
         return super().response_change(request, obj)
