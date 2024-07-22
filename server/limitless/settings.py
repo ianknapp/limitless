@@ -369,7 +369,3 @@ SWAGGER_SETTINGS = {
     "SHOW_REQUEST_HEADERS": True,
     "OPERATIONS_SORTER": "alpha",
 }
-
-# Ultimaker Cura
-CURA_ENGINE_SEARCH_PATH = "/tmp;/app"
-CURA_ENGINE_SEARCH_PATH = "/app/.apt/usr/share/cura/resources/definitions"
