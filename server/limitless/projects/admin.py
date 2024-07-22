@@ -29,7 +29,7 @@ class ProjectAdmin(admin.ModelAdmin):
             file_data = {}
             with open(file_path, "rb") as f:
                 file_data = f.read()
-            response = HttpResponse(file_data, content_type='application/gcode')
+            response = HttpResponse(file_data, content_type="application/gcode")
             response["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
             return response
         return super().response_change(request, obj)
