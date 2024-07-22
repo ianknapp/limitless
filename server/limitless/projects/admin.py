@@ -1,8 +1,12 @@
+import logging
+
 from django.contrib import admin
 from django.http import HttpResponse
 
 from .models import Project
 from .tasks import slice_model
+
+logger = logging.getLogger(__name__)
 
 
 @admin.register(Project)
@@ -22,10 +26,11 @@ class ProjectAdmin(admin.ModelAdmin):
             file_path = slice_model(obj)
 
             file_name = file_path.stem[:-18]
+            logger.info(f"Returning file: {file_name}")
             file_data = {}
             with open(file_path, "rb") as f:
                 file_data = f.read()
-            response = HttpResponse(file_data, content_type='application/json')
-            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+            response = HttpResponse(file_data, content_type='application/gcode')
+            response["Content-Disposition"] = f'attachment; filename="{file_name}"'
             return response
         return super().response_change(request, obj)

@@ -39,7 +39,7 @@ def slice_model(project):
     # Need to export this here for reasons. See buildpack-run.sh
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
     cura_args = f"-j {project.print_config.name} -l {project.model_3d.name} -o /tmp/{file_name}"
-    run_command("", f"{export_cmd} && CuraEngine slice -v -p {cura_args}")
+    run_command("", f"{export_cmd} && CuraEngine slice {cura_args}")
     return Path(ROOT, file_name)
 
 
