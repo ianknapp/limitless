@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectFileInlineAdmin(admin.TabularInline):
-    change_form_template = "admin/s3_upload_form.html"
     model = ProjectFile
     extra = 1
 
@@ -47,6 +46,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectFile)
 class ProjectFileAdmin(admin.ModelAdmin):
+    change_form_template = "admin/s3_upload_form.html"
     list_display = ("title", "file", "file_type", "created")
     list_filter = ("file_type",)
 
