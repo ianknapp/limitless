@@ -31,9 +31,10 @@
     })
   })()
 </script>
+{% endblock %}
 
-{% endblock %} {% block content %}
-<div class="progress" style="height: 20px; background-color: lightgray">
+{% block after_field_sets %}
+<div class="progress" style="height: 20px; width: 50%; margin-bottom: 12px; background-color: #121212">
   <div
     class="progress-bar"
     role="progressbar"
@@ -42,11 +43,10 @@
     aria-valuemin="0"
     aria-valuemax="100"
   >
-    0%
   </div>
 </div>
-
-{{block.super}} {% endblock %}
+{{ block.super }}
+{% endblock %}
 
 {% block submit_buttons_bottom %}
 {{ block.super }}

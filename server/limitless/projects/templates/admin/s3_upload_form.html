@@ -2,7 +2,8 @@
 {% load static %}
 {% load i18n %}
 
-{% block extrahead %} {{block.super}}
+{% block extrahead %}
+{{ block.super }}
 <style>
   .progress-bar {
     height: 100%;
@@ -14,7 +15,7 @@
 <script>
   ;(function () {
     addEventListener('DOMContentLoaded', (event) => {
-      var form = document.getElementById('project_form')
+      var form = document.getElementById('projectfile_form')
         if(!form){
           alert('Unable to locate form, progress bar disabled!')
         }
@@ -31,8 +32,9 @@
     })
   })()
 </script>
+{% endblock %}
 
-{% endblock %} {% block content %}
+{% block content %}
 <div class="progress" style="height: 20px; background-color: lightgray">
   <div
     class="progress-bar"
@@ -45,3 +47,5 @@
     0%
   </div>
 </div>
+{{ block.super }}
+{% endblock %}

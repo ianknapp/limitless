@@ -29,16 +29,16 @@ def _get_file_name_root(file_name):
     return file_name.split(".")[0][:-18]
 
 
-def slice_model(project):
-    _download_file(project.model_3d.url, project.model_3d.name)
-    _download_file(project.print_config.url, project.print_config.name)
+def slice_model(obj):
+    _download_file(obj.fil.url, obj.file.name)
+    _download_file(obj.print_config.url, obj.print_config.name)
     ls = run_command("", "ls -la")
     logger.info(f"files look like: {ls}")
-    file_name_root = _get_file_name_root(project.model_3d.name)
+    file_name_root = _get_file_name_root(obj.file.name)
     file_name = f"{file_name_root}.gcode"
     # Need to export this here for reasons. See buildpack-run.sh
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
-    cura_args = f"-j {project.print_config.name} -l {project.model_3d.name} -o /tmp/{file_name}"
+    cura_args = f"-j {obj.print_config.name} -l {obj.file.name} -o /tmp/{file_name}"
     run_command("", f"{export_cmd} && CuraEngine slice {cura_args}")
     return Path(ROOT, file_name)
 
