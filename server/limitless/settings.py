@@ -226,6 +226,9 @@ else:
 # STORAGES
 # ----------------------------------------------------------------------------
 
+# Sends files directly to S3 to help with large files and avoiding timeouts
+ENABLE_LARGE_FILE_STORAGE = config("ENABLE_LARGE_FILE_STORAGE", cast=bool, default=False)
+
 PRIVATE_MEDIAFILES_LOCATION = ""
 # Django Storages configuration
 if config("USE_AWS_STORAGE", cast=bool, default=False):
@@ -244,6 +247,13 @@ if config("USE_AWS_STORAGE", cast=bool, default=False):
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     # STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
+    if ENABLE_LARGE_FILE_STORAGE:
+        INSTALLED_APPS.append("s3file")
+        MIDDLEWARE.append("s3file.middleware.S3FileMiddleware")
+        DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
+        AWS_LOCATION = PRIVATE_MEDIAFILES_LOCATION
+
 
 #
 # STATIC
