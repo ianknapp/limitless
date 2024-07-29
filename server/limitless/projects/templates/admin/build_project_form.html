@@ -2,6 +2,52 @@
 {% load static %}
 {% load i18n %}
 
+{% block extrahead %} {{block.super}}
+<style>
+  .progress-bar {
+    height: 100%;
+  }
+  .progress: {
+    height: 10rem;
+  }
+</style>
+<script>
+  ;(function () {
+    addEventListener('DOMContentLoaded', (event) => {
+      var form = document.getElementById('project_form')
+        if(!form){
+          alert('Unable to locate form, progress bar disabled!')
+        }
+      var progressBar = document.getElementsByClassName('progress-bar')[0]
+
+      form.addEventListener('progress', function (event) {
+        // event.detail.progress is a value between 0 and 1
+        var percent = Math.round(event.detail.progress * 100)
+
+        progressBar.setAttribute('style', 'width:' + percent + '%;background-color:green;')
+        progressBar.setAttribute('aria-valuenow', percent)
+        progressBar.innerText = percent + '%'
+      })
+    })
+  })()
+</script>
+
+{% endblock %} {% block content %}
+<div class="progress" style="height: 20px; background-color: lightgray">
+  <div
+    class="progress-bar"
+    role="progressbar"
+    style="width: 0%"
+    aria-valuenow="0"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    0%
+  </div>
+</div>
+
+{{block.super}} {% endblock %}
+
 {% block submit_buttons_bottom %}
 {{ block.super }}
 {% if build_project %}
