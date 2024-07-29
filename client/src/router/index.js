@@ -38,9 +38,19 @@ const routes = [
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
     beforeEnter: requireAuth,
+    children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+      },
+      {
+        path: '/dashboard/:pk',
+        name: 'Project',
+        component: () => import(/* webpackChunkName: "project" */ '../views/Project.vue'),
+      },
+    ],
   },
   {
     path: '/:pathMatch(.*)*',

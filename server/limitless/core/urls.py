@@ -4,12 +4,14 @@ from django.urls import include, path
 from rest_framework_nested import routers
 
 from limitless.core import views as core_views
+from limitless.projects import views as project_views
 
 router = routers.SimpleRouter()
 if settings.DEBUG:
     router = routers.DefaultRouter()
 
 router.register("users", core_views.UserViewSet)
+router.register("projects", project_views.ProjectViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
