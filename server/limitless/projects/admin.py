@@ -18,7 +18,7 @@ class ProjectFileInlineAdmin(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("owner", "title", "num_files", "created")
+    list_display = ("title", "owner", "num_files", "created")
     inlines = [ProjectFileInlineAdmin]
 
     def num_files(self, obj):

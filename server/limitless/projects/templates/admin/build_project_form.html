@@ -2,7 +2,8 @@
 {% load static %}
 {% load i18n %}
 
-{% block extrahead %} {{block.super}}
+{% block extrahead %}
+{{ block.super }}
 <style>
   .progress-bar {
     height: 100%;
@@ -34,7 +35,7 @@
 {% endblock %}
 
 {% block after_field_sets %}
-<div class="progress" style="height: 20px; width: 50%; margin-bottom: 12px; background-color: #121212">
+<div class="progress" style="height: 20px; margin-bottom: 12px; background-color: #121212">
   <div
     class="progress-bar"
     role="progressbar"
