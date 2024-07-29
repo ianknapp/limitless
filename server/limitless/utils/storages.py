@@ -11,6 +11,7 @@ class PrivateMediaStorage(S3Boto3Storage):
 
 
 class PrivateLargeMediaStorage(S3OptimizedUploadStorage):
+    location = settings.PRIVATE_MEDIAFILES_LOCATION
     default_acl = "private"
     file_overwrite = False
     custom_domain = False
