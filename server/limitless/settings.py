@@ -250,6 +250,7 @@ if config("USE_AWS_STORAGE", cast=bool, default=False):
         INSTALLED_APPS.append("s3file")
         MIDDLEWARE.append("s3file.middleware.S3FileMiddleware")
         DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
+        AWS_LOCATION = PRIVATE_MEDIAFILES_LOCATION
 
 
 #
