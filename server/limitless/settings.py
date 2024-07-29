@@ -242,15 +242,15 @@ if config("USE_AWS_STORAGE", cast=bool, default=False):
 
     # Default file storage is private
     PRIVATE_MEDIAFILES_LOCATION = f"{AWS_LOCATION}/media"
-    # DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateMediaStorage"
+    DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateMediaStorage"
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
-    DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage" if ENABLE_LARGE_FILE_STORAGE else "limitless.utils.storages.PrivateMediaStorage"
+    # DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage" if ENABLE_LARGE_FILE_STORAGE else "limitless.utils.storages.PrivateMediaStorage"
     if ENABLE_LARGE_FILE_STORAGE:
         INSTALLED_APPS.append("s3file")
         MIDDLEWARE.append("s3file.middleware.S3FileMiddleware")
-        # DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
+        DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
         AWS_LOCATION = PRIVATE_MEDIAFILES_LOCATION
 
 

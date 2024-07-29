@@ -2,15 +2,6 @@
 {% load static %}
 {% load i18n %}
 
-{% block submit_buttons_bottom %}
-{{ block.super }}
-{% if build_project %}
-<div class="submit-row">
-    GENERATE GCODE FILE
-    <input type="submit" value="{% translate 'Slice Model' %}" name="_build_project">
-</div>
-{% endif %}
-{% endblock %}
 {% block extrahead %} {{block.super}}
 <style>
   .progress-bar {
@@ -56,3 +47,13 @@
 </div>
 
 {{block.super}} {% endblock %}
+
+{% block submit_buttons_bottom %}
+{{ block.super }}
+{% if build_project %}
+<div class="submit-row">
+    GENERATE GCODE FILE
+    <input type="submit" value="{% translate 'Slice Model' %}" name="_build_project">
+</div>
+{% endif %}
+{% endblock %}

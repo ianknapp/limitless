@@ -1,6 +1,5 @@
 # Django
 
-
 ## Initial Setup for non-Docker local
 1. Install Postgres (OSX - `brew install postgresql`; Linux - `apt-get`)
 1. Copy .env.example to new file .env 
