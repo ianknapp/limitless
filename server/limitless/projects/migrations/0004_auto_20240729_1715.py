@@ -4,15 +4,15 @@ from django.db import migrations
 
 
 def move_files(apps, schema_editor):
-    Project = apps.get_model("yourappname", "Project")
-    ProjectFile = apps.get_model("yourappname", "ProjectFile")
+    Project = apps.get_model("projects", "Project")
+    ProjectFile = apps.get_model("projects", "ProjectFile")
     for project in Project.objects.exclude(model_3d__isnull=True).all():
         ProjectFile.objects.create(project=project, file=project.model_3d, print_config=project.print_config)
 
 
 def reverse(apps, schema_editor):
-    Project = apps.get_model("yourappname", "Project")
-    ProjectFile = apps.get_model("yourappname", "ProjectFile")
+    Project = apps.get_model("projects", "Project")
+    ProjectFile = apps.get_model("projects", "ProjectFile")
     for project in Project.objects.all():
         project_model = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
         if project_model:
