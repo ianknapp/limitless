@@ -3,16 +3,25 @@ import logging
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Project
+from .models import Project, ProjectFile
 from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
 
 
+class ProjectFileInlineAdmin(admin.TabularInline):
+    model = ProjectFile
+    extra = 1
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("owner", "title", "model_3d", "print_config")
+    list_display = ("title", "owner", "num_files", "created")
+    inlines = [ProjectFileInlineAdmin]
+
+    def num_files(self, obj):
+        return obj.files.count()
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         extra_context = extra_context or {}
@@ -23,8 +32,8 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def response_change(self, request, obj):
         if "_build_project" in request.POST:
-            file_path = slice_model(obj)
-
+            # For now just grab the first model file we find
+            file_path = slice_model(obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first())
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:
@@ -33,3 +42,13 @@ class ProjectAdmin(admin.ModelAdmin):
             response["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
             return response
         return super().response_change(request, obj)
+
+
+@admin.register(ProjectFile)
+class ProjectFileAdmin(admin.ModelAdmin):
+    change_form_template = "admin/s3_upload_form.html"
+    list_display = ("title", "file", "file_type", "created")
+    list_filter = ("file_type",)
+
+    def title(self, obj):
+        return obj.project.title
