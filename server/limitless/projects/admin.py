@@ -3,7 +3,7 @@ import logging
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Project
+from .models import Project, ProjectFile
 from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("owner", "title", "model_3d", "print_config")
+    list_display = ("owner", "title")
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         extra_context = extra_context or {}
@@ -33,3 +33,8 @@ class ProjectAdmin(admin.ModelAdmin):
             response["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
             return response
         return super().response_change(request, obj)
+
+
+@admin.register(ProjectFile)
+class ProjectFileAdmin(admin.ModelAdmin):
+    pass
