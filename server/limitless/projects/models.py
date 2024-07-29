@@ -28,11 +28,13 @@ class ProjectFile(AbstractBaseModel):
     print_config = models.FileField(upload_to=datetime_appended_filepath, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        file_ext = self.file.name.split(".")[-1].lower()
-        if file_ext == "stl":
-            self.file_type = self.TypeChoices.MODEL
-        elif file_ext in ["png", "jpg", "jpeg"]:
-            self.file_type = self.TypeChoices.IMAGE
+        if not self.file_type:
+            # Ony on initial creation
+            file_ext = self.file.name.split(".")[-1].lower()
+            if file_ext == "stl":
+                self.file_type = self.TypeChoices.MODEL
+            elif file_ext in ["png", "jpg", "jpeg"]:
+                self.file_type = self.TypeChoices.IMAGE
         super().save(*args, **kwargs)
 
     def __str__(self):

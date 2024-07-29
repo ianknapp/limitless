@@ -9,10 +9,17 @@ from .tasks import slice_model
 logger = logging.getLogger(__name__)
 
 
+class ProjectFileInlineAdmin(admin.TabularInline):
+    change_form_template = "admin/s3_upload_form.html"
+    model = ProjectFile
+    extra = 1
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("owner", "title")
+    list_display = ("owner", "title", "created")
+    inlines = [ProjectFileInlineAdmin]
 
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         extra_context = extra_context or {}
@@ -37,4 +44,8 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(ProjectFile)
 class ProjectFileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("title", "file", "file_type", "created")
+    list_filter = ("file_type",)
+
+    def title(self, obj):
+        return obj.project.title

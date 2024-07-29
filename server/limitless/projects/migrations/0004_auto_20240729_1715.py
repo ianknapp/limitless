@@ -14,7 +14,7 @@ def reverse(apps, schema_editor):
     Project = apps.get_model("projects", "Project")
     ProjectFile = apps.get_model("projects", "ProjectFile")
     for project in Project.objects.all():
-        project_model = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
+        project_model = project.files.filter(file_type="MODEL").first()
         if project_model:
             project.model_3d = project_model.file
             project.print_config = project_model.print_config
