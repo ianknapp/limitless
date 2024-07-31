@@ -13,9 +13,9 @@
             <router-link
               active-class="active"
               v-if="isLoggedIn"
-              :to="{ name: 'Dashboard' }"
+              :to="{ name: 'Projects' }"
               class="router"
-              >Dashboard</router-link
+              >Projects</router-link
             >
           </div>
         </div>
@@ -79,12 +79,12 @@
         </router-link>
         <router-link
           v-if="isLoggedIn"
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: 'Projects' }"
           @click="mobileMenuOpen = false"
           active-class="active--mobile"
           class="mobile-link--main"
         >
-          Dashboard
+          Projects
         </router-link>
       </div>
       <div class="border-t border-gray-200 pb-3 pt-4">

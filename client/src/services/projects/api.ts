@@ -1,8 +1,4 @@
-import {
-  createApi,
-  createCollectionManager,
-  Pagination,
-} from '@thinknimble/tn-models'
+import { createApi, createCollectionManager, Pagination } from '@thinknimble/tn-models'
 import axiosInstance from '../AxiosClient'
 import { projectShape } from './models'
 

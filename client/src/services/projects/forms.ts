@@ -1,6 +1,5 @@
 import Form, { FormField, IFormField } from '@thinknimble/tn-forms'
 
-
 export type PrintFormInputs = {
   printer: IFormField<string>
 }

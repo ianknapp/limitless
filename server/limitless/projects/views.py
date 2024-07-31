@@ -4,7 +4,7 @@ from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 
 from .models import Project
-from .serializers import ProjectSerializer, ProjectDetailsSerializer
+from .serializers import ProjectDetailsSerializer, ProjectSerializer
 
 logger = logging.getLogger(__name__)
 

@@ -37,13 +37,13 @@ const routes = [
     beforeEnter: requireNoAuth,
   },
   {
-    path: '/dashboard',
+    path: '/projects',
     beforeEnter: requireAuth,
     children: [
       {
         path: '',
-        name: 'Dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+        name: 'Projects',
+        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
       },
       {
         path: '/dashboard/:pk',

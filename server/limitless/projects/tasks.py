@@ -30,7 +30,7 @@ def _get_file_name_root(file_name):
 
 
 def slice_model(obj):
-    _download_file(obj.fil.url, obj.file.name)
+    _download_file(obj.file.url, obj.file.name)
     _download_file(obj.print_config.url, obj.print_config.name)
     ls = run_command("", "ls -la")
     logger.info(f"files look like: {ls}")

@@ -23,7 +23,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { projectFunctions } from '@/services/projects'
 
 export default {
-  name: 'Dashboard',
+  name: 'Projects',
   components: {
     ProjectCard,
     LoadingSpinner,

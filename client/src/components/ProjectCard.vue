@@ -1,12 +1,12 @@
 <template>
   <div class="text-left">
     <router-link
-      :to="{ name: 'Project', params: { pk: project.id } }"
+      :to="{ name: 'Project', params: { pk: project.pk } }"
       class="flex flex-shrink-0 items-center"
     >
       <div class="rounded-lg bg-gray-100">
         <div class="mb-auto p-2">
-          <img class="rounded-lg pointer-events-none" :src="project.secondaryImage" />
+          <img class="rounded-lg pointer-events-none" :src="project.image" />
         </div>
       </div>
     </router-link>

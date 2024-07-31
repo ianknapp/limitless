@@ -23,12 +23,7 @@
             v-model="printer"
             label="label"
           ></v-select>
-          <button
-            class="w-1/2 ml-4 btn--primary"
-            @click.prevent="print()"
-          >
-            Print
-          </button>
+          <button class="w-1/2 ml-4 btn--primary" @click.prevent="print()">Print</button>
         </div>
       </div>
     </div>
@@ -73,10 +68,10 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
-      printer.value = { label: project.value.printers + ' printers', value: project.value.printers }
-      printerChoices.value = [...Array(project.value.printers + 30).keys()].map((i) => {
-        return { label: i + 1 + ' printers', value: i + 1 }
-      })
+      // printer.value = { label: project.value.printers + ' printers', value: project.value.printers }
+      // printerChoices.value = [...Array(project.value.printers + 30).keys()].map((i) => {
+      //   return { label: i + 1 + ' printers', value: i + 1 }
+      // })
     })
 
     function print() {
