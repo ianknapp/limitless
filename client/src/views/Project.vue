@@ -25,7 +25,6 @@
 
 <script>
 import { ref, onBeforeMount, h } from 'vue'
-import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { PrintForm, projectApi } from '@/services/projects'
@@ -36,7 +35,6 @@ export default {
     vSelect,
   },
   setup() {
-    const store = useStore()
     const project = ref({})
     const route = useRoute()
     const printerChoices = ref([])
