@@ -1,9 +1,11 @@
 <template>
-  <div class="flex min-h-screen flex-col text-center font-serif text-primary antialiased pt-16 bg-slate-200">
+  <div
+    class="flex min-h-screen flex-col text-center font-serif text-primary antialiased pt-16 bg-slate-200"
+  >
     <AlertAlert />
     <NavBar />
     <div class="w-full mx-auto max-w-7xl flex min-h-full flex-2 flex-col bg-white">
-    <router-view />
+      <router-view />
     </div>
   </div>
 </template>
