@@ -17,7 +17,8 @@ class ProjectFileInlineAdmin(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("title", "owner", "num_files", "created")
+    list_display = ("title", "owner", "num_files", "hidden", "created")
+    list_filter = ("hidden",)
     inlines = [ProjectFileInlineAdmin]
 
     def num_files(self, obj):
@@ -47,7 +48,7 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(ProjectFile)
 class ProjectFileAdmin(admin.ModelAdmin):
     change_form_template = "admin/s3_upload_form.html"
-    list_display = ("title", "file", "file_type", "created")
+    list_display = ("title", "file", "file_type", "primary", "created")
     list_filter = ("file_type",)
 
     def title(self, obj):

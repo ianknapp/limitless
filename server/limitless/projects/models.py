@@ -9,6 +9,7 @@ class Project(AbstractBaseModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects")
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    hidden = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -26,6 +27,7 @@ class ProjectFile(AbstractBaseModel):
     file = models.FileField(upload_to=datetime_appended_filepath)
     file_type = models.CharField(max_length=24, choices=TypeChoices.choices, blank=True, null=True)
     print_config = models.FileField(upload_to=datetime_appended_filepath, blank=True, null=True)
+    primary = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.file_type:
