@@ -41,7 +41,6 @@ export default {
     }
     onBeforeMount(async () => {
       await getProjects()
-      console.log('got here')
     })
 
     const getProjects = async () => {

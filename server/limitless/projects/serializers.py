@@ -12,10 +12,16 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("pk", "title", "image")
+        fields = ("id", "title", "image")
 
 
 class ProjectDetailsSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        image = obj.files.filter(file_type=ProjectFile.TypeChoices.IMAGE).first()
+        return image.file.url if image else ""
+
     class Meta:
         model = Project
-        fields = ("pk", "title", "description")
+        fields = ("id", "title", "description", "image")

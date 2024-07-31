@@ -1,7 +1,7 @@
 <template>
   <div class="text-left">
     <router-link
-      :to="{ name: 'Project', params: { pk: project.pk } }"
+      :to="{ name: 'Project', params: { id: project.id } }"
       class="flex flex-shrink-0 items-center"
     >
       <div class="rounded-lg bg-gray-100">

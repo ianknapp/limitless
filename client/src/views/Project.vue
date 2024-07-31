@@ -29,7 +29,7 @@
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
-        <img class="rounded-lg pointer-events-none" :src="project.primaryImage" />
+        <img class="rounded-lg pointer-events-none" :src="project.image" />
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@ export default {
     const printSuccess = ref(false)
 
     const getProjectData = async () => {
-      project.value = await projectApi.retrieve(route.params.pk)
+      project.value = await projectApi.retrieve(route.params.id)
     }
 
     vSelect.props.components.default = () => ({
@@ -77,7 +77,7 @@ export default {
     function print() {
       console.log('printing')
       //projectApi.csc
-      //  .print({ pk: route.params.pk, printer: printer.value.value })
+      //  .print({ pk: route.params.id, printer: printer.value.value })
       //  .then(handleSuccess)
       //  .catch(handleFailure)
     }
