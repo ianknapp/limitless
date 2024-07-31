@@ -14,6 +14,18 @@
           {{ project.description }}
         </div>
       </div>
+      <div class="mt-8 mb-2 flex flex-wrap justify-left pl-6">
+        <hr class="h-0.5 bg-primary mt-8 mb-6" />
+        <div class="flex flex-shrink-0 items-center pb-4">
+          <v-select
+            class="w-1/2"
+            :options="printerChoices"
+            v-model="printer"
+            label="label"
+          ></v-select>
+          <button class="w-1/2 ml-4 btn--primary" @click.prevent="print()">Print</button>
+        </div>
+      </div>
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
@@ -24,7 +36,8 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, h } from 'vue'
+import { computed, ref, onBeforeMount, h } from 'vue'
+import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { PrintForm, projectApi } from '@/services/projects'
@@ -35,6 +48,7 @@ export default {
     vSelect,
   },
   setup() {
+    const store = useStore()
     const project = ref({})
     const route = useRoute()
     const printerChoices = ref([])
@@ -59,6 +73,27 @@ export default {
       //   return { label: i + 1 + ' printers', value: i + 1 }
       // })
     })
+
+    function print() {
+      console.log('printing')
+      //projectApi.csc
+      //  .print({ pk: route.params.id, printer: printer.value.value })
+      //  .then(handleSuccess)
+      //  .catch(handleFailure)
+    }
+    function handleSuccess() {
+      // projectA.csc.foo().then(handleUpdateSuccess).catch(handleFailure)
+      console.log('print success')
+    }
+    function handleUpdateSuccess(response) {
+      store.dispatch(
+        'setFoo',
+        response.map((element) => element.project.id),
+      )
+    }
+    function handleFailure(error) {
+      console.log(error)
+    }
 
     return {
       project,
