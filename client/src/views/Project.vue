@@ -75,7 +75,6 @@ export default {
     })
 
     function print() {
-      console.log('printing')
       // .print({ pk: route.params.id, printer: printer.value.value })
       projectApi.csc.print({ pk: route.params.id }).then(handleSuccess).catch(handleFailure)
     }

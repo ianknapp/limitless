@@ -10,7 +10,6 @@ import { projectShape, printShape } from './models'
 const print = createCustomServiceCall({
   inputShape: printShape,
   cb: async ({ client, input, utils }) => {
-    console.log('about to print')
     const res = await client.post('/projects/print/', utils.toApi(input))
     return res.data
   },
