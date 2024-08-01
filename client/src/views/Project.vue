@@ -14,6 +14,12 @@
           {{ project.description }}
         </div>
       </div>
+      <div class="mt-8 mb-2 flex flex-wrap justify-left pl-6">
+        <hr class="h-0.5 bg-primary mt-8 mb-6" />
+        <div class="flex flex-shrink-0 items-center pb-4">
+          <button class="w-24 ml-4 btn--primary bg-primary" @click.prevent="print()">Print</button>
+        </div>
+      </div>
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
@@ -45,6 +51,12 @@ export default {
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
     }
+    const snakeCase = (value) => {
+      return value
+        .split(' ')
+        .map((word) => word.toLowerCase())
+        .join('_')
+    }
 
     vSelect.props.components.default = () => ({
       Deselect: {
@@ -54,11 +66,23 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
-      // printer.value = { label: project.value.printers + ' printers', value: project.value.printers }
-      // printerChoices.value = [...Array(project.value.printers + 30).keys()].map((i) => {
-      //   return { label: i + 1 + ' printers', value: i + 1 }
-      // })
     })
+
+    function print() {
+      projectApi.csc.print({ pk: route.params.id }).then(handleGcodeSuccess).catch(handleFailure)
+    }
+    function handleGcodeSuccess(response) {
+      const title = project.value.title
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(new Blob([response], { type: 'application/gcode' }))
+      let d = new Date()
+      const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
+      link.download = fileElements.join('_') + '.gcode'
+      link.click()
+    }
+    function handleFailure(error) {
+      console.log(error)
+    }
 
     return {
       project,

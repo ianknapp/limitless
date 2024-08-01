@@ -7,3 +7,7 @@ export const projectShape = {
   description: z.string().optional(),
   image: z.string().optional(),
 }
+
+export const printShape = {
+  pk: z.string(),
+}
