@@ -51,8 +51,11 @@ export default {
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
     }
-    const snakeCase = value => {
-      return value.split(' ').map((word) => word.toLowerCase()).join('_')
+    const snakeCase = (value) => {
+      return value
+        .split(' ')
+        .map((word) => word.toLowerCase())
+        .join('_')
     }
 
     vSelect.props.components.default = () => ({
