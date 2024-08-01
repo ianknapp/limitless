@@ -59,6 +59,9 @@ export default {
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
     }
+    const snakeCase = value => {
+      return value.split(' ').map((word) => word.toLowerCase()).join('_')
+    }
 
     vSelect.props.components.default = () => ({
       Deselect: {
@@ -83,10 +86,12 @@ export default {
       console.log('print success')
     }
     function handleGcodeSuccess(response) {
+      const title = project.value.title
       const link = document.createElement('a')
       link.href = URL.createObjectURL(new Blob([response], { type: 'application/gcode' }))
       let d = new Date()
-      link.download = d.getMonth() + 1 + '_' + d.getDate() + '_' + d.getFullYear() + '_model'
+      const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
+      link.download = fileElements.join('_') + '.gcode'
       link.click()
       //store.dispatch(
       //  'setFoo',
