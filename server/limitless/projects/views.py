@@ -35,3 +35,30 @@ def print(request):
     response = HttpResponse(file_data, content_type="application/gcode")
     response["Content-Disposition"] = f'attachment; filename="{file_path.name}"'
     return response
+
+
+@api_view(["GET"])
+def printers(request):
+    """
+    On server startup:
+        loop over cura/resources/definitions folder
+        grab file name and the "name" attribute from each json file
+        summarize as a json object and write to local cache (or file?)
+    From here:
+        Call a method that gets that dictionary from cache or calls method to load it
+    Long term:
+        When users save printer configs we'll need to save those to the DB anyway
+        Maybe ignore cache and just write these to a DB table anyway?
+        The values probably will never change
+        If we install a new version of Cura that will likely just add options to the list
+        If an option no longer exists...
+            mark it as hidden on the DB
+            manually upload it's config options to the DB
+        We may want the ability to manually add extra or custom configs anyway
+        So by default get_or_create all of them in the DB on server startup
+        Maybe have a flag for "managed by cura"
+        Those ones wouldn't have a file attached
+        If we upload custom ones, then we'll need to also upload config files
+        At slicer time we use these settings to pass the right path to Cura
+    """
+    pass
