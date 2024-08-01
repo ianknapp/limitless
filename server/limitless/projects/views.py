@@ -26,9 +26,6 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
     file_path = slice_model(project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first())
-    logger.info(f"Returning file: {file_path.name} as {file_path}")
-    # TODO - This is a local system path
-    # return Response({"path": file_path})
     file_data = {}
     with open(file_path, "rb") as f:
         file_data = f.read()
