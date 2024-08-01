@@ -76,17 +76,22 @@ export default {
 
     function print() {
       // .print({ pk: route.params.id, printer: printer.value.value })
-      projectApi.csc.print({ pk: route.params.id }).then(handleSuccess).catch(handleFailure)
+      projectApi.csc.print({ pk: route.params.id }).then(handleGcodeSuccess).catch(handleFailure)
     }
     function handleSuccess() {
       // projectA.csc.foo().then(handleUpdateSuccess).catch(handleFailure)
       console.log('print success')
     }
-    function handleUpdateSuccess(response) {
-      store.dispatch(
-        'setFoo',
-        response.map((element) => element.project.id),
-      )
+    function handleGcodeSuccess(response) {
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(new Blob([response], { type: 'application/gcode' }))
+      let d = new Date()
+      link.download = d.getMonth() + 1 + '_' + d.getDate() + '_' + d.getFullYear() + '_model'
+      link.click()
+      //store.dispatch(
+      //  'setFoo',
+      //  response.map((element) => element.project.id),
+      //)
     }
     function handleFailure(error) {
       console.log(error)
