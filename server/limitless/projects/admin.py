@@ -3,7 +3,7 @@ import logging
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Project, ProjectFile
+from .models import Printer, Project, ProjectFile
 from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
@@ -69,3 +69,9 @@ class ProjectFileAdmin(admin.ModelAdmin):
 
     def title(self, obj):
         return obj.project.title
+
+
+@admin.register(Printer)
+class PrinterAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "cura_managed", "hidden", "file")
+    list_filter = ("cura_managed", "hidden")

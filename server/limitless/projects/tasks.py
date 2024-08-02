@@ -1,5 +1,7 @@
 import logging
 import subprocess
+from os import walk
+from os.path import join
 from pathlib import Path
 
 import requests
@@ -29,6 +31,17 @@ def _get_file_name_root(file_name):
     return file_name.split(".")[0][:-18]
 
 
+def _get_list_of_files(path):
+    all_files = []
+    version = run_command("", "cat /app/cura_version.txt")
+    folder = f"/app/Cura-{version}/{path}/"
+    for (dirpath, dirnames, filenames) in walk(folder):
+        for f in filenames:
+            # build and cleanup the path so it's relative to the root of the project
+            all_files.append(join(dirpath, f).split(folder)[1])
+    return all_files
+
+
 def slice_model(obj, cura_settings_str=""):
     _download_file(obj.file.url, obj.file.name)
     _download_file(obj.print_config.url, obj.print_config.name)
@@ -41,6 +54,11 @@ def slice_model(obj, cura_settings_str=""):
     cura_args = f"-j {obj.print_config.name} -l {obj.file.name} -o /tmp/{file_name}"
     run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}")
     return Path(ROOT, file_name)
+
+
+def get_default_printers():
+    files_list = _get_list_of_files("/resources/definitions")
+    logger.info(files_list)
 
 
 def run_command(folder, command):

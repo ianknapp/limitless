@@ -5,8 +5,8 @@ from rest_framework import mixins, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Project, ProjectFile
-from .serializers import ProjectDetailsSerializer, ProjectSerializer
+from .models import Printer, Project, ProjectFile
+from .serializers import PrinterSerializer, ProjectDetailsSerializer, ProjectSerializer
 from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
@@ -61,4 +61,5 @@ def printers(request):
         If we upload custom ones, then we'll need to also upload config files
         At slicer time we use these settings to pass the right path to Cura
     """
-    pass
+    serializer = PrinterSerializer(Printer.objects.all(), many=True)
+    return Response(serializer.data)
