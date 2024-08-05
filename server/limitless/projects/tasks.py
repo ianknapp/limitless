@@ -29,7 +29,7 @@ def _get_file_name_root(file_name):
     return file_name.split(".")[0][:-18]
 
 
-def slice_model(obj):
+def slice_model(obj, cura_settings_str=""):
     _download_file(obj.file.url, obj.file.name)
     _download_file(obj.print_config.url, obj.print_config.name)
     ls = run_command("", "ls -la")
@@ -39,7 +39,7 @@ def slice_model(obj):
     # Need to export this here for reasons. See buildpack-run.sh
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
     cura_args = f"-j {obj.print_config.name} -l {obj.file.name} -o /tmp/{file_name}"
-    run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {obj.cura_settings_str}")
+    run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}")
     return Path(ROOT, file_name)
 
 
