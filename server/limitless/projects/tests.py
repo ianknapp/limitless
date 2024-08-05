@@ -20,7 +20,7 @@ def sample_project(sample_user, project_factory):
 @pytest.mark.django_db
 def test_project_cura_setting_defaults(sample_project):
     # Check defaults - of course we trust Django's ORM to set the defaults
-    # properly. This is to safeguard against thoughtless or accidentaly changes
+    # properly. This is to safeguard against thoughtless or accidental changes
     # to these important settings.
     assert sample_project.enable_support is False
     assert sample_project.support_structure == CuraSettingSupportStruture.NORMAL
