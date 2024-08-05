@@ -48,3 +48,8 @@ def test_project_cura_settings_str(sample_project):
         "-s infill_line_distance=2.4000000000000004 -s support_enable=true "
         "-s support_structure=tree -s support_type=everywhere -s adhesion_type=brim"
     )
+
+    sample_project.infill_sparse_density = 20
+    assert sample_project.cura_settings_str == (
+        "-s infill_line_distance=6.0 -s support_enable=true -s support_structure=tree -s support_type=everywhere -s adhesion_type=brim"
+    )
