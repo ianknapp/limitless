@@ -5,7 +5,7 @@
     </router-link>
   </div>
   <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
-    <div class="pt-2 text-left">
+    <div class="pt-2 text-left w-1/2 h-full">
       <h1 class="pt-2 pl-6 text-6xl font-bold">
         {{ project.title }}
       </h1>
@@ -14,22 +14,20 @@
           {{ project.description }}
         </div>
       </div>
-      <div class="mt-8 mb-2 flex flex-wrap justify-left pl-6">
-        <hr class="h-0.5 bg-primary mt-8 mb-6" />
-        <div class="flex flex-shrink-0 items-center pb-4">
-          <v-select
-            class="w-1/2"
-            :options="printerChoices"
-            v-model="printer"
-            label="label"
-          ></v-select>
-          <button class="w-1/2 ml-4 btn--primary bg-primary" @click.prevent="print()">Print</button>
+      <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
+        <hr class="h-0.5 bg-primary mt-2 mb-2" />
+        <v-select class="w-72" :options="printerChoices" v-model="printer" label="label"></v-select>
+        <div class="w-24">
+          <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>
         </div>
       </div>
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
-        <img class="rounded-lg pointer-events-none" :src="project.image" />
+        <img
+          class="rounded-lg pointer-events-none"
+          src="https://1.bp.blogspot.com/-dHN4KiD3dsU/XRxU5JRV7DI/AAAAAAAAAz4/u1ynpCMIuKwZMA642dHEoXFVKuHQbJvwgCEwYBhgL/s1600/qr-code.png"
+        />
       </div>
     </div>
   </div>
