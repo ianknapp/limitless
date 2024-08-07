@@ -10,4 +10,5 @@ export const projectShape = {
 
 export const printShape = {
   pk: z.string(),
+  printer: z.string(),
 }

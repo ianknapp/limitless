@@ -5,7 +5,7 @@
     </router-link>
   </div>
   <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
-    <div class="pt-2 text-left">
+    <div class="pt-2 text-left w-1/2 h-full">
       <h1 class="pt-2 pl-6 text-6xl font-bold">
         {{ project.title }}
       </h1>
@@ -14,10 +14,11 @@
           {{ project.description }}
         </div>
       </div>
-      <div class="mt-8 mb-2 flex flex-wrap justify-left pl-6">
-        <hr class="h-0.5 bg-primary mt-8 mb-6" />
-        <div class="flex flex-shrink-0 items-center pb-4">
-          <button class="w-24 ml-4 btn--primary bg-primary" @click.prevent="print()">Print</button>
+      <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
+        <hr class="h-0.5 bg-primary mt-2 mb-2" />
+        <v-select class="w-96" :options="printerChoices" v-model="printer" label="label"></v-select>
+        <div class="w-24">
+          <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>
         </div>
       </div>
     </div>
@@ -30,7 +31,8 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, h } from 'vue'
+import { computed, ref, onBeforeMount, h } from 'vue'
+import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { PrintForm, projectApi } from '@/services/projects'
@@ -41,10 +43,11 @@ export default {
     vSelect,
   },
   setup() {
+    const store = useStore()
     const project = ref({})
     const route = useRoute()
     const printerChoices = ref([])
-    const printer = ref(0)
+    const printer = ref()
     const form = ref(new PrintForm())
     const printSuccess = ref(false)
 
@@ -66,10 +69,15 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
+      printerChoices.value = store.getters.printers
+      printer.value = printerChoices.value[0]
     })
 
     function print() {
-      projectApi.csc.print({ pk: route.params.id }).then(handleGcodeSuccess).catch(handleFailure)
+      projectApi.csc
+        .print({ pk: route.params.id, printer: printer.value.value })
+        .then(handleGcodeSuccess)
+        .catch(handleFailure)
     }
     function handleGcodeSuccess(response) {
       const title = project.value.title
@@ -85,6 +93,7 @@ export default {
     }
 
     return {
+      printers: computed(() => store.getters.printers),
       project,
       print,
       printSuccess,

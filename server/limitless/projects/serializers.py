@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Project, ProjectFile
+from .models import Printer, Project, ProjectFile
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -25,3 +25,9 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ("id", "title", "description", "image")
+
+
+class PrinterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Printer
+        fields = ("id", "name")

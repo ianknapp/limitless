@@ -78,3 +78,18 @@ class ProjectFile(AbstractBaseModel):
 
     class Meta:
         ordering = ["-last_edited"]
+
+
+class Printer(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True, null=True)
+    cura_managed = models.BooleanField(default=True)
+    file = models.FileField(upload_to=datetime_appended_filepath, blank=True, null=True)
+    config_tweaks = models.TextField(blank=True, null=True)
+    hidden = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-last_edited"]

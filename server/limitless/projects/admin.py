@@ -3,7 +3,7 @@ import logging
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .models import Project, ProjectFile
+from .models import Printer, Project, ProjectFile
 from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
@@ -26,6 +26,7 @@ class ProjectAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "title",
+                    "description",
                     "owner",
                     "hidden",
                 )
@@ -45,12 +46,15 @@ class ProjectAdmin(admin.ModelAdmin):
         if not request.path.endswith("/add/"):
             # Only allow for slicing after creation
             extra_context["build_project"] = True
+            extra_context["printer_options"] = Printer.objects.values_list("name", "pk")
         return super().changeform_view(request, object_id, form_url, extra_context)
 
     def response_change(self, request, obj):
         if "_build_project" in request.POST:
             # For now just grab the first model file we find
-            file_path = slice_model(obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first())
+            stl_file = obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
+            printer = Printer.objects.get(pk=request.POST["printer"])
+            file_path = slice_model(stl_file, printer.slug, cura_settings_str=obj.cura_settings_str)
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:
@@ -69,3 +73,9 @@ class ProjectFileAdmin(admin.ModelAdmin):
 
     def title(self, obj):
         return obj.project.title
+
+
+@admin.register(Printer)
+class PrinterAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "cura_managed", "hidden", "file")
+    list_filter = ("cura_managed", "hidden")

@@ -54,6 +54,11 @@
 {% if build_project %}
 <div class="submit-row">
     GENERATE GCODE FILE
+    <select style="margin-left: 40px; margin-right: 10px; width:300px;" name="printer" id="printer">
+        {% for title, id in printer_options %}
+        <option value={{ id }}>{{ title }}</option>
+        {% endfor %}
+    </select>
     <input type="submit" value="{% translate 'Slice Model' %}" name="_build_project">
 </div>
 {% endif %}

@@ -12,6 +12,7 @@ if settings.DEBUG:
 
 router.register("users", core_views.UserViewSet)
 router.register("projects", project_views.ProjectViewSet)
+router.register("printers", project_views.PrinterViewSet)
 
 urlpatterns = [
     path(r"api/projects/print/", project_views.print),

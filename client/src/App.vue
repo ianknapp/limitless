@@ -11,8 +11,12 @@
 </template>
 
 <script>
+import { ref, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
 import { AlertAlert } from '@thinknimble/vue3-alert-alert'
 import NavBar from '@/components/NavBar.vue'
+import { printerCollection } from '@/services/printers'
+
 export default {
   name: 'App',
   components: {
@@ -20,6 +24,16 @@ export default {
     AlertAlert,
   },
   setup() {
+    const store = useStore()
+    const printers = ref([])
+
+    onBeforeMount(async () => {
+      await printerCollection.refresh()
+      printers.value = printerCollection.list.map((i) => {
+        return { label: i.name, value: i.id }
+      })
+      await store.dispatch('setPrinters', printers)
+    })
     return {}
   },
 }
