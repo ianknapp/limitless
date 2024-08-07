@@ -25,7 +25,7 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 @api_view(["POST"])
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
-    printer = Printer.objects.gett(pk=request.data["printer"])
+    printer = Printer.objects.get(pk=request.data["printer"])
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
     file_path = slice_model(stl_file, printer.slug, cura_settings_str=project.cura_settings_str)
     file_data = {}
