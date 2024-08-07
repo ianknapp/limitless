@@ -46,13 +46,15 @@ class ProjectAdmin(admin.ModelAdmin):
         if not request.path.endswith("/add/"):
             # Only allow for slicing after creation
             extra_context["build_project"] = True
+            extra_context["printer_options"] = Printer.objects.values_list("name", "pk")
         return super().changeform_view(request, object_id, form_url, extra_context)
 
     def response_change(self, request, obj):
         if "_build_project" in request.POST:
             # For now just grab the first model file we find
-            # TODO - update this
-            file_path = slice_model(obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first())
+            stl_file = obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
+            printer = Printer.objects.get(pk=request.POST["printer"])
+            file_path = slice_model(stl_file, printer.slug, cura_settings_str=obj.cura_settings_str)
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:
