@@ -52,7 +52,7 @@ export default {
     const project = ref({})
     const route = useRoute()
     const printerChoices = ref([])
-    const printer = ref(0)
+    const printer = ref()
     const form = ref(new PrintForm())
     const printSuccess = ref(false)
 
@@ -74,18 +74,17 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
-      // printer.value = { label: project.value.printers + ' printers', value: project.value.printers }
-      // printerChoices.value = [...Array(project.value.printers + 30).keys()].map((i) => {
-      //   return { label: i + 1 + ' printers', value: i + 1 }
-      // })
+      printerChoices.value = store.getters.printers
+      printer.value = printerChoices.value[0]
     })
 
     function print() {
-      // .print({ pk: route.params.id, printer: printer.value.value })
-      projectApi.csc.print({ pk: route.params.id }).then(handleGcodeSuccess).catch(handleFailure)
+      projectApi.csc
+        .print({ pk: route.params.id, printer: printer.value.value })
+        .then(handleGcodeSuccess)
+        .catch(handleFailure)
     }
     function handleSuccess() {
-      // projectA.csc.foo().then(handleUpdateSuccess).catch(handleFailure)
       console.log('print success')
     }
     function handleGcodeSuccess(response) {
@@ -96,16 +95,13 @@ export default {
       const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
       link.download = fileElements.join('_') + '.gcode'
       link.click()
-      //store.dispatch(
-      //  'setFoo',
-      //  response.map((element) => element.project.id),
-      //)
     }
     function handleFailure(error) {
       console.log(error)
     }
 
     return {
+      printers: computed(() => store.getters.printers),
       project,
       print,
       printSuccess,

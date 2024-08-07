@@ -12,10 +12,10 @@ if settings.DEBUG:
 
 router.register("users", core_views.UserViewSet)
 router.register("projects", project_views.ProjectViewSet)
+router.register("printers", project_views.PrinterViewSet)
 
 urlpatterns = [
     path(r"api/projects/print/", project_views.print),
-    path(r"api/projects/printers/", project_views.printers),
     path("api/", include(router.urls)),
     path("api/login/", core_views.UserLoginView.as_view()),
     path(r"api/logout/", rest_auth_views.LogoutView.as_view()),

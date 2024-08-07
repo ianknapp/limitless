@@ -42,16 +42,15 @@ def _get_list_of_files(folder):
     return all_files
 
 
-def slice_model(obj, cura_settings_str=""):
+def slice_model(obj, printer_config_filename, cura_settings_str=""):
     _download_file(obj.file.url, obj.file.name)
-    _download_file(obj.print_config.url, obj.print_config.name)
-    ls = run_command("", "ls -la")
-    logger.info(f"files look like: {ls}")
+    # _download_file(obj.print_config.url, obj.print_config.name)
     file_name_root = _get_file_name_root(obj.file.name)
     file_name = f"{file_name_root}.gcode"
     # Need to export this here for reasons. See buildpack-run.sh
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
-    cura_args = f"-j {obj.print_config.name} -l {obj.file.name} -o /tmp/{file_name}"
+    cura_args = f"-j {printer_config_filename} -l {obj.file.name} -o /tmp/{file_name}"
+    logger.info(f"Running Cura with command: '{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}'")
     run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}")
     return Path(ROOT, file_name)
 

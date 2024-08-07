@@ -26,6 +26,7 @@ class ProjectAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "title",
+                    "description",
                     "owner",
                     "hidden",
                 )
@@ -50,6 +51,7 @@ class ProjectAdmin(admin.ModelAdmin):
     def response_change(self, request, obj):
         if "_build_project" in request.POST:
             # For now just grab the first model file we find
+            # TODO - update this
             file_path = slice_model(obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first())
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}

@@ -24,9 +24,12 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 
 @api_view(["POST"])
 def print(request):
+    breakpoint()
     project = Project.objects.get(pk=request.data["pk"])
+    printer = Printer.objects.gett(pk=request.data["printer"])
     file_path = slice_model(
         project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first(),
+        printer.slug,
         cura_settings_str=project.cura_settings_str,
     )
     file_data = {}
@@ -63,3 +66,8 @@ def printers(request):
     """
     serializer = PrinterSerializer(Printer.objects.all(), many=True)
     return Response(serializer.data)
+
+
+class PrinterViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin):
+    queryset = Printer.objects.all()
+    serializer_class = PrinterSerializer
