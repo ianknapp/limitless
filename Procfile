@@ -14,7 +14,4 @@ web: gunicorn limitless.wsgi --chdir=server --log-file -
 #   3. Up-to-date build numbers shown in app (ideally auto-generated at build-and-deploy time)
 #
 # Comment the line below to disable migrations automatically after a Heroku push.
-# release: python server/manage.py update_cura_printers && python server/manage.py migrate --noinput
-release: python server/manage.py migrate --noinput
-
-
+release: python server/manage.py update_cura_printers && python server/manage.py migrate --noinput
