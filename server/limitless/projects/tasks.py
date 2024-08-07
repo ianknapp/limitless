@@ -38,7 +38,6 @@ def _get_list_of_files(folder):
     all_files = []
     for (dirpath, dirnames, filenames) in walk(folder):
         for f in filenames:
-            # build and cleanup the path so it's relative to the root of the project
             all_files.append(join(dirpath, f).split(folder)[1])
     return all_files
 
@@ -61,11 +60,10 @@ def get_default_printers():
     version = run_command("", "cat /app/cura_version.txt")
     folder = f"/app/Cura-{version}/resources/definitions/"
     file_names = _get_list_of_files(folder)
-    # logger.info(files_list)
     for file_name in file_names:
         with open(f"{folder}{file_name}", "r") as f:
             data = json.loads(f.read())
-            Printer.objects.get_or_create(name=data["name"], slug=file_name)
+            Printer.objects.get_or_create(name=data["name"], slug=file_name, hidden=False)
 
 
 def run_command(folder, command):
