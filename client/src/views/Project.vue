@@ -24,7 +24,7 @@
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
-        <img class="rounded-lg pointer-events-none" :src="project.image"/>
+        <img class="rounded-lg pointer-events-none" :src="project.image" />
       </div>
     </div>
   </div>
