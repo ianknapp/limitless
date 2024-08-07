@@ -24,10 +24,7 @@
     </div>
     <div class="lg:max-w-lg xl:max-w-2xl">
       <div class="mb-auto px-6 pt-4">
-        <img
-          class="rounded-lg pointer-events-none"
-          src="https://1.bp.blogspot.com/-dHN4KiD3dsU/XRxU5JRV7DI/AAAAAAAAAz4/u1ynpCMIuKwZMA642dHEoXFVKuHQbJvwgCEwYBhgL/s1600/qr-code.png"
-        />
+        <img class="rounded-lg pointer-events-none" :src="project.image"/>
       </div>
     </div>
   </div>
