@@ -1,14 +1,10 @@
-import json
+
 import logging
 import subprocess
-from os import walk
-from os.path import join
 from pathlib import Path
 
 import requests
 from django.conf import settings
-
-from .models import Printer
 
 logger = logging.getLogger(__name__)
 
@@ -34,14 +30,6 @@ def _get_file_name_root(file_name):
     return file_name.split(".")[0][:-18]
 
 
-def _get_list_of_files(folder):
-    all_files = []
-    for (dirpath, dirnames, filenames) in walk(folder):
-        for f in filenames:
-            all_files.append(join(dirpath, f).split(folder)[1])
-    return all_files
-
-
 def slice_model(obj, printer_config_filename, cura_settings_str=""):
     _download_file(obj.file.url, obj.file.name)
     # _download_file(obj.print_config.url, obj.print_config.name)
@@ -53,16 +41,6 @@ def slice_model(obj, printer_config_filename, cura_settings_str=""):
     logger.info(f"Running Cura with command: '{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}'")
     run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}")
     return Path(ROOT, file_name)
-
-
-def get_default_printers():
-    version = run_command("", "cat /app/cura_version.txt")
-    folder = f"/app/Cura-{version}/resources/definitions/"
-    file_names = _get_list_of_files(folder)
-    for file_name in file_names:
-        with open(f"{folder}{file_name}", "r") as f:
-            data = json.loads(f.read())
-            Printer.objects.get_or_create(name=data["name"], slug=file_name, hidden=False)
 
 
 def run_command(folder, command):
