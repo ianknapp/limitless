@@ -16,7 +16,7 @@
       </div>
       <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
         <hr class="h-0.5 bg-primary mt-2 mb-2" />
-        <v-select class="w-72" :options="printerChoices" v-model="printer" label="label"></v-select>
+        <v-select class="w-96" :options="printerChoices" v-model="printer" label="label"></v-select>
         <div class="w-24">
           <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>
         </div>
@@ -81,9 +81,6 @@ export default {
         .print({ pk: route.params.id, printer: printer.value.value })
         .then(handleGcodeSuccess)
         .catch(handleFailure)
-    }
-    function handleSuccess() {
-      console.log('print success')
     }
     function handleGcodeSuccess(response) {
       const title = project.value.title
