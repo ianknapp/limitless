@@ -20,6 +20,22 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ("title", "owner", "num_files", "hidden", "created")
     list_filter = ("hidden",)
     inlines = [ProjectFileInlineAdmin]
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "owner",
+                    "hidden",
+                )
+            },
+        ),
+        (
+            "Custom Cura Settings",
+            {"fields": ("enable_support", "support_type", "support_structure", "infill_sparse_density", "adhesion_type")},
+        ),
+    )
 
     def num_files(self, obj):
         return obj.files.count()
