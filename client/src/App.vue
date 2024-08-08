@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { AlertAlert } from '@thinknimble/vue3-alert-alert'
 import NavBar from '@/components/NavBar.vue'

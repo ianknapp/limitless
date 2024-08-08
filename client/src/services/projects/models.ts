@@ -10,5 +10,8 @@ export const projectShape = {
 
 export const printShape = {
   pk: z.string(),
+  supportStructure: z.string(),
+  supportType: z.string(),
+  adhesionType: z.string(),
   printer: z.string(),
 }

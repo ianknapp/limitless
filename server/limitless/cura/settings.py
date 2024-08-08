@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
@@ -28,8 +30,15 @@ class AdhesionType(TextChoices):
     NONE = "none", _("None")
 
 
+@dataclass
+class SettingsData:
+    support_structure: str
+    support_type: str
+    adhesion_type: str
+
+
 def cura_settings_str(settings):
-    settings = {
+    data = {
         Settings.INFILL_LINE_DISTANCE: compute_infill_line_distance(settings.infill_sparse_density),
         Settings.SUPPORT_ENABLE: ("true" if settings.enable_support else "false"),
         **(
@@ -42,7 +51,7 @@ def cura_settings_str(settings):
         ),
         **({Settings.ADHESION_TYPE: settings.adhesion_type} if settings.adhesion_type != AdhesionType.NONE else {}),
     }
-    return " ".join(f"-s {key}={value}" for key, value in settings.items())
+    return " ".join(f"-s {key}={value}" for key, value in data.items())
 
 
 def compute_infill_line_distance(infill_sparse_density=50, infill_line_width=0.4, infill_pattern="cubic"):

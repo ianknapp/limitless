@@ -16,7 +16,31 @@
       </div>
       <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
         <hr class="h-0.5 bg-primary mt-2 mb-2" />
-        <v-select class="w-96" :options="printerChoices" v-model="printer" label="label"></v-select>
+        <v-select
+          class="w-96"
+          :options="adhesionChoices"
+          v-model="adhesion"
+          label="label"
+        ></v-select>
+        <v-select
+          class="w-96"
+          :options="supportStructureChoices"
+          v-model="supportStructure"
+          label="label"
+        ></v-select>
+        <v-select
+          class="w-96"
+          :options="supportTypeChoices"
+          v-model="supportType"
+          label="label"
+        ></v-select>
+        <v-select
+          class="w-96"
+          :options="printerChoices"
+          v-model="printer"
+          label="label"
+          :searchable="false"
+        ></v-select>
         <div class="w-24">
           <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>
         </div>
@@ -46,6 +70,12 @@ export default {
     const store = useStore()
     const project = ref({})
     const route = useRoute()
+    const adhesionChoices = ref([])
+    const adhesion = ref()
+    const supportStructureChoices = ref([])
+    const supportStructure = ref()
+    const supportTypeChoices = ref([])
+    const supportType = ref()
     const printerChoices = ref([])
     const printer = ref()
     const form = ref(new PrintForm())
@@ -69,13 +99,25 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
+      adhesionChoices.value = store.getters.adhesionTypes
+      adhesion.value = adhesionChoices.value[0]
+      supportStructureChoices.value = store.getters.supportStructures
+      supportStructure.value = supportStructureChoices.value[0]
+      supportTypeChoices.value = store.getters.supportTypes
+      supportType.value = supportTypeChoices.value[0]
       printerChoices.value = store.getters.printers
       printer.value = printerChoices.value[0]
     })
 
     function print() {
       projectApi.csc
-        .print({ pk: route.params.id, printer: printer.value.value })
+        .print({
+          pk: route.params.id,
+          printer: printer.value.value,
+          supportStructure: supportStructure.value.value,
+          supportType: supportType.value.value,
+          adhesionType: adhesion.value.value,
+        })
         .then(handleGcodeSuccess)
         .catch(handleFailure)
     }
@@ -93,7 +135,12 @@ export default {
     }
 
     return {
-      printers: computed(() => store.getters.printers),
+      adhesion,
+      adhesionChoices,
+      supportStructureChoices,
+      supportStructure,
+      supportTypeChoices,
+      supportType,
       project,
       print,
       printSuccess,
