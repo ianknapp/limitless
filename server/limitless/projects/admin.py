@@ -3,8 +3,10 @@ import logging
 from django.contrib import admin
 from django.http import HttpResponse
 
+from limitless.cura.settings import cura_settings_str
+from limitless.cura.tasks import slice_model
+
 from .models import Printer, Project, ProjectFile
-from .tasks import slice_model
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +56,7 @@ class ProjectAdmin(admin.ModelAdmin):
             # For now just grab the first model file we find
             stl_file = obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
             printer = Printer.objects.get(pk=request.POST["printer"])
-            file_path = slice_model(stl_file, printer.slug, cura_settings_str=obj.cura_settings_str)
+            file_path = slice_model(stl_file, printer.slug, cura_settings_str(obj))
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:

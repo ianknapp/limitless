@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Local
     "limitless.common",
     "limitless.core",
+    "limitless.cura",
     "limitless.projects",
     # Django
     "django.contrib.admin",

@@ -2,7 +2,7 @@ from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
 
-class CuraSettings(TextChoices):
+class Settings(TextChoices):
     ADHESION_TYPE = "adhesion_type", _("Adhesion Type")
     SUPPORT_ENABLE = "support_enable", _("Enable Supports")
     SUPPORT_STRUCTURE = "support_structure", _("Support Structure")
@@ -11,21 +11,38 @@ class CuraSettings(TextChoices):
     INFILL_LINE_DISTANCE = "infill_line_distance", _("Infill Line Distance")
 
 
-class CuraSettingSupportStruture(TextChoices):
+class SupportStruture(TextChoices):
     NORMAL = "normal", _("Normal")
     TREE = "tree", _("Tree")
 
 
-class CuraSettingSupportType(TextChoices):
+class SupportType(TextChoices):
     BUILDPLATE = "buildplate", _("Buildplate")
     EVERYWHERE = "everywhere", _("Everywhere")
 
 
-class CuraSettingAdhesionType(TextChoices):
+class AdhesionType(TextChoices):
     SKIRT = "skirt", _("Skirt")
     BRIM = "brim", _("Brim")
     RAFT = "raft", _("Raft")
     NONE = "none", _("None")
+
+
+def cura_settings_str(settings):
+    settings = {
+        Settings.INFILL_LINE_DISTANCE: compute_infill_line_distance(settings.infill_sparse_density),
+        Settings.SUPPORT_ENABLE: ("true" if settings.enable_support else "false"),
+        **(
+            {
+                Settings.SUPPORT_STRUCTURE: settings.support_structure,
+                Settings.SUPPORT_TYPE: settings.support_type,
+            }
+            if settings.enable_support
+            else {}
+        ),
+        **({Settings.ADHESION_TYPE: settings.adhesion_type} if settings.adhesion_type != AdhesionType.NONE else {}),
+    }
+    return " ".join(f"-s {key}={value}" for key, value in settings.items())
 
 
 def compute_infill_line_distance(infill_sparse_density=50, infill_line_width=0.4, infill_pattern="cubic"):
