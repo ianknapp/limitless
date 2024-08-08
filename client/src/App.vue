@@ -25,10 +25,6 @@ export default {
   },
   setup() {
     const store = useStore()
-    const printers = ref([])
-    const supportStructures = ref([])
-    const supportTypes = ref([])
-    const adhesionTypes = ref([])
 
     onBeforeMount(async () => {
       settingsApi.csc.getSettings().then(handleSuccess).catch(handleFailure)
