@@ -21,25 +21,27 @@
           :options="adhesionChoices"
           v-model="adhesion"
           label="label"
+          :searchable="false"
         ></v-select>
         <v-select
           class="w-96"
           :options="supportStructureChoices"
           v-model="supportStructure"
           label="label"
+          :searchable="false"
         ></v-select>
         <v-select
           class="w-96"
           :options="supportTypeChoices"
           v-model="supportType"
           label="label"
+          :searchable="false"
         ></v-select>
         <v-select
           class="w-96"
           :options="printerChoices"
           v-model="printer"
           label="label"
-          :searchable="false"
         ></v-select>
         <div class="w-24">
           <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>

@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
@@ -28,13 +26,6 @@ class AdhesionType(TextChoices):
     BRIM = "brim", _("Brim")
     RAFT = "raft", _("Raft")
     NONE = "none", _("None")
-
-
-@dataclass
-class SettingsData:
-    support_structure: str
-    support_type: str
-    adhesion_type: str
 
 
 def cura_settings_str(settings):

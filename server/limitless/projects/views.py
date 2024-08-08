@@ -6,9 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from limitless.cura.serializers import SettingsSerializer
+from limitless.cura.models import SettingsData
 from limitless.cura.settings import (
     AdhesionType,
-    SettingsData,
     SupportStruture,
     SupportType,
     cura_settings_str,
@@ -36,11 +36,13 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
     printer = Printer.objects.get(pk=request.data["printer"])
-    settings = SettingsData(
-        SupportStruture(request.data["support_structure"]),
-        SupportType(request.data["support_type"]),
-        AdhesionType(request.data["adhesion_type"]),
-    )
+    settings = SettingsData()
+    # Default our settings objects to everything the Project has set
+    for field in SettingsData._meta.fields:
+        setattr(settings, field.name, getattr(project, field.name))
+    settings.support_structure = SupportStruture(request.data["support_structure"])
+    settings.support_type = SupportType(request.data["support_type"])
+    settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
 
     file_path = slice_model(stl_file, printer.slug, cura_settings_str(settings))

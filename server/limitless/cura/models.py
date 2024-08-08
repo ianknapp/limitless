@@ -21,3 +21,8 @@ class AbstractCuraSettingsModel(models.Model):
 
     def __str__(self):
         return "ah yes"
+
+
+class SettingsData(AbstractCuraSettingsModel):
+    class Meta:
+        managed = False
