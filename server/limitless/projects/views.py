@@ -5,8 +5,8 @@ from rest_framework import mixins, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from limitless.cura.serializers import SettingsSerializer
 from limitless.cura.models import SettingsData
+from limitless.cura.serializers import SettingsSerializer
 from limitless.cura.settings import (
     AdhesionType,
     SupportStruture,

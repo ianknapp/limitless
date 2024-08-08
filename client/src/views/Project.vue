@@ -37,12 +37,7 @@
           label="label"
           :searchable="false"
         ></v-select>
-        <v-select
-          class="w-96"
-          :options="printerChoices"
-          v-model="printer"
-          label="label"
-        ></v-select>
+        <v-select class="w-96" :options="printerChoices" v-model="printer" label="label"></v-select>
         <div class="w-24">
           <button class="btn--primary bg-primary" @click.prevent="print()">Print</button>
         </div>
@@ -57,7 +52,7 @@
 </template>
 
 <script>
-import { computed, ref, onBeforeMount, h } from 'vue'
+import { ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
