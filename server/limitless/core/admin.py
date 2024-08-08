@@ -23,6 +23,10 @@ class CustomUserAdmin(UserAdmin):
                 )
             },
         ),
+        (
+            "Custom Cura Settings",
+            {"fields": ("enable_support", "support_type", "support_structure", "infill_sparse_density", "adhesion_type")},
+        ),
         ("Admin Options", {"classes": ("collapse",), "fields": ("is_staff", "groups")}),
     )
     add_fieldsets = (

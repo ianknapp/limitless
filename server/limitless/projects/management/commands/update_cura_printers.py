@@ -5,8 +5,8 @@ from os.path import join
 
 from django.core.management.base import BaseCommand
 
+from limitless.cura.tasks import run_command
 from limitless.projects.models import Printer
-from limitless.projects.tasks import run_command
 
 logger = logging.getLogger(__name__)
 

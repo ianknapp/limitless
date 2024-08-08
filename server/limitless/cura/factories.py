@@ -2,8 +2,7 @@
 import factory
 
 from limitless.core.factories import UserFactory
-
-from .models import Project
+from limitless.projects.models import Project
 
 
 class ProjectFactory(factory.Factory):

@@ -2,51 +2,18 @@ from django.conf import settings
 from django.db import models
 
 from limitless.common.models import AbstractBaseModel
+from limitless.cura.models import AbstractCuraSettingsModel
 from limitless.utils.misc import datetime_appended_filepath
 
-from .cura_settings import (
-    CuraSettingAdhesionType,
-    CuraSettings,
-    CuraSettingSupportStruture,
-    CuraSettingSupportType,
-    compute_infill_line_distance,
-)
 
-
-class Project(AbstractBaseModel):
+class Project(AbstractBaseModel, AbstractCuraSettingsModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects")
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)
 
-    # Custom Print Settings
-    enable_support = models.BooleanField(default=False)
-    support_type = models.CharField(max_length=255, choices=CuraSettingSupportType.choices, default=CuraSettingSupportType.EVERYWHERE)
-    support_structure = models.CharField(
-        max_length=255, choices=CuraSettingSupportStruture.choices, default=CuraSettingSupportStruture.NORMAL
-    )
-    infill_sparse_density = models.IntegerField(default=50, help_text="Infill percentage - used to calculate infill settings.")
-    adhesion_type = models.CharField(max_length=255, choices=CuraSettingAdhesionType.choices, default=CuraSettingAdhesionType.NONE)
-
     def __str__(self):
         return self.title
-
-    @property
-    def cura_settings_str(self):
-        settings = {
-            CuraSettings.INFILL_LINE_DISTANCE: compute_infill_line_distance(self.infill_sparse_density),
-            CuraSettings.SUPPORT_ENABLE: ("true" if self.enable_support else "false"),
-            **(
-                {
-                    CuraSettings.SUPPORT_STRUCTURE: self.support_structure,
-                    CuraSettings.SUPPORT_TYPE: self.support_type,
-                }
-                if self.enable_support
-                else {}
-            ),
-            **({CuraSettings.ADHESION_TYPE: self.adhesion_type} if self.adhesion_type != CuraSettingAdhesionType.NONE else {}),
-        }
-        return " ".join(f"-s {key}={value}" for key, value in settings.items())
 
     class Meta:
         ordering = ["-last_edited"]
@@ -92,4 +59,4 @@ class Printer(AbstractBaseModel):
         return self.name
 
     class Meta:
-        ordering = ["-last_edited"]
+        ordering = ["name"]

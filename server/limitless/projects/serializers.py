@@ -28,6 +28,9 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
 
 
 class PrinterSerializer(serializers.ModelSerializer):
+    label = serializers.CharField(source="name")
+    value = serializers.CharField(source="id")
+
     class Meta:
         model = Printer
-        fields = ("id", "name")
+        fields = ("label", "value")
