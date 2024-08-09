@@ -2,7 +2,7 @@ import pytest
 from pytest_factoryboy import register
 
 from .factories import ProjectFactory
-from .settings import AdhesionType, SupportStruture, SupportType, cura_settings_str
+from .settings import AdhesionType, SupportStructure, SupportType, cura_settings_str
 
 register(ProjectFactory)
 
@@ -19,7 +19,7 @@ def test_project_cura_setting_defaults(sample_project):
     # properly. This is to safeguard against thoughtless or accidental changes
     # to these important settings.
     assert sample_project.enable_support is False
-    assert sample_project.support_structure == SupportStruture.NORMAL
+    assert sample_project.support_structure == SupportStructure.NORMAL
     assert sample_project.support_type == SupportType.EVERYWHERE
     assert sample_project.infill_sparse_density == 50
     assert sample_project.adhesion_type == AdhesionType.NONE
@@ -34,7 +34,7 @@ def test_project_cura_settings_str(sample_project):
         "-s infill_line_distance=2.4000000000000004 -s support_enable=true -s support_structure=normal -s support_type=everywhere"
     )
 
-    sample_project.support_structure = SupportStruture.TREE
+    sample_project.support_structure = SupportStructure.TREE
     assert cura_settings_str(sample_project) == (
         "-s infill_line_distance=2.4000000000000004 -s support_enable=true -s support_structure=tree -s support_type=everywhere"
     )

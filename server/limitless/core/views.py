@@ -47,7 +47,6 @@ class UserLoginView(generics.GenericAPIView):
             raise ValidationError(detail="Incorrect email and password combination. Please try again.")
 
         response_data = UserLoginSerializer.login(user, request)
-        # TODO - return the default setting selections for this user
         return Response(response_data)
 
 

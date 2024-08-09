@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .settings import AdhesionType, SupportStruture, SupportType
+from .settings import AdhesionType, SupportStructure, SupportType
 
 
 class SettingsSerializer(serializers.Serializer):
@@ -9,7 +9,7 @@ class SettingsSerializer(serializers.Serializer):
     adhesion_types = serializers.SerializerMethodField()
 
     def get_support_structures(self, obj):
-        return [{"value": value, "label": label} for value, label in SupportStruture.choices]
+        return [{"value": value, "label": label} for value, label in SupportStructure.choices]
 
     def get_support_types(self, obj):
         return [{"value": value, "label": label} for value, label in SupportType.choices]

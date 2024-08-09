@@ -11,7 +11,7 @@ class Settings(TextChoices):
     INFILL_LINE_DISTANCE = "infill_line_distance", _("Infill Line Distance")
 
 
-class SupportStruture(TextChoices):
+class SupportStructure(TextChoices):
     NORMAL = "normal", _("Normal")
     TREE = "tree", _("Tree")
 

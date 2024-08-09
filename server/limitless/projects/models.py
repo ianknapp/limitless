@@ -2,12 +2,19 @@ from django.conf import settings
 from django.db import models
 
 from limitless.common.models import AbstractBaseModel
-from limitless.cura.models import AbstractCuraSettingsModel
+from limitless.cura.models import CuraSettings
 from limitless.utils.misc import datetime_appended_filepath
 
+"""
+class UserProfile(AbstractBaseModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
+    settings = models.OneToOneField(CuraSettings, on_delete=models.SET_NULL, null=True, related_name="owner")
+"""
 
-class Project(AbstractBaseModel, AbstractCuraSettingsModel):
+
+class Project(AbstractBaseModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects")
+    settings = models.OneToOneField(CuraSettings, on_delete=models.SET_NULL, null=True, related_name="owner")
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)

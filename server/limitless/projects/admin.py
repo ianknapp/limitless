@@ -30,13 +30,10 @@ class ProjectAdmin(admin.ModelAdmin):
                     "title",
                     "description",
                     "owner",
+                    "settings",
                     "hidden",
                 )
             },
-        ),
-        (
-            "Custom Cura Settings",
-            {"fields": ("enable_support", "support_type", "support_structure", "infill_sparse_density", "adhesion_type")},
         ),
     )
 
