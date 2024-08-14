@@ -5,7 +5,31 @@
     </router-link>
   </div>
   <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
-    <div class="pt-2 text-left w-1/2 h-full">
+    <div class="lg:max-w-lg w-1/2">
+      <div class="mb-auto px-6 pt-4">
+        <img class="rounded-lg pointer-events-none" :src="project.image" />
+      </div>
+      <div class="mb-auto px-6 pt-4 grid grid-cols-2 gap-4 pb-4">
+        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
+          <vue3dLoader
+            :enableAxesHelper="true"
+            :enableGridHelper="true"
+            :height="200"
+            :width="200"
+            backgroundColor="#042642"
+            :filePath="project.model"
+            fileType="stl"
+            :rotation="rotation"
+            :cameraPosition="cameraPosition"
+            :scale="scale"
+          ></vue3dLoader>
+        </div>
+        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
+          <img class="rounded-lg pointer-events-none" :src="project.image" />
+        </div>
+      </div>
+    </div>
+    <div class="pt-2 text-left xl:max-w-2xl h-full">
       <h1 class="pt-2 pl-6 text-6xl font-bold">
         {{ project.title }}
       </h1>
@@ -43,11 +67,6 @@
         </div>
       </div>
     </div>
-    <div class="lg:max-w-lg xl:max-w-2xl">
-      <div class="mb-auto px-6 pt-4">
-        <img class="rounded-lg pointer-events-none" :src="project.image" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -56,12 +75,14 @@ import { ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
+import { vue3dLoader } from 'vue-3d-loader'
 import { PrintForm, projectApi } from '@/services/projects'
 
 export default {
   name: 'Project',
   components: {
     vSelect,
+    vue3dLoader,
   },
   setup() {
     const store = useStore()
@@ -77,6 +98,9 @@ export default {
     const printer = ref()
     const form = ref(new PrintForm())
     const printSuccess = ref(false)
+    const rotation = ref()
+    const cameraPosition = ref()
+    const scale = ref()
 
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
@@ -104,6 +128,17 @@ export default {
       supportType.value = supportTypeChoices.value[0]
       printerChoices.value = store.getters.printers
       printer.value = printerChoices.value[0]
+      rotation.value = {
+        x: Math.PI / 2,
+        y: Math.PI,
+        z: Math.PI - 30,
+      }
+      cameraPosition.value = {
+        x: -Math.PI / 2 + 100,
+        y: 250,
+        z: -300,
+      }
+      scale.value = { x: 1.5, y: 1.5, z: 1.5 }
     })
 
     function print() {
@@ -144,6 +179,9 @@ export default {
       form,
       printer,
       printerChoices,
+      rotation,
+      cameraPosition,
+      scale,
     }
   },
 }
