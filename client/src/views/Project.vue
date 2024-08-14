@@ -45,7 +45,7 @@
           <span>
             <input
               class="rounded-full checked:accent-amber-600"
-              :id="minimize - supports - field"
+              :id="minimizeSupports"
               type="checkbox"
               v-model="minimizeSupports"
             />
