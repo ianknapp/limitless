@@ -16,7 +16,7 @@
           :height="200"
           :width="200"
           backgroundColor="#042642"
-          :filePath="['../src/assets/nimbly.stl']"
+          :filePath=project.model
           :rotation="rotation"
           :cameraPosition="cameraPosition"
           :scale="scale"

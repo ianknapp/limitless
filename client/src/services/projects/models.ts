@@ -6,6 +6,7 @@ export const projectShape = {
   title: z.string(),
   description: z.string().optional(),
   image: z.string().optional(),
+  model: z.string().optional(),
 }
 
 export const printShape = {
