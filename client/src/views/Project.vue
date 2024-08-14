@@ -9,7 +9,7 @@
       <div class="mb-auto px-6 pt-4">
         <img class="rounded-lg pointer-events-none" :src="project.image" />
       </div>
-      <div class="mb-auto px-6 pt-4 grid grid-cols-2 gap-4">
+      <div class="mb-auto px-6 pt-4 grid grid-cols-2 gap-4 pb-4">
         <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
           <vue3dLoader
             :enableAxesHelper="true"
