@@ -17,6 +17,7 @@
           :width="200"
           backgroundColor="#042642"
           :filePath=project.model
+          fileType="stl"
           :rotation="rotation"
           :cameraPosition="cameraPosition"
           :scale="scale"
