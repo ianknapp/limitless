@@ -40,6 +40,18 @@
       </div>
       <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
         <hr class="h-0.5 bg-primary mt-2 mb-2" />
+
+        <div class="">
+          <span>
+            <input
+              class="rounded-full checked:accent-amber-600"
+              :id="minimizeSupports"
+              type="checkbox"
+              v-model="minimizeSupports"
+            />
+            <label class="mx-2 font-sans capitalize">Minimize Supports</label>
+          </span>
+        </div>
         <v-select
           class="w-96"
           :options="adhesionChoices"
@@ -101,6 +113,7 @@ export default {
     const rotation = ref()
     const cameraPosition = ref()
     const scale = ref()
+    const minimizeSupports = ref(false)
 
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
@@ -149,6 +162,7 @@ export default {
           supportStructure: supportStructure.value.value,
           supportType: supportType.value.value,
           adhesionType: adhesion.value.value,
+          minimizeSupports: minimizeSupports.value,
         })
         .then(handleGcodeSuccess)
         .catch(handleFailure)
@@ -182,6 +196,7 @@ export default {
       rotation,
       cameraPosition,
       scale,
+      minimizeSupports,
     }
   },
 }

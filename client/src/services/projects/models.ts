@@ -15,4 +15,5 @@ export const printShape = {
   supportType: z.string(),
   adhesionType: z.string(),
   printer: z.string(),
+  minimizeSupports: z.boolean().optional(),
 }

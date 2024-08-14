@@ -30,5 +30,7 @@ class Command(BaseCommand):
         for file_name in file_names:
             with open(f"{folder}{file_name}", "r") as f:
                 data = json.loads(f.read())
-                Printer.objects.get_or_create(slug=file_name, defaults={"name": data["name"], "hidden": False})
+                if not Printer.objects.filter(slug=file_name).exists():
+                    # hotfix. refactor later. For some reason this results in duplicates in the DB
+                    Printer.objects.get_or_create(slug=file_name, defaults={"name": data["name"], "hidden": False})
         logger.info(f"Finished management command {__name__}")
