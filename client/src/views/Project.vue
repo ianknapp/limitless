@@ -9,20 +9,24 @@
       <div class="mb-auto px-6 pt-4">
         <img class="rounded-lg pointer-events-none" :src="project.image" />
       </div>
-      <div class="mb-auto px-6 pt-4 grid grid-cols-2">
-        <vue3dLoader
-          :enableAxesHelper="true"
-          :enableGridHelper="true"
-          :height="200"
-          :width="200"
-          backgroundColor="#042642"
-          :filePath=project.model
-          fileType="stl"
-          :rotation="rotation"
-          :cameraPosition="cameraPosition"
-          :scale="scale"
-        ></vue3dLoader>
-        <img class="rounded-lg pointer-events-none" :src="project.image" />
+      <div class="mb-auto px-6 pt-4 grid grid-cols-2 gap-4">
+        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
+          <vue3dLoader
+            :enableAxesHelper="true"
+            :enableGridHelper="true"
+            :height="200"
+            :width="200"
+            backgroundColor="#042642"
+            :filePath="project.model"
+            fileType="stl"
+            :rotation="rotation"
+            :cameraPosition="cameraPosition"
+            :scale="scale"
+          ></vue3dLoader>
+        </div>
+        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
+          <img class="rounded-lg pointer-events-none" :src="project.image" />
+        </div>
       </div>
     </div>
     <div class="pt-2 text-left xl:max-w-2xl h-full">
