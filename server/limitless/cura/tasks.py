@@ -48,7 +48,7 @@ def optimize_model_position(file_path, minimize_supports):
     # https://github.com/ChristophSchranz/Tweaker-3
     command = f"tweaker3 -i {file_path} -o {file_path} -vb -x"
     if minimize_supports:
-        command += "--minimize surfaces"
+        command += " --minimize surfaces"
     logger.info(f"Optimizing STL file: '{command}'")
     run_command("", command)
 
