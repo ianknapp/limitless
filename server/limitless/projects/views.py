@@ -45,7 +45,7 @@ def print(request):
     settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
 
-    file_path = slice_model(stl_file, printer.slug, cura_settings_str(settings))
+    file_path = slice_model(stl_file, printer.slug, cura_settings_str(settings), request.data.get("minimize_supports", False))
     file_data = {}
     with open(file_path, "rb") as f:
         file_data = f.read()

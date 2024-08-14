@@ -20,6 +20,7 @@ echo "Downloading: https://github.com/Ultimaker/Cura/archive/refs/heads/$version
 curl -L https://github.com/Ultimaker/Cura/archive/refs/heads/$version_number.zip > cura-code.zip
 unzip -q cura-code.zip
 
+echo "Installing the Tweaker library to auto-orient STL files"
+pip install git+https://github.com/ChristophSchranz/Tweaker-3.git
 
 echo "Done with Buildpack Run"
-
