@@ -27,6 +27,9 @@ class ApiService {
       headers: {
         ...CSRF.getHeaders(),
       },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'comma' })
+      },
     })
     ApiService.session.interceptors.request.use(
       async (config) => {
