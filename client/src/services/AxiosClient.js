@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import CSRF from '@/services/csrf'
+import qs from 'qs'
 
 /**
  *   Get the axios API client.
