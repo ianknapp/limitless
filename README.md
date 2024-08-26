@@ -36,3 +36,18 @@ See the [frontend README](client/README.md)
 1. `pipenv run black server`
 1. `pipenv run isort server --diff` (shows you what isort is expecting)
 1. `npm run cypress`
+
+## Running Cura locally
+
+Cura is installed with the server dockerfile, so first get that running.
+
+Then...
+```
+make server-shell
+```
+
+You can run commands like this:
+
+```
+CuraEngine slice -j /usr/share/cura/resources/definitions/101Hero.def.json -l nimbly.stl -o nimbly.gcode
+```

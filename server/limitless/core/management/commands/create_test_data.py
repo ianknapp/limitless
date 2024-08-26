@@ -2,6 +2,7 @@ import logging
 
 from decouple import config
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
 logger = logging.getLogger(__name__)
@@ -20,4 +21,13 @@ class Command(BaseCommand):
         get_user_model().objects.create_user(
             email="cypress@example.com", password=cypress_password, first_name="Cypress", last_name="E2E_test"
         )
+        """
+        Updating the below fixtures:
+        heroku run python server/manage.py dumpdata --app=limitless-staging {below-command}
+        Manually applying a fixture:
+        heroku run python server/manage.py loaddata {fixture-name} --app=limitless-pr-{pr-number}
+        """
+
+        # projects.Printer > server/limitless/projects/fixtures/printers.json
+        call_command("loaddata", "printers", verbosity=1)
         logger.info(f"Finished management command {__name__}")

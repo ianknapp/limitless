@@ -4,14 +4,18 @@ from django.urls import include, path
 from rest_framework_nested import routers
 
 from limitless.core import views as core_views
+from limitless.projects import views as project_views
 
 router = routers.SimpleRouter()
 if settings.DEBUG:
     router = routers.DefaultRouter()
 
 router.register("users", core_views.UserViewSet)
+router.register("projects", project_views.ProjectViewSet)
 
 urlpatterns = [
+    path(r"api/projects/print/", project_views.print),
+    path(r"api/settings/", project_views.settings),
     path("api/", include(router.urls)),
     path("api/login/", core_views.UserLoginView.as_view()),
     path(r"api/logout/", rest_auth_views.LogoutView.as_view()),
