@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, Permission
 
 from limitless.common.admin.filters import AutocompleteAdminMedia, AutocompleteFilter
 
+from .forms import GroupAdminForm
 from .models import User
 
 
@@ -67,6 +68,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class CustomGroupAdmin(GroupAdmin):
+    form = GroupAdminForm
     list_filter = (("permissions", AutocompleteFilter),)
 
     class Media(AutocompleteAdminMedia):
