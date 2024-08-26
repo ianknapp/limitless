@@ -68,6 +68,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class CustomGroupAdmin(GroupAdmin):
+    form = GroupAdminForm
     list_filter = (("permissions", AutocompleteFilter),)
 
     class Media(AutocompleteAdminMedia):
