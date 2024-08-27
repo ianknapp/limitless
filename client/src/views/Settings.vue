@@ -36,7 +36,6 @@
 <script>
 import { computed, ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { vue3dLoader } from 'vue-3d-loader'
 import { userApi } from '@/services/users'
@@ -49,7 +48,6 @@ export default {
   },
   setup() {
     const store = useStore()
-    const route = useRoute()
     const printerChoices = ref([])
     const printer = ref()
     const minimizeSupports = ref(false)

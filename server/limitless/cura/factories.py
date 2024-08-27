@@ -14,7 +14,7 @@ class SettingsFactory(factory.Factory):
 class ProjectFactory(factory.Factory):
     user = factory.RelatedFactory(UserFactory, factory_related_name="project")
     title = factory.Sequence(lambda n: "Project %03d" % n)
-    settings = factory.RelatedFactory(SettingsFactory, factory_related_name="owner")
+    settings = factory.RelatedFactory(SettingsFactory, factory_related_name="project")
 
     class Meta:
         model = Project
