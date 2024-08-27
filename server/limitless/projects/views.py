@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from limitless.cura.models import CuraSettings
-from limitless.cura.serializers import SettingsSerializer
+from limitless.cura.serializers import AllSettingsSerializer
 from limitless.cura.settings import (
     AdhesionType,
     SupportStructure,
@@ -55,6 +55,6 @@ def print(request):
 @api_view(["GET"])
 def settings(request):
     # Return global setting options to inject into session storage
-    data = SettingsSerializer("").data
+    data = AllSettingsSerializer("").data
     data["printers"] = PrinterSerializer(Printer.objects.all(), many=True).data
     return Response(data)

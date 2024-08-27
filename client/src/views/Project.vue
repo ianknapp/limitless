@@ -137,11 +137,17 @@ export default {
     onBeforeMount(async () => {
       await getProjectData()
       adhesionChoices.value = store.getters.adhesionTypes
-      adhesion.value = adhesionChoices.value[0]
+      adhesion.value = adhesionChoices.value.find(
+        (el) => el.value === project.value.settings?.adhesionType,
+      )
       supportStructureChoices.value = store.getters.supportStructures
-      supportStructure.value = supportStructureChoices.value[0]
+      supportStructure.value = supportStructureChoices.value.find(
+        (el) => el.value === project.value.settings?.supportStructure,
+      )
       supportTypeChoices.value = store.getters.supportTypes
-      supportType.value = supportTypeChoices.value[0]
+      supportType.value = supportTypeChoices.value.find(
+        (el) => el.value === project.value.settings?.supportType,
+      )
       printerChoices.value = store.getters.printers
       printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
       minimizeSupports.value = user.value.profile.minimize_supports

@@ -4,6 +4,21 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def init_settings(apps, schema_editor):
+    User = apps.get_model("core", "User")
+    Project = apps.get_model("projects", "Project")
+    UserProfile = apps.get_model("projects", "UserProfile")
+    CuraSettings = apps.get_model("cura", "CuraSettings")
+
+    for user in User.objects.all():
+        UserProfile.objects.create(user=user, printer_settings=CuraSettings.objects.create())
+
+    for project in Project.objects.all():
+        if not hasattr(project, "settings"):
+            project.settings = CuraSettings.objects.create()
+            project.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -25,4 +40,5 @@ class Migration(migrations.Migration):
             name='printer',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='user_profiles', to='projects.printer'),
         ),
+        migrations.RunPython(init_settings, reverse_code=migrations.RunPython.noop),
     ]
