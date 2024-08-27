@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from limitless.cura.settings import cura_settings_str
 from limitless.cura.tasks import slice_model
 
-from .models import Printer, Project, ProjectFile
+from .models import Printer, Project, ProjectFile, UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -78,3 +78,8 @@ class ProjectFileAdmin(admin.ModelAdmin):
 class PrinterAdmin(admin.ModelAdmin):
     list_display = ("name", "slug", "cura_managed", "hidden", "file")
     list_filter = ("cura_managed", "hidden")
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    pass

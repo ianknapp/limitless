@@ -14,8 +14,10 @@ class CuraSettings(AbstractBaseModel):
 
     def __str__(self):
         owner = "n/a"
-        if hasattr(self, "owner"):
-            owner = self.owner
+        if hasattr(self, "project"):
+            owner = self.project
+        if hasattr(self, "user"):
+            owner = self.user
         return f"{owner} Cura Settings"
 
     class Meta:

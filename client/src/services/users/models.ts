@@ -9,6 +9,13 @@ import { GetInferredFromRaw } from '@thinknimble/tn-models'
 import { z } from 'zod'
 import { baseModelShape } from '../base-model'
 
+export const settingsShape = {
+  printer: z.string().optional(),
+  minimizeSupports: z.boolean().optional(),
+}
+
+export type SettingsShape = GetInferredFromRaw<typeof settingsShape>
+
 export const userShape = {
   ...baseModelShape,
   email: z.string().email(),
@@ -16,6 +23,7 @@ export const userShape = {
   lastName: z.string(),
   //TODO:add back `readonly` https://github.com/thinknimble/tn-models-fp/issues/161
   token: z.string().nullable(),
+  profile: z.object(settingsShape),
 }
 export type UserShape = GetInferredFromRaw<typeof userShape>
 

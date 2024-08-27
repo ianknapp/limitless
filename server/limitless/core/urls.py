@@ -16,6 +16,7 @@ router.register("projects", project_views.ProjectViewSet)
 urlpatterns = [
     path(r"api/projects/print/", project_views.print),
     path(r"api/settings/", project_views.settings),
+    path(r"api/user/settings/", core_views.save_settings),
     path("api/", include(router.urls)),
     path("api/login/", core_views.UserLoginView.as_view()),
     path(r"api/logout/", rest_auth_views.LogoutView.as_view()),

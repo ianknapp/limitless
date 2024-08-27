@@ -18,14 +18,27 @@ from rest_framework.decorators import (
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from limitless.core.forms import PreviewTemplateForm
+from limitless.projects.models import Printer
 from limitless.utils.emails import send_html_email
 
+from .forms import PreviewTemplateForm
 from .models import User
 from .permissions import CreateOnlyPermissions
 from .serializers import UserLoginSerializer, UserRegistrationSerializer, UserSerializer
 
 logger = logging.getLogger(__name__)
+
+
+@api_view(["POST"])
+def save_settings(request, *args, **kwargs):
+    profile = request.user.profile
+    printer = Printer.objects.filter(pk=request.data.get("printer")).first()
+    if printer:
+        profile.printer = printer
+    profile.minimize_supports = request.data.get("minimize_supports", False)
+    profile.save()
+    serializer = UserSerializer(instance=request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserLoginView(generics.GenericAPIView):

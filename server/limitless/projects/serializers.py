@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Printer, Project, ProjectFile
+from .models import Printer, Project, ProjectFile, UserProfile
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -39,3 +39,9 @@ class PrinterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Printer
         fields = ("label", "value")
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ("minimize_supports", "printer")
