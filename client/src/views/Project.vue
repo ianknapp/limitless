@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, h } from 'vue'
+import { computed, ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
@@ -114,6 +114,9 @@ export default {
     const cameraPosition = ref()
     const scale = ref()
     const minimizeSupports = ref(false)
+    const user = computed(() => {
+      return store.getters.user
+    })
 
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
@@ -140,7 +143,8 @@ export default {
       supportTypeChoices.value = store.getters.supportTypes
       supportType.value = supportTypeChoices.value[0]
       printerChoices.value = store.getters.printers
-      printer.value = printerChoices.value[0]
+      printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
+      minimizeSupports.value = user.value.profile.minimize_supports
       rotation.value = {
         x: Math.PI / 2,
         y: Math.PI,

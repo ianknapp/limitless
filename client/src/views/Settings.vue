@@ -65,7 +65,6 @@ export default {
 
     onBeforeMount(async () => {
       printerChoices.value = store.getters.printers
-      // adhesion.value = adhesionChoices.value[0]
       minimizeSupports.value = user.value.profile.minimize_supports
       printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
     })
