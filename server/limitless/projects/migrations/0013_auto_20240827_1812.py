@@ -11,7 +11,7 @@ def init_settings(apps, schema_editor):
     CuraSettings = apps.get_model("cura", "CuraSettings")
 
     for user in User.objects.all():
-        UserProfile.objects.create(user=user, printer_settings=CuraSettings.objects.create())
+        UserProfile.objects.create(user=user)
 
     for project in Project.objects.all():
         if not hasattr(project, "settings"):
