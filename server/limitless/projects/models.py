@@ -2,12 +2,13 @@ from django.conf import settings
 from django.db import models
 
 from limitless.common.models import AbstractBaseModel
-from limitless.cura.models import AbstractCuraSettingsModel
+from limitless.cura.models import CuraSettings
 from limitless.utils.misc import datetime_appended_filepath
 
 
-class Project(AbstractBaseModel, AbstractCuraSettingsModel):
+class Project(AbstractBaseModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects")
+    settings = models.OneToOneField(CuraSettings, on_delete=models.SET_NULL, blank=True, null=True, related_name="project")
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)
@@ -60,3 +61,15 @@ class Printer(AbstractBaseModel):
 
     class Meta:
         ordering = ["name"]
+
+
+class UserProfile(AbstractBaseModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
+    minimize_supports = models.BooleanField(default=False)
+    printer = models.ForeignKey(Printer, on_delete=models.SET_NULL, null=True, related_name="user_profiles")
+
+    def __str__(self):
+        return self.user.email if self.user else "n/a"
+
+    class Meta:
+        ordering = ["-last_edited"]

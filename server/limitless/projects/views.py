@@ -5,11 +5,11 @@ from rest_framework import mixins, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from limitless.cura.models import SettingsData
-from limitless.cura.serializers import SettingsSerializer
+from limitless.cura.models import CuraSettings
+from limitless.cura.serializers import AllSettingsSerializer
 from limitless.cura.settings import (
     AdhesionType,
-    SupportStruture,
+    SupportStructure,
     SupportType,
     cura_settings_str,
 )
@@ -27,7 +27,6 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        # TODO - return the default setting selections for this project
         serializer = ProjectDetailsSerializer(instance)
         return Response(serializer.data)
 
@@ -36,11 +35,10 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
     printer = Printer.objects.get(pk=request.data["printer"])
-    settings = SettingsData()
-    # Default our settings objects to everything the Project has set
-    for field in SettingsData._meta.fields:
-        setattr(settings, field.name, getattr(project, field.name))
-    settings.support_structure = SupportStruture(request.data["support_structure"])
+    settings = CuraSettings()
+    settings.enable_support = project.enable_support
+    settings.infill_sparse_density = project.infill_sparse_density
+    settings.support_structure = SupportStructure(request.data["support_structure"])
     settings.support_type = SupportType(request.data["support_type"])
     settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
@@ -57,6 +55,6 @@ def print(request):
 @api_view(["GET"])
 def settings(request):
     # Return global setting options to inject into session storage
-    data = SettingsSerializer("").data
+    data = AllSettingsSerializer("").data
     data["printers"] = PrinterSerializer(Printer.objects.all(), many=True).data
     return Response(data)

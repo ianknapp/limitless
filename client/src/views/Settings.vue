@@ -1,0 +1,113 @@
+<template>
+  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
+    <div class="pt-2 text-left xl:max-w-2xl h-full">
+      <h1 class="pt-2 pl-6 text-6xl font-bold">
+        {{ user.firstName }}
+      </h1>
+      <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Print Settings</h1>
+      <div class="mt-8 mb-2 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
+        <span>
+          <label class="mx-2 font-sans capitalize">Your Default Printer</label>
+          <v-select
+            class="w-96"
+            :options="printerChoices"
+            v-model="printer"
+            label="label"
+            placeholder="select your default..."
+          ></v-select>
+        </span>
+        <span>
+          <input
+            class="rounded-full checked:accent-amber-600"
+            :id="minimizeSupports"
+            type="checkbox"
+            v-model="minimizeSupports"
+          />
+          <label class="mx-2 font-sans capitalize">Minimize Supports</label>
+        </span>
+        <div class="w-24">
+          <button class="btn--primary bg-primary" @click.prevent="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { computed, ref, onBeforeMount, h } from 'vue'
+import { useStore } from 'vuex'
+import vSelect from 'vue-select'
+import { vue3dLoader } from 'vue-3d-loader'
+import { userApi } from '@/services/users'
+
+export default {
+  name: 'Settings',
+  components: {
+    vSelect,
+    vue3dLoader,
+  },
+  setup() {
+    const store = useStore()
+    const printerChoices = ref([])
+    const printer = ref()
+    const minimizeSupports = ref(false)
+    const user = computed(() => {
+      return store.getters.user
+    })
+
+    vSelect.props.components.default = () => ({
+      Deselect: {
+        render: () => h('span', ''),
+      },
+    })
+
+    onBeforeMount(async () => {
+      printerChoices.value = store.getters.printers
+      minimizeSupports.value = user.value.profile.minimize_supports
+      printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
+    })
+
+    function save() {
+      userApi.csc
+        .saveSettings({
+          printer: printer.value?.value,
+          minimizeSupports: minimizeSupports.value,
+        })
+        .then(handleSuccess)
+        .catch(handleFailure)
+    }
+    function handleSuccess(response) {
+      store.dispatch('setUser', response)
+      console.log('Saved!')
+    }
+    function handleFailure(error) {
+      console.log(error)
+    }
+
+    return {
+      printer,
+      printerChoices,
+      minimizeSupports,
+      save,
+      user: computed(() => store.getters.user),
+    }
+  },
+}
+</script>
+
+<style>
+@import 'vue-select/dist/vue-select.css';
+
+.vs__dropdown-toggle {
+  height: 3.25rem;
+  font-weight: 600;
+  padding-left: 1rem;
+  border-width: 0.12rem;
+  border-color: #003851;
+  border-radius: 0.5rem;
+}
+.vs__dropdown-menu {
+  height: 12rem;
+  font-weight: 600;
+}
+</style>

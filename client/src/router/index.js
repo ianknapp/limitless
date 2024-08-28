@@ -53,6 +53,12 @@ const routes = [
     ],
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue'),
+    beforeEnter: requireAuth,
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'PageNotFound',
     component: () => import('../views/PageNotFound.vue'),

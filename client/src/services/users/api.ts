@@ -4,9 +4,18 @@ import {
   forgotPasswordShape,
   loginShape,
   resetPasswordShape,
+  settingsShape,
   userCreateShape,
   userShape,
 } from './models'
+
+const saveSettings = createCustomServiceCall({
+  inputShape: settingsShape,
+  cb: async ({ client, input, utils }) => {
+    const res = await client.post('/user/settings/', utils.toApi(input))
+    return res.data
+  },
+})
 
 const login = createCustomServiceCall({
   inputShape: loginShape,
@@ -47,5 +56,5 @@ export const userApi = createApi({
     create: userCreateShape,
     entity: userShape,
   },
-  customCalls: { login, requestPasswordReset, resetPassword, logout },
+  customCalls: { login, requestPasswordReset, resetPassword, logout, saveSettings },
 })

@@ -3,10 +3,14 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from limitless.projects.serializers import UserProfileSerializer
+
 from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer()
+
     class Meta:
         model = User
         fields = (
@@ -15,19 +19,24 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "full_name",
+            "profile",
         )
+        read_only_fields = ["profile"]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(allow_blank=False, required=True)
     password = serializers.CharField(allow_blank=False, required=True)
+    profile = UserProfileSerializer(required=False)
 
     class Meta:
         model = User
         fields = (
             "email",
             "password",
+            "profile",
         )
+        read_only_fields = ["profile"]
 
     def validate_email(self, value):
         """Emails are always stored and compared in lowercase."""

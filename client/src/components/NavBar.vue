@@ -28,13 +28,18 @@
           </template>
           <!-- Profile dropdown -->
           <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
-            <img
-              @click="profileMenuOpen = !profileMenuOpen"
-              class="h-8 w-8 cursor-pointer rounded-full"
-              src="@/assets/icons/profile-circle.svg"
-              alt="Profile"
-            />
-
+            <div
+              class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+            >
+              <div class="w-5 h-5 relative">
+                <img
+                  @click="profileMenuOpen = !profileMenuOpen"
+                  class="h-6 w-6 cursor-pointer rounded-full"
+                  src="@/assets/icons/profile-circle.svg"
+                  alt="Profile"
+                />
+              </div>
+            </div>
             <div
               v-if="profileMenuOpen"
               class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -42,6 +47,19 @@
               <div class="block cursor-pointer px-4 py-2 text-sm text-gray-700" @click="logout()">
                 Log Out
               </div>
+            </div>
+          </div>
+          <!-- Settings -->
+          <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
+            <div
+              class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+            >
+              <router-link :to="{ name: 'Settings' }" class="w-5 h-5 relative">
+                <img
+                  class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
+                  src="@/assets/icons/gear.svg"
+                />
+              </router-link>
             </div>
           </div>
         </div>
@@ -77,6 +95,7 @@
         >
           Home
         </router-link>
+
         <router-link
           v-if="isLoggedIn"
           :to="{ name: 'Projects' }"
@@ -88,13 +107,15 @@
         </router-link>
       </div>
       <div class="border-t border-gray-200 pb-3 pt-4">
-        <div class="flex items-center px-4" v-if="isLoggedIn">
-          <div class="flex-shrink-0">
-            <img
-              class="h-10 w-10 rounded-full"
-              src="@/assets/icons/profile-circle.svg"
-              alt="Profile"
-            />
+        <div class="flex justify-center px-4" v-if="isLoggedIn">
+          <div class="h-13 p-4 bg-neutral-700 rounded-full gap-2.5 inline-flex">
+            <div class="w-5 h-5 relative">
+              <img
+                class="h-6 w-6 rounded-full"
+                src="@/assets/icons/profile-circle.svg"
+                alt="Profile"
+              />
+            </div>
           </div>
           <div class="ml-3">
             <div class="text-base font-medium text-gray-800">
@@ -103,7 +124,15 @@
             <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
           </div>
         </div>
-        <div class="mt-3 space-y-1">
+        <div class="mt-3 space-y-1" v-if="isLoggedIn">
+          <router-link
+            :to="{ name: 'Settings' }"
+            @click="mobileMenuOpen = false"
+            active-class="active--mobile"
+            class="mobile-link--main"
+          >
+            Settings
+          </router-link>
           <template v-if="!isLoggedIn">
             <router-link
               @click="mobileMenuOpen = false"
