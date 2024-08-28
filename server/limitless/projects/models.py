@@ -8,7 +8,7 @@ from limitless.utils.misc import datetime_appended_filepath
 
 class Project(AbstractBaseModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects")
-    settings = models.OneToOneField(CuraSettings, on_delete=models.SET_NULL, null=True, related_name="project")
+    settings = models.OneToOneField(CuraSettings, on_delete=models.SET_NULL, blank=True, null=True, related_name="project")
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)
