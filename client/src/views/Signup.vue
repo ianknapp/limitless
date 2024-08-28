@@ -1,67 +1,52 @@
 <template>
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
+  <div class="flex min-h-full flex-1 flex-col justify-center h-screen px-6 py-10 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-12 w-auto" src="@/assets/icons/glyph.svg" alt="ThinkNimble" />
-      <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
-        Sign up
+      <img class="mx-auto h-16 w-auto" src="@/assets/icons/glyph.png" alt="ThinkNimble" />
+      <h2 class="mt-4 text-center text-4xl font-bold leading-9 tracking-tight text-primary">
+        Welcome to Limitless
       </h2>
+      <div class="text-center text-primary pt-2 pb-4 opacity-50">
+        Enter your information below to sign up.
+      </div>
     </div>
 
     <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
       <form @submit.prevent="register(form.value)">
-        <div>
-          <label class="mb-2 block text-left text-sm font-medium leading-6 text-primary"
-            >First Name</label
-          >
+        <div class="flex flex-col-2 gap-4">
           <InputField
             v-model:value="form.firstName.value"
             :errors="form.firstName.errors"
             @blur="form.firstName.validate()"
-            placeholder="Enter first name..."
+            placeholder="First Name"
           />
-        </div>
-
-        <div>
-          <label class="mb-2 block text-left text-sm font-medium leading-6 text-primary"
-            >Last Name</label
-          >
           <InputField
             v-model:value="form.lastName.value"
             :errors="form.lastName.errors"
             @blur="form.lastName.validate()"
-            placeholder="Enter last name..."
+            placeholder="Last Name"
           />
         </div>
 
         <div>
-          <label class="mb-2 block text-left text-sm font-medium leading-6 text-primary"
-            >Email</label
-          >
           <InputField
             v-model:value="form.email.value"
             :errors="form.email.errors"
             @blur="form.email.validate()"
             type="email"
-            placeholder="Enter email..."
+            placeholder="Email"
           />
         </div>
 
         <div>
-          <label class="mb-2 block text-left text-sm font-medium leading-6 text-primary"
-            >Password</label
-          >
           <InputField
             v-model:value="form.password.value"
             :errors="form.password.errors"
             @blur="form.password.validate()"
             type="password"
-            placeholder="Enter password..."
+            placeholder="Password"
           />
         </div>
         <div>
-          <label class="mb-2 block text-left text-sm font-medium leading-6 text-primary"
-            >Confirm Password</label
-          >
           <InputField
             v-model:value="form.confirmPassword.value"
             :errors="form.confirmPassword.errors"
@@ -70,24 +55,24 @@
             placeholder="Confirm Password"
           />
         </div>
-        <div>
+        <div class="pt-12">
           <LoadingSpinner v-if="loading" />
           <button
             v-else
             :disabled="!form.isValid"
             type="submit"
             data-cy="submit"
-            class="btn--primary bg-primary"
+            class="btn--primary bg-zinc-900"
           >
-            Sign up
+            Sign Up
           </button>
         </div>
       </form>
     </div>
     <div class="m-4 flex self-center text-sm">
-      <p class="mr-2">Already have an account?</p>
-      <router-link :to="{ name: 'Login' }" class="font-bold text-primary hover:underline">
-        Log in.
+      <p class="mr-2 text-primary">Already have an account?</p>
+      <router-link :to="{ name: 'Login' }" class="font-bold text-purple hover:underline">
+        Log In
       </router-link>
     </div>
   </div>

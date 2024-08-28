@@ -1,17 +1,17 @@
 /* Buttons */
 
 .btn {
-  @apply flex w-full cursor-pointer items-center justify-center rounded-md border px-3 py-2 text-sm font-semibold shadow-sm;
+  @apply flex w-full h-14 cursor-pointer items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold shadow-sm;
 }
 
 .btn--primary {
   @apply btn;
-  @apply border-primary text-white hover:bg-primaryLight;
+  @apply text-white/30 hover:bg-purple hover:text-primary;
 }
 
 .btn--disabled {
   @apply btn;
-  @apply cursor-not-allowed border-gray-200;
+  @apply cursor-not-allowed;
 }
 
 .btn--secondary {

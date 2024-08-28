@@ -1,17 +1,23 @@
 <template>
-  <div
-    class="flex min-h-screen flex-col text-center font-serif text-primary antialiased pt-16 bg-slate-200"
-  >
-    <AlertAlert />
-    <NavBar />
-    <div class="w-full mx-auto max-w-7xl flex min-h-full flex-2 flex-col bg-white">
+  <div class="min-h-screen bg-black" style="background-image: url('/src/assets/icons/hex.png')">
+    <div v-if="skipNav">
       <router-view />
     </div>
+    <div
+      v-else
+      class="flex min-h-screen flex-col text-center font-serif text-primary antialiased pt-16 bg-slate-200"
+    >
+      <AlertAlert />
+      <NavBar />
+
+        <router-view />
+      </div>
   </div>
 </template>
 
 <script>
-import { onBeforeMount } from 'vue'
+import { computed, onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { AlertAlert } from '@thinknimble/vue3-alert-alert'
 import NavBar from '@/components/NavBar.vue'
@@ -24,6 +30,7 @@ export default {
     AlertAlert,
   },
   setup() {
+    const router = useRouter()
     const store = useStore()
 
     onBeforeMount(async () => {
@@ -38,7 +45,13 @@ export default {
     function handleFailure(error) {
       console.log(error)
     }
-    return {}
+    return {
+      skipNav: computed(() =>
+        ['Login', 'Signup', 'RequestPasswordReset'].some(
+          (item) => item === router.currentRoute.value.name,
+        ),
+      ),
+    }
   },
 }
 </script>
