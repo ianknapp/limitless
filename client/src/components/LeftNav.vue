@@ -2,7 +2,7 @@
   <div v-if="expandLeftNav" id="leftNav" class="flex-initial shadow max-w-48">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col h-16 justify-between">
-        <div class="flex flex-row gap-4 w-fit mr-12 py-4 px-4">
+        <div class="flex flex-row gap-4 font-sans w-fit mr-12 py-4 px-4">
           <img class="mx-auto h-16 w-auto" src="@/assets/icons/glyph.png" alt="Limitless" />
           <div
             class="mt-4 text-center text-4xl w-fit font-bold leading-9 tracking-tight text-primary"

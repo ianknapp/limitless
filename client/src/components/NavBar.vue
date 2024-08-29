@@ -41,9 +41,9 @@
             </div>
             <div
               v-if="profileMenuOpen"
-              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div class="block cursor-pointer px-4 py-2 text-sm text-gray-700" @click="logout()">
+              <div class="block cursor-pointer px-4 py-2 text-sm text-primary" @click="logout()">
                 Log Out
               </div>
             </div>

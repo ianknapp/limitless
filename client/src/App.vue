@@ -6,14 +6,16 @@
       </div>
       <div
         v-else
-        class="flex max-w-7xl min-h-screen flex-row text-center font-serif text-primary antialiased"
+        class="flex flex-row w-full max-w-7xl text-center font-serif text-primary antialiased"
       >
         <AlertAlert />
 
         <LeftNav :expandLeftNav="leftNav" />
-        <div class="w-full mx-auto flex min-h-full flex-2 flex-col">
+        <div class="flex min-h-full flex-1 flex-col">
           <NavBar @toggle-left-nav="toggleLeftNav" />
-          <router-view />
+          <div class="mb-8 px-6">
+            <router-view />
+          </div>
         </div>
       </div>
     </div>
