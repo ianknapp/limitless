@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-full flex-1 flex-col justify-center h-screen px-6 py-10 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-16 w-auto" src="@/assets/icons/glyph.png" alt="ThinkNimble" />
+      <img class="mx-auto h-16 w-auto" src="@/assets/icons/glyph.png" alt="Limitless" />
       <h2 class="mt-4 text-center text-4xl font-bold leading-9 tracking-tight text-primary">
         Welcome to Limitless
       </h2>
