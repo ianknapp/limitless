@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { requireAuth, requireNoAuth } from '@/services/auth'
-import Home from '@/views/Home.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
+    beforeEnter: requireAuth,
   },
   {
     path: '/login',
@@ -40,11 +40,6 @@ const routes = [
     path: '/projects',
     beforeEnter: requireAuth,
     children: [
-      {
-        path: '',
-        name: 'Projects',
-        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
-      },
       {
         path: '/project/:id',
         name: 'Project',

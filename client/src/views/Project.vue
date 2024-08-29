@@ -1,6 +1,6 @@
 <template>
   <div class="pl-8 pb-4 pt-4 text-left">
-    <router-link :to="{ name: 'Projects' }">
+    <router-link :to="{ name: 'Home' }">
       <span class="pt-1 font-semibold">&lt; Back</span>
     </router-link>
   </div>
@@ -215,16 +215,21 @@ export default {
 <style>
 @import 'vue-select/dist/vue-select.css';
 
+.vs__selected {
+  color: #ffffff;
+}
+
 .vs__dropdown-toggle {
   height: 3.25rem;
   font-weight: 600;
   padding-left: 1rem;
   border-width: 0.12rem;
-  border-color: #003851;
   border-radius: 0.5rem;
+  background-color: #18181b;
 }
 .vs__dropdown-menu {
-  height: 12rem;
+  max-height: 12rem;
   font-weight: 600;
+  background-color: #18181b;
 }
 </style>

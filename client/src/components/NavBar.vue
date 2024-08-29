@@ -1,23 +1,22 @@
 <template>
-  <nav class="fixed top-0 z-10 w-full bg-white shadow">
+  <div class="top-0 z-10 shadow pt-12">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 justify-between">
-        <div class="flex">
-          <router-link :to="{ name: 'Home' }" class="flex flex-shrink-0 items-center">
-            <img class="h-4" src="@/assets/icons/logo.svg" alt="ThinkNimble"
-          /></router-link>
-          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <router-link :to="{ name: 'Home' }" class="router" active-class="active"
-              >Home</router-link
-            >
-            <router-link
-              active-class="active"
-              v-if="isLoggedIn"
-              :to="{ name: 'Projects' }"
-              class="router"
-              >Projects</router-link
-            >
-          </div>
+      <div class="flex flex-row justify-between h-16">
+        <div class="content-center">
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="leftNavOpen"
+            src="@/assets/icons/chevron_left.png"
+            alt="Hide Navigation"
+            @click="toggleLeftNav"
+          />
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="!leftNavOpen"
+            src="@/assets/icons/chevron_right.png"
+            alt="Open Navigation"
+            @click="toggleLeftNav"
+          />
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
@@ -42,9 +41,9 @@
             </div>
             <div
               v-if="profileMenuOpen"
-              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div class="block cursor-pointer px-4 py-2 text-sm text-gray-700" @click="logout()">
+              <div class="block cursor-pointer px-4 py-2 text-sm text-primary" @click="logout()">
                 Log Out
               </div>
             </div>
@@ -156,7 +155,7 @@
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -167,9 +166,11 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
-  setup() {
+  emits: ['toggleLeftNav'],
+  setup(props, context) {
     const store = useStore()
     const router = useRouter()
+    let leftNavOpen = ref(true)
     let mobileMenuOpen = ref(false)
     let profileMenuOpen = ref(false)
 
@@ -189,7 +190,14 @@ export default {
       }
     }
 
+    function toggleLeftNav() {
+      context.emit('toggleLeftNav')
+      leftNavOpen.value = !leftNavOpen.value
+    }
+
     return {
+      toggleLeftNav,
+      leftNavOpen,
       logout,
       isLoggedIn: computed(() => store.getters.isLoggedIn),
       user: computed(() => store.getters.user),

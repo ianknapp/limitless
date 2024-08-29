@@ -1,11 +1,8 @@
 <template>
-  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
-    <div class="pt-2 text-left xl:max-w-2xl h-full">
-      <h1 class="pt-2 pl-6 text-6xl font-bold">
-        {{ user.firstName }}
-      </h1>
+  <div class="w-fit flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
+    <div class="pt-8 text-left xl:max-w-2xl h-full">
       <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Print Settings</h1>
-      <div class="mt-8 mb-2 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
+      <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
         <span>
           <label class="mx-2 font-sans capitalize">Your Default Printer</label>
           <v-select
@@ -26,7 +23,7 @@
           <label class="mx-2 font-sans capitalize">Minimize Supports</label>
         </span>
         <div class="w-24">
-          <button class="btn--primary bg-primary" @click.prevent="save()">Save</button>
+          <button class="btn--primary bg-zinc-900" @click.prevent="save()">Save</button>
         </div>
       </div>
     </div>
@@ -98,16 +95,21 @@ export default {
 <style>
 @import 'vue-select/dist/vue-select.css';
 
+.vs__selected {
+  color: #ffffff;
+}
+
 .vs__dropdown-toggle {
   height: 3.25rem;
   font-weight: 600;
   padding-left: 1rem;
   border-width: 0.12rem;
-  border-color: #003851;
   border-radius: 0.5rem;
+  background-color: #18181b;
 }
 .vs__dropdown-menu {
-  height: 12rem;
+  max-height: 12rem;
   font-weight: 600;
+  background-color: #18181b;
 }
 </style>

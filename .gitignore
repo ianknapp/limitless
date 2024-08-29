@@ -4,6 +4,9 @@
 node_modules/
 server/static/
 server/media-files/
+client/media/
+media-files/
+cura/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
