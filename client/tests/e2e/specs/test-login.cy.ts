@@ -8,7 +8,7 @@ describe('Tests login workflow', () => {
     cy.visit('/login')
     cy.get('[data-cy=email]').type(Cypress.env('TEST_USER_EMAIL'))
     cy.get('[data-cy=password]').type(Cypress.env('TEST_USER_PASS'))
-    cy.contains('[data-cy=submit]', 'Log in').click()
+    cy.contains('[data-cy=submit]', 'Log In').click()
     cy.url().should('include', '/home')
   })
 })
