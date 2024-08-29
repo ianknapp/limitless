@@ -55,6 +55,10 @@ const actions = {
       commit(SET_TOKEN, token)
     }
   },
+  logoutUser({ commit }) {
+    commit(SET_USER, null)
+    commit(SET_TOKEN, null)
+  },
   setSupportStructures({ commit }, supportStructures) {
     commit(SET_SUPPORT_STRUCTURES, supportStructures)
   },
