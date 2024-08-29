@@ -1,5 +1,5 @@
 <template>
-  <div v-if="expandLeftNav" id="leftNav" class="flex-initial shadow">
+  <div v-if="expandLeftNav" id="leftNav" class="flex-initial shadow max-w-48">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col h-16 justify-between">
         <div class="flex flex-row gap-4 w-fit mr-12 py-4 px-4">
@@ -20,6 +20,15 @@
           class="router"
           >Projects</router-link
         >
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="h-16 justify-between">
+        <div class="w-fit pt-4">
+          <img class="mx-auto" src="@/assets/icons/glyph.png" alt="Limitless" />
+        </div>
       </div>
     </div>
   </div>

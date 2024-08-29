@@ -1,17 +1,17 @@
 <template>
   <div class="min-h-screen bg-black" style="background-image: url('/src/assets/icons/hex.png')">
-    <div class="flex flex-col">
+    <div class="flex justify-center">
       <div v-if="skipNav">
         <router-view />
       </div>
       <div
         v-else
-        class="flex min-h-screen flex-row text-center font-serif text-primary antialiased"
+        class="flex max-w-7xl min-h-screen flex-row text-center font-serif text-primary antialiased"
       >
         <AlertAlert />
 
         <LeftNav :expandLeftNav="leftNav" />
-        <div class="w-full mx-auto max-w-7xl flex min-h-full flex-2 flex-col">
+        <div class="w-full mx-auto flex min-h-full flex-2 flex-col">
           <NavBar @toggle-left-nav="toggleLeftNav" />
           <router-view />
         </div>
