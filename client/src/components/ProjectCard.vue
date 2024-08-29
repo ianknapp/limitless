@@ -1,16 +1,15 @@
 <template>
-  <div class="text-left">
+  <div class="text-left font-sans w-48 h-36">
     <router-link
       :to="{ name: 'Project', params: { id: project.id } }"
       class="flex flex-shrink-0 items-center"
     >
-      <div class="rounded-lg bg-gray-100">
-        <div class="mb-auto p-2">
-          <img class="rounded-lg pointer-events-none" :src="project.image" />
-        </div>
-      </div>
+      <div
+        class="rounded-lg w-48 h-36 bg-zinc-900 bg-contain bg-center"
+        :style="{ 'background-image': `url(${project.image})` }"
+      ></div>
     </router-link>
-    <div class="pt-2 font-bold">
+    <div class="pt-2 font-semibold text-sm">
       {{ project.title }}
     </div>
   </div>

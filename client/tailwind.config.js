@@ -13,7 +13,8 @@ module.exports = {
         error: '#d72638',
       },
       fontFamily: {
-        avenir: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['source-serif-pro', 'serif'],
+        sans: ['Poppins', 'sans-serif']
       },
     },
     container: {
