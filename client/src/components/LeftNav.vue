@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div v-else class="hidden">
+  <div v-else class="hidden sm:inline-block pt-8">
     <div class="mx-auto max-w-7xl pl-8">
       <div class="justify-between">
         <div class="w-6 pt-6">
