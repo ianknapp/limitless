@@ -2,7 +2,7 @@ import logging
 
 from django.http import HttpResponse
 from rest_framework import mixins, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from limitless.cura.models import CuraSettings
@@ -53,6 +53,7 @@ def print(request):
 
 
 @api_view(["GET"])
+@permission_classes([])
 def settings(request):
     # Return global setting options to inject into session storage
     data = AllSettingsSerializer("").data
