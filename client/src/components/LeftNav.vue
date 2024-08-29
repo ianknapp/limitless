@@ -13,20 +13,13 @@
         <router-link :to="{ name: 'Home' }" class="router" active-class="active">
           Home
         </router-link>
-        <router-link
-          active-class="active"
-          v-if="isLoggedIn"
-          :to="{ name: 'Projects' }"
-          class="router"
-          >Projects</router-link
-        >
       </div>
     </div>
   </div>
   <div v-else>
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="h-16 justify-between">
-        <div class="w-fit pt-4">
+    <div class="mx-auto max-w-7xl pl-8">
+      <div class="justify-between">
+        <div class="w-6 pt-6">
           <img class="mx-auto" src="@/assets/icons/glyph.png" alt="Limitless" />
         </div>
       </div>

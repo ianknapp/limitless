@@ -6,7 +6,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
+    beforeEnter: requireAuth,
   },
   {
     path: '/login',
@@ -40,11 +41,6 @@ const routes = [
     path: '/projects',
     beforeEnter: requireAuth,
     children: [
-      {
-        path: '',
-        name: 'Projects',
-        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
-      },
       {
         path: '/project/:id',
         name: 'Project',

@@ -108,7 +108,7 @@ export default {
   background-color: #18181b;
 }
 .vs__dropdown-menu {
-  height: 12rem;
+  max-height: 12rem;
   font-weight: 600;
   background-color: #18181b;
 }
