@@ -1,8 +1,8 @@
 <template>
-  <div class="top-0 z-10 shadow pt-12">
+  <div class="top-0 z-10 shadow sm:pt-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-row justify-between h-16">
-        <div class="content-center">
+      <div class="flex flex-row justify-end sm:justify-between h-16">
+        <div class="content-center hidden sm:inline-block">
           <img
             class="block h-6 w-6 cursor-pointer"
             v-if="leftNavOpen"
@@ -62,9 +62,11 @@
             </div>
           </div>
         </div>
-        <div class="-mr-2 flex items-center sm:hidden">
+        <div class="flex items-center sm:hidden">
           <!-- Mobile menu button -->
-          <div class="rounded-md p-2 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+          <div
+            class="rounded-md p-2 bg-zinc-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none"
+          >
             <img
               class="block h-6 w-6 cursor-pointer"
               v-if="!mobileMenuOpen"
@@ -84,7 +86,7 @@
       </div>
     </div>
 
-    <div class="sm:hidden" v-if="mobileMenuOpen">
+    <div class="sm:hidden font-sans bg-gray-500/10" v-if="mobileMenuOpen">
       <div class="space-y-1 pb-3 pt-2">
         <router-link
           :to="{ name: 'Home' }"
@@ -93,16 +95,6 @@
           class="mobile-link--main"
         >
           Home
-        </router-link>
-
-        <router-link
-          v-if="isLoggedIn"
-          :to="{ name: 'Projects' }"
-          @click="mobileMenuOpen = false"
-          active-class="active--mobile"
-          class="mobile-link--main"
-        >
-          Projects
         </router-link>
       </div>
       <div class="border-t border-gray-200 pb-3 pt-4">
@@ -117,10 +109,8 @@
             </div>
           </div>
           <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">
-              {{ user.firstName }} {{ user.lastName }}
-            </div>
-            <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
+            <div class="text-base font-medium">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="text-sm font-medium">{{ user.email }}</div>
           </div>
         </div>
         <div class="mt-3 space-y-1" v-if="isLoggedIn">
@@ -128,7 +118,7 @@
             :to="{ name: 'Settings' }"
             @click="mobileMenuOpen = false"
             active-class="active--mobile"
-            class="mobile-link--main"
+            class="mobile-link"
           >
             Settings
           </router-link>
@@ -185,8 +175,8 @@ export default {
       } finally {
         profileMenuOpen.value = false
         mobileMenuOpen.value = false
-        store.dispatch('setUser', null)
-        router.push({ name: 'Home' })
+        store.dispatch('logoutUser')
+        router.push({ name: 'Login' })
       }
     }
 

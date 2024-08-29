@@ -1,5 +1,5 @@
 <template>
-  <div v-if="expandLeftNav" id="leftNav" class="flex-initial shadow">
+  <div v-if="expandLeftNav" id="leftNav" class="flex-initial shadow hidden sm:inline-block">
     <div class="mx-auto px-8">
       <div class="flex flex-col h-16 justify-between">
         <div class="flex flex-row gap-4 font-sans w-fit mr-12 py-12 px-8">
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div v-else>
+  <div v-else class="hidden sm:inline-block pt-8">
     <div class="mx-auto max-w-7xl pl-8">
       <div class="justify-between">
         <div class="w-6 pt-6">
