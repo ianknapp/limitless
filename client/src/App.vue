@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-black" style="background-image: url('/src/assets/icons/hex.png')">
+    <div class="min-h-screen bg-black foo">
+        <div :style="{'background-image': `url('~@/assets/icons/hex.png')`}">
+        </div>
     <div class="flex justify-center">
       <div v-if="skipNav">
         <router-view />

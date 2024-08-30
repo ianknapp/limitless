@@ -23,3 +23,7 @@
 .form-container {
   @apply container mx-auto w-full content-center rounded-lg bg-slate-200 py-5 sm:max-w-prose;
 }
+
+.foo {
+    background-image: url('@/assets/icons/hex.png');
+}
