@@ -1,8 +1,8 @@
 <template>
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="flex min-h-full flex-1 flex-col justify-center h-screen px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-12 w-auto" src="@/assets/icons/glyph.svg" alt="ThinkNimble" />
-      <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-primary">
+      <img class="mx-auto h-16 w-auto" src="@/assets/icons/glyph.png" alt="Limitless" />
+      <h2 class="mt-4 text-center text-4xl font-bold leading-9 tracking-tight text-primary">
         Request Password Reset
       </h2>
     </div>
@@ -13,8 +13,7 @@
           :errors="form.email.errors"
           @blur="form.email.validate()"
           type="email"
-          label="Email address"
-          placeholder="Enter email..."
+          placeholder="Email"
           data-cy="email"
         />
 
@@ -23,7 +22,7 @@
           v-else-if="!loading && !passwordResetSuccess"
           type="submit"
           :disabled="loading || !form.email.isValid"
-          class="btn--primary bg-primary"
+          class="btn--primary bg-zinc-900"
           data-cy="submit"
         >
           Request Password Reset
@@ -40,7 +39,7 @@
           folder.
         </p>
         <div class="pt-6">
-          <button type="button" class="btn--primary bg-primary">
+          <button type="button" class="btn--primary bg-zinc-900">
             <router-link :to="{ name: 'Login' }" class="" id="login-link">
               Return to Login
             </router-link>

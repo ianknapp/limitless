@@ -2,6 +2,8 @@ import logging
 
 from django.contrib import admin
 from django.http import HttpResponse
+from django.urls import reverse
+from django.utils.html import format_html
 
 from limitless.cura.settings import cura_settings_str
 from limitless.cura.tasks import slice_model
@@ -19,8 +21,9 @@ class ProjectFileInlineAdmin(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("title", "owner", "num_files", "hidden", "created")
+    list_display = ("title", "owner", "num_files", "cura_settings", "hidden", "created")
     list_filter = ("hidden",)
+    readonly_fields = ["cura_settings"]
     inlines = [ProjectFileInlineAdmin]
     fieldsets = (
         (
@@ -30,12 +33,20 @@ class ProjectAdmin(admin.ModelAdmin):
                     "title",
                     "description",
                     "owner",
-                    "settings",
+                    "cura_settings",
                     "hidden",
                 )
             },
         ),
     )
+
+    @admin.display(description="Cura Settings")
+    def cura_settings(self, obj):
+        if obj.settings:
+            link = reverse("admin:cura_curasettings_change", args=[obj.settings.pk])
+            return format_html('<a href="{}">Edit {}</a>', link, obj.settings)
+        return "n/a"
+    cura_settings.short_description = "Cura Settings"
 
     def num_files(self, obj):
         return obj.files.count()

@@ -20,7 +20,7 @@
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
-            <router-link :to="{ name: 'Login' }" class="btn--primary bg-primary" data-cy="login"
+            <router-link :to="{ name: 'Login' }" class="btn--primary bg-zinc-900" data-cy="login"
               >Login</router-link
             >
             <router-link :to="{ name: 'Signup' }" class="btn--secondary ml-6">Signup</router-link>
