@@ -7,8 +7,7 @@
       <div class="mt-10 gap-x-6">
         <router-link
           to="/"
-          class="rounded-md bg-accent px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm
-          hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="rounded-md bg-accent px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >Go back home</router-link
         >
       </div>
