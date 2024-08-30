@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-black foo">
+    <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')]">
         <div :style="{'background-image': `url('~@/assets/icons/hex.png')`}">
         </div>
     <div class="flex justify-center">
