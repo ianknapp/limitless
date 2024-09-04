@@ -46,6 +46,7 @@ class ProjectAdmin(admin.ModelAdmin):
             link = reverse("admin:cura_curasettings_change", args=[obj.settings.pk])
             return format_html('<a href="{}">Edit {}</a>', link, obj.settings)
         return "n/a"
+
     cura_settings.short_description = "Cura Settings"
 
     def num_files(self, obj):
