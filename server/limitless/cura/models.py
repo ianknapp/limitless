@@ -22,3 +22,4 @@ class CuraSettings(AbstractBaseModel):
 
     class Meta:
         ordering = ["-created"]
+        verbose_name_plural = "Cura Settings"

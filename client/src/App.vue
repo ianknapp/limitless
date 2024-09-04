@@ -1,6 +1,9 @@
 <template>
-  <div class="min-h-screen bg-black" style="background-image: url('/src/assets/icons/hex.png')">
+  <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')]">
     <div class="flex justify-center">
+      <div
+        class="w-1/2 h-full opacity-20 bg-violet-900 rounded-full blur-3xl absolute z-0 -top-full mt-40"
+      ></div>
       <div v-if="skipNav">
         <router-view />
       </div>

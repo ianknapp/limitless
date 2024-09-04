@@ -13,6 +13,11 @@ class Project(AbstractBaseModel):
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)
 
+    def delete(self):
+        if self.settings:
+            self.settings.delete()
+        super().delete()
+
     def __str__(self):
         return self.title
 
