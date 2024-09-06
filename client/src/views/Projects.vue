@@ -2,7 +2,7 @@
   <header class="relative w-full px-6 flex h-32 justify-between sm:h-48"></header>
   <LoadingSpinner v-if="loading" />
   <div v-if="!loading" class="flex">
-    <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4 content-start px-6">
+    <div class="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 content-start px-6">
       <ProjectCard v-for="project in projects.list" :project="project" :key="project.id" />
       <button
         class="col-start-1 col-span-2 md:col-span-4 justify-self-center btn--primary mt-12 w-40 text-center"
