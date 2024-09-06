@@ -20,5 +20,5 @@ export const printShape = {
 }
 
 export const projectFiltersShape = {
-  search: z.string().optional(),
+  search: z.string(),
 }
