@@ -5,7 +5,7 @@ import {
   Pagination,
 } from '@thinknimble/tn-models'
 import axiosInstance from '../AxiosClient'
-import { projectShape, printShape } from './models'
+import { projectFiltersShape, projectShape, printShape } from './models'
 
 const print = createCustomServiceCall({
   inputShape: printShape,
@@ -20,6 +20,7 @@ export const projectApi = createApi({
   baseUri: '/projects/',
   models: {
     entity: projectShape,
+    extraFilters: projectFiltersShape,
   },
   customCalls: { print },
 })
@@ -27,6 +28,7 @@ export const projectApi = createApi({
 export const projectFunctions = () => {
   const projectFilters = {
     ordering: '-title',
+    search: '',
   }
 
   const projectCollection = createCollectionManager({

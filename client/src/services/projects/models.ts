@@ -18,3 +18,7 @@ export const printShape = {
   printer: z.string(),
   minimizeSupports: z.boolean().optional(),
 }
+
+export const projectFiltersShape = {
+  search: z.string().optional(),
+}
