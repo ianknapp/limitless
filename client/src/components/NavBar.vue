@@ -28,12 +28,12 @@
           <!-- Profile dropdown -->
           <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
             <div
-              class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+              @click="profileMenuOpen = !profileMenuOpen"
+              class="cursor-pointer h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
             >
               <div class="w-5 h-5 relative">
                 <img
-                  @click="profileMenuOpen = !profileMenuOpen"
-                  class="h-6 w-6 cursor-pointer rounded-full"
+                  class="h-6 w-6 rounded-full"
                   src="@/assets/icons/profile-circle.svg"
                   alt="Profile"
                 />
@@ -50,16 +50,18 @@
           </div>
           <!-- Settings -->
           <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
-            <div
-              class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
-            >
-              <router-link :to="{ name: 'Settings' }" class="w-5 h-5 relative">
-                <img
-                  class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
-                  src="@/assets/icons/gear.svg"
-                />
-              </router-link>
-            </div>
+            <router-link :to="{ name: 'Settings' }">
+              <div
+                class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+              >
+                <div class="w-5 h-5 relative">
+                  <img
+                    class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
+                    src="@/assets/icons/gear.svg"
+                  />
+                </div>
+              </div>
+            </router-link>
           </div>
         </div>
         <div class="flex items-center sm:hidden">

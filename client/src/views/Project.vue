@@ -1,40 +1,49 @@
 <template>
-  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
-    <div class="lg:max-w-lg w-1/2">
-      <div class="mb-auto px-6 pt-4">
-        <img class="rounded-lg pointer-events-none" :src="project.image" />
+  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap font-sans pt-12">
+    <div class="w-full">
+      <div class="mb-auto px-6 pt-4 flex justify-center">
+        <img class="rounded-lg w-full pointer-events-none" :src="project.primaryImage" />
       </div>
-      <div class="mb-auto px-6 pt-4 grid grid-cols-2 gap-4 pb-4">
-        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
-          <vue3dLoader
-            :enableAxesHelper="true"
-            :enableGridHelper="true"
-            :height="200"
-            :width="200"
-            backgroundColor="#042642"
-            :filePath="project.model"
-            fileType="stl"
-            :rotation="rotation"
-            :cameraPosition="cameraPosition"
-            :scale="scale"
-          ></vue3dLoader>
+      <div class="mb-auto px-6 pt-4 grid grid-cols-2 xl:grid-cols-4 gap-4 pb-4 content-start">
+        <div class="flex flex-shrink-0 items-center">
+          <div class="rounded-lg flex bg-zinc-900 p-2 h-full w-full justify-self-center">
+            <img class="rounded-lg flex-shrink pointer-events-none" :src="project.primaryImage" />
+          </div>
         </div>
-        <div class="rounded-lg bg-gray-100 p-2 justify-self-center">
-          <img class="rounded-lg pointer-events-none" :src="project.image" />
+        <div class="flex flex-shrink-0 items-center">
+          <div class="rounded-lg flex bg-zinc-900 p-2 justify-self-center">
+            <img class="rounded-lg flex-shrink pointer-events-none" :src="project.secondaryImage" />
+          </div>
+        </div>
+        <div class="flex flex-shrink-0 items-center">
+          <div class="rounded-lg bg-zinc-900 p-2 justify-self-center">
+            <vue3dLoader
+              :enableAxesHelper="true"
+              :enableGridHelper="true"
+              :height="115"
+              :width="115"
+              backgroundColor="#042642"
+              :filePath="project.model"
+              fileType="stl"
+              :rotation="rotation"
+              :cameraPosition="cameraPosition"
+              :scale="scale"
+            ></vue3dLoader>
+          </div>
         </div>
       </div>
     </div>
-    <div class="pt-2 text-left xl:max-w-2xl h-full">
-      <h1 class="pt-2 pl-6 text-6xl font-bold">
+    <div class="pt-2 text-left xl:max-w-2xl h-full w-96">
+      <h1 class="pt-2 text-3xl font-bold">
         {{ project.title }}
       </h1>
-      <div v-if="project.description" class="font-sans pl-8 pt-4">
+      <div v-if="project.description" class="font-sans pt-4 opacity-50">
         <div>
           {{ project.description }}
         </div>
       </div>
-      <div class="mt-8 mb-2 grid grid-cols-1 gap-4 pl-6 content-end h-96">
-        <hr class="h-0.5 bg-primary mt-2 mb-2" />
+      <div class="mb-2 grid grid-cols-1 gap-4 mt-24 content-end h-96">
+        <h2 class="text-base font-semibold">Suggested Model Settings</h2>
         <div class="">
           <span>
             <input
@@ -47,29 +56,26 @@
           </span>
         </div>
         <v-select
-          class="w-96"
           :options="adhesionChoices"
           v-model="adhesion"
           label="label"
           :searchable="false"
         ></v-select>
         <v-select
-          class="w-96"
           :options="supportStructureChoices"
           v-model="supportStructure"
           label="label"
           :searchable="false"
         ></v-select>
         <v-select
-          class="w-96"
           :options="supportTypeChoices"
           v-model="supportType"
           label="label"
           :searchable="false"
         ></v-select>
-        <v-select class="w-96" :options="printerChoices" v-model="printer" label="label"></v-select>
-        <div class="w-24">
-          <button class="btn--primary bg-zinc-900" @click.prevent="print()">Print</button>
+        <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
+        <div class="w-full">
+          <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
       </div>
     </div>
@@ -211,6 +217,7 @@ export default {
 
 .vs__selected {
   color: #ffffff;
+  opacity: 0.5;
 }
 
 .vs__dropdown-toggle {

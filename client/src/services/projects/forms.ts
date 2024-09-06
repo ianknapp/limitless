@@ -12,3 +12,16 @@ export class PrintForm extends Form<PrintFormInputs> {
     validators: [],
   })
 }
+
+export type SearchFormInputs = {
+  query: IFormField<string>
+}
+export type TSearchForm = SearchFormInputs & SearchForm
+
+export class SearchForm extends Form<SearchFormInputs> {
+  static query = new FormField({
+    placeholder: 'Search Models',
+    type: 'text',
+    validators: [],
+  })
+}

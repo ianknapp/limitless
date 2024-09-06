@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Q
 from django.http import HttpResponse
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -24,6 +25,15 @@ logger = logging.getLogger(__name__)
 class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin):
     queryset = Project.objects.filter(hidden=False)
     serializer_class = ProjectSerializer
+
+    def filter_queryset(self, queryset):
+        search_query = self.request.query_params.get("search", "")
+        logger.info(f"filtering for: {search_query=}")
+
+        if search_query:
+            search_query = search_query.strip()
+            queryset = queryset.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
+        return queryset.distinct()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

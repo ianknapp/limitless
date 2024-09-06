@@ -5,7 +5,8 @@ export const projectShape = {
   ...baseModelShape,
   title: z.string(),
   description: z.string().optional(),
-  image: z.string().optional(),
+  primaryImage: z.string().optional(),
+  secondaryImage: z.string().optional(),
   model: z.string().optional(),
 }
 
@@ -16,4 +17,8 @@ export const printShape = {
   adhesionType: z.string(),
   printer: z.string(),
   minimizeSupports: z.boolean().optional(),
+}
+
+export const projectFiltersShape = {
+  search: z.string(),
 }
