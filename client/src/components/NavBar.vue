@@ -50,19 +50,18 @@
           </div>
           <!-- Settings -->
           <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
-              <router-link :to="{ name: 'Settings' }">
-            <div
-              class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
-            >
-
+            <router-link :to="{ name: 'Settings' }">
+              <div
+                class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+              >
                 <div class="w-5 h-5 relative">
-                <img
-                  class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
-                  src="@/assets/icons/gear.svg"
-                />
+                  <img
+                    class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
+                    src="@/assets/icons/gear.svg"
+                  />
                 </div>
-            </div>
-              </router-link>
+              </div>
+            </router-link>
           </div>
         </div>
         <div class="flex items-center sm:hidden">

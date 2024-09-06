@@ -5,7 +5,8 @@ export const projectShape = {
   ...baseModelShape,
   title: z.string(),
   description: z.string().optional(),
-  image: z.string().optional(),
+  primaryImage: z.string().optional(),
+  secondaryImage: z.string().optional(),
   model: z.string().optional(),
 }
 

@@ -18,11 +18,16 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectDetailsSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    primary_image = serializers.SerializerMethodField()
+    secondary_image = serializers.SerializerMethodField()
     model = serializers.SerializerMethodField()
     settings = CuraSettingsSerializer(required=False)
 
-    def get_image(self, obj):
+    def get_primary_image(self, obj):
+        image = obj.files.filter(file_type=ProjectFile.TypeChoices.IMAGE, primary=True).first()
+        return image.file.url if image else ""
+
+    def get_secondary_image(self, obj):
         image = obj.files.filter(file_type=ProjectFile.TypeChoices.IMAGE, primary=False).first()
         return image.file.url if image else ""
 
@@ -32,7 +37,7 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("id", "title", "description", "image", "model", "settings")
+        fields = ("id", "title", "description", "primary_image", "secondary_image", "model", "settings")
         read_only = ["settings"]
 
 
