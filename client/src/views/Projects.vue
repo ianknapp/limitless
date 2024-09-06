@@ -1,8 +1,8 @@
 <template>
-  <form class="h-10 w-64 pl-12 lg:-mt-14 grid font-sans" @submit.prevent="attemptSearch()">
+  <form class="pl-12 lg:-mt-14 grid font-sans cursor-pointer" @submit.prevent="attemptSearch()">
     <InputField
-      class="col-start-1 row-start-1"
-      inputClass="pl-6 h-12 w-72 bg-zinc-900/50 rounded-full"
+      class="col-start-1 row-start-1 z-20"
+      inputClass="pl-6 h-12 w-72 bg-zinc-900/50 rounded-full cursor-pointer"
       v-model:value="form.query.value"
       :errors="form.query.errors"
       @blur="form.query.validate()"
