@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "profile",
         )
-        read_only_fields = ["profile"]
+        read_only_fields = ["profile", "email"]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
