@@ -46,8 +46,8 @@ def print(request):
     project = Project.objects.get(pk=request.data["pk"])
     printer = Printer.objects.get(pk=request.data["printer"])
     settings = CuraSettings()
-    settings.enable_support = project.enable_support
-    settings.infill_sparse_density = project.infill_sparse_density
+    settings.enable_support = project.settings.enable_support
+    settings.infill_sparse_density = project.settings.infill_sparse_density
     settings.support_structure = SupportStructure(request.data["support_structure"])
     settings.support_type = SupportType(request.data["support_type"])
     settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
