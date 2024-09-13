@@ -382,3 +382,7 @@ SWAGGER_SETTINGS = {
 SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,  # Needed for file upload to work
 }
+
+
+# This is a very intense library that causes timeouts when run and requires a bigger server
+USE_TWEAKER = config("USE_TWEAKER", cast=bool, default=False)
