@@ -5,13 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
 
-from limitless.cura.models import CuraSettings
-from limitless.cura.settings import (
-    AdhesionType,
-    SupportStructure,
-    SupportType,
-    cura_settings_str,
-)
+from limitless.cura.settings import cura_settings_str
 from limitless.cura.tasks import slice_model
 
 from .models import Printer, Project, ProjectFile, UserProfile
