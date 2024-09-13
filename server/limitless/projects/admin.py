@@ -65,7 +65,7 @@ class ProjectAdmin(admin.ModelAdmin):
             # For now just grab the first model file we find
             stl_file = obj.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
             printer = Printer.objects.get(pk=request.POST["printer"])
-            file_path = slice_model(stl_file, printer.slug, cura_settings_str(obj))
+            file_path = slice_model(stl_file, printer.slug, cura_settings_str(obj.settings))
             logger.info(f"Returning file: {file_path.name}")
             file_data = {}
             with open(file_path, "rb") as f:
