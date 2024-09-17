@@ -1,53 +1,74 @@
 <template>
-  <nav class="fixed top-0 z-10 w-full bg-white shadow">
+  <div class="top-0 z-10 shadow sm:pt-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 justify-between">
-        <div class="flex">
-          <router-link :to="{ name: 'Home' }" class="flex flex-shrink-0 items-center">
-            <img class="h-4" src="@/assets/icons/logo.svg" alt="ThinkNimble"
-          /></router-link>
-          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <router-link :to="{ name: 'Home' }" class="router" active-class="active"
-              >Home</router-link
-            >
-            <router-link
-              active-class="active"
-              v-if="isLoggedIn"
-              :to="{ name: 'Dashboard' }"
-              class="router"
-              >Dashboard</router-link
-            >
-          </div>
+      <div class="flex flex-row justify-end sm:justify-between h-16">
+        <div class="content-center hidden sm:inline-block">
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="leftNavOpen"
+            src="@/assets/icons/chevron_left.png"
+            alt="Hide Navigation"
+            @click="toggleLeftNav"
+          />
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="!leftNavOpen"
+            src="@/assets/icons/chevron_right.png"
+            alt="Open Navigation"
+            @click="toggleLeftNav"
+          />
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
-            <router-link :to="{ name: 'Login' }" class="btn--primary bg-primary" data-cy="login"
+            <router-link :to="{ name: 'Login' }" class="btn--primary bg-zinc-900" data-cy="login"
               >Login</router-link
             >
             <router-link :to="{ name: 'Signup' }" class="btn--secondary ml-6">Signup</router-link>
           </template>
           <!-- Profile dropdown -->
           <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
-            <img
+            <div
               @click="profileMenuOpen = !profileMenuOpen"
-              class="h-8 w-8 cursor-pointer rounded-full"
-              src="@/assets/icons/profile-circle.svg"
-              alt="Profile"
-            />
-
+              class="cursor-pointer h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+            >
+              <div class="w-5 h-5 relative">
+                <img
+                  class="h-6 w-6 rounded-full"
+                  src="@/assets/icons/profile-circle.svg"
+                  alt="Profile"
+                />
+              </div>
+            </div>
             <div
               v-if="profileMenuOpen"
-              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div class="block cursor-pointer px-4 py-2 text-sm text-gray-700" @click="logout()">
+              <div class="block cursor-pointer px-4 py-2 text-sm text-primary" @click="logout()">
                 Log Out
               </div>
             </div>
           </div>
+          <!-- Settings -->
+          <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
+            <router-link :to="{ name: 'Settings' }">
+              <div
+                class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
+              >
+                <div class="w-5 h-5 relative">
+                  <img
+                    class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
+                    src="@/assets/icons/gear.svg"
+                  />
+                </div>
+              </div>
+            </router-link>
+          </div>
         </div>
-        <div class="-mr-2 flex items-center sm:hidden">
+        <div class="flex items-center sm:hidden">
           <!-- Mobile menu button -->
-          <div class="rounded-md p-2 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
+          <div
+            class="rounded-md p-2 bg-zinc-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none"
+          >
             <img
               class="block h-6 w-6 cursor-pointer"
               v-if="!mobileMenuOpen"
@@ -67,7 +88,7 @@
       </div>
     </div>
 
-    <div class="sm:hidden" v-if="mobileMenuOpen">
+    <div class="sm:hidden font-sans bg-gray-500/10" v-if="mobileMenuOpen">
       <div class="space-y-1 pb-3 pt-2">
         <router-link
           :to="{ name: 'Home' }"
@@ -77,33 +98,32 @@
         >
           Home
         </router-link>
-        <router-link
-          v-if="isLoggedIn"
-          :to="{ name: 'Dashboard' }"
-          @click="mobileMenuOpen = false"
-          active-class="active--mobile"
-          class="mobile-link--main"
-        >
-          Dashboard
-        </router-link>
       </div>
       <div class="border-t border-gray-200 pb-3 pt-4">
-        <div class="flex items-center px-4" v-if="isLoggedIn">
-          <div class="flex-shrink-0">
-            <img
-              class="h-10 w-10 rounded-full"
-              src="@/assets/icons/profile-circle.svg"
-              alt="Profile"
-            />
+        <div class="flex justify-center px-4" v-if="isLoggedIn">
+          <div class="h-13 p-4 bg-neutral-700 rounded-full gap-2.5 inline-flex">
+            <div class="w-5 h-5 relative">
+              <img
+                class="h-6 w-6 rounded-full"
+                src="@/assets/icons/profile-circle.svg"
+                alt="Profile"
+              />
+            </div>
           </div>
           <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">
-              {{ user.firstName }} {{ user.lastName }}
-            </div>
-            <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
+            <div class="text-base font-medium">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="text-sm font-medium">{{ user.email }}</div>
           </div>
         </div>
-        <div class="mt-3 space-y-1">
+        <div class="mt-3 space-y-1" v-if="isLoggedIn">
+          <router-link
+            :to="{ name: 'Settings' }"
+            @click="mobileMenuOpen = false"
+            active-class="active--mobile"
+            class="mobile-link"
+          >
+            Settings
+          </router-link>
           <template v-if="!isLoggedIn">
             <router-link
               @click="mobileMenuOpen = false"
@@ -127,7 +147,7 @@
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -138,9 +158,11 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
-  setup() {
+  emits: ['toggleLeftNav'],
+  setup(props, context) {
     const store = useStore()
     const router = useRouter()
+    let leftNavOpen = ref(true)
     let mobileMenuOpen = ref(false)
     let profileMenuOpen = ref(false)
 
@@ -155,12 +177,19 @@ export default {
       } finally {
         profileMenuOpen.value = false
         mobileMenuOpen.value = false
-        store.dispatch('setUser', null)
-        router.push({ name: 'Home' })
+        store.dispatch('logoutUser')
+        router.push({ name: 'Login' })
       }
     }
 
+    function toggleLeftNav() {
+      context.emit('toggleLeftNav')
+      leftNavOpen.value = !leftNavOpen.value
+    }
+
     return {
+      toggleLeftNav,
+      leftNavOpen,
       logout,
       isLoggedIn: computed(() => store.getters.isLoggedIn),
       user: computed(() => store.getters.user),

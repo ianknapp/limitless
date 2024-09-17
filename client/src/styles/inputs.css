@@ -1,7 +1,7 @@
 /* Inputs */
 
 .input {
-  @apply mb-2 border rounded p-2 text-gray-700 leading-tight w-full;
+  @apply mb-2 rounded-xl pl-8 p-2 text-primary bg-zinc-900 h-14 font-thin leading-tight w-full;
 }
 
 .input--label {

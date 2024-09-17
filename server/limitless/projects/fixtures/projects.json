@@ -1,0 +1,80 @@
+[
+    {
+        "model": "projects.project",
+        "pk": "02f6c2e3-ea34-4dde-98e3-27c0ef44cd78",
+        "fields": {
+            "created": "2024-07-24T18:29:14.747Z",
+            "last_edited": "2024-08-30T14:06:11.052Z",
+            "owner": "bae644e3-1433-4f7a-bc28-80eb61cdf436",
+            "settings": "bbf99029-f7ec-4921-a07d-dac440787f23",
+            "title": "William Test",
+            "description": "Testing Cura Slicing\r\n\r\nModel printed\r\nWas too small\r\nz-index through the floor",
+            "hidden": false
+        }
+    },
+    {
+        "model": "projects.project",
+        "pk": "271bc0c1-aad5-4da6-9c72-aefa7a9e94f7",
+        "fields": {
+            "created": "2024-08-01T15:49:51.440Z",
+            "last_edited": "2024-08-30T14:06:11.064Z",
+            "owner": "16579130-7a2c-4cfe-9d15-e32d8dd66232",
+            "settings": "edb720e1-9bac-4254-8103-e43779fe2890",
+            "title": "Another Project",
+            "description": "",
+            "hidden": false
+        }
+    },
+    {
+        "model": "projects.project",
+        "pk": "3470cee8-c2bd-4d2d-93fb-84949c4a282e",
+        "fields": {
+            "created": "2024-07-24T20:18:15.938Z",
+            "last_edited": "2024-08-30T14:06:11.073Z",
+            "owner": "29c17036-a0a7-426f-b9ef-2a02c4c6372c",
+            "settings": "53cbd5f2-6901-4593-9a68-d01257e39ec0",
+            "title": "Benchy Test",
+            "description": "Successful slice \r\n\r\nG-code viewer looks correct",
+            "hidden": false
+        }
+    },
+    {
+        "model": "projects.project",
+        "pk": "4ace9ad4-5317-4340-919c-f505eac43d08",
+        "fields": {
+            "created": "2024-08-08T22:05:16.479Z",
+            "last_edited": "2024-08-30T14:06:11.060Z",
+            "owner": "16579130-7a2c-4cfe-9d15-e32d8dd66232",
+            "settings": "71fdbe30-0efc-4689-92fa-4b84c948931a",
+            "title": "Nimbly",
+            "description": "ThinkNimble's unofficial Mascot\r\n\r\nLegend has it he once ate a traffic cone in one bite",
+            "hidden": false
+        }
+    },
+    {
+        "model": "projects.project",
+        "pk": "5f83cb4f-2714-4ac4-872d-cf84f8ed833a",
+        "fields": {
+            "created": "2024-07-28T19:00:41.032Z",
+            "last_edited": "2024-08-30T14:06:11.070Z",
+            "owner": "29c17036-a0a7-426f-b9ef-2a02c4c6372c",
+            "settings": "922d4ce3-14a2-4554-8b4e-6f28e6d3fb97",
+            "title": "Spiral Cone",
+            "description": "",
+            "hidden": false
+        }
+    },
+    {
+        "model": "projects.project",
+        "pk": "6939c388-2e60-4a05-90e8-b3749b749ba8",
+        "fields": {
+            "created": "2024-07-31T00:42:56.764Z",
+            "last_edited": "2024-08-30T14:06:11.067Z",
+            "owner": "29c17036-a0a7-426f-b9ef-2a02c4c6372c",
+            "settings": "567f2992-8a92-43f7-a075-465f98adfe52",
+            "title": "Spinner Cube",
+            "description": "Spinner cube stl test",
+            "hidden": false
+        }
+    }
+]

@@ -18,7 +18,7 @@
       @input="$emit('input', $event)"
       @blur="$emit('blur')"
       @focus="$emit('focus', $event)"
-      class="input"
+      :class="`${inputClass} input`"
       :autocomplete="autocomplete"
     />
     <ul v-if="errors.length">
@@ -51,6 +51,9 @@ export default {
     placeholder: {
       type: String,
       default: 'Placeholder...',
+    },
+    inputClass: {
+      type: String,
     },
     value: {
       type: String,

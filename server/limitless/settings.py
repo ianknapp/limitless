@@ -38,12 +38,17 @@ ALLOWED_HOSTS += config("ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.sp
 if CURRENT_DOMAIN not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(CURRENT_DOMAIN)
 
+# Used by the corsheaders app/middleware (django-cors-headers) to allow multiple domains to access the backend
+CORS_ALLOWED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
+
 # Application definition
 
 INSTALLED_APPS = [
     # Local
     "limitless.common",
     "limitless.core",
+    "limitless.cura",
+    "limitless.projects",
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -225,6 +230,9 @@ else:
 # STORAGES
 # ----------------------------------------------------------------------------
 
+# Sends files directly to S3 to help with large files and avoiding timeouts
+ENABLE_LARGE_FILE_STORAGE = config("ENABLE_LARGE_FILE_STORAGE", cast=bool, default=False)
+
 PRIVATE_MEDIAFILES_LOCATION = ""
 # Django Storages configuration
 if config("USE_AWS_STORAGE", cast=bool, default=False):
@@ -239,10 +247,15 @@ if config("USE_AWS_STORAGE", cast=bool, default=False):
     # Default file storage is private
     PRIVATE_MEDIAFILES_LOCATION = f"{AWS_LOCATION}/media"
     DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateMediaStorage"
-    # STATICFILES_STORAGE = "limitless.utils.storages.StaticRootS3Boto3Storage"
     COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
-    # STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
+    if ENABLE_LARGE_FILE_STORAGE:
+        INSTALLED_APPS.append("s3file")
+        MIDDLEWARE.append("s3file.middleware.S3FileMiddleware")
+        DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
+        AWS_LOCATION = PRIVATE_MEDIAFILES_LOCATION
+
 
 #
 # STATIC
@@ -271,7 +284,6 @@ MANAGERS = ADMINS
 if not IN_DEV:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    MIDDLEWARE += ["django.middleware.security.SecurityMiddleware"]
 
 #
 # Custom logging configuration
@@ -355,8 +367,6 @@ if IN_PROD or ROLLBAR_ACCESS_TOKEN:
 # Popular testing framework that allows logging to stdout while running unit tests
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
-CORS_ALLOWED_ORIGINS = ["https://limitless-staging.herokuapp.com", "https://limitless.herokuapp.com"]
-CORS_ALLOWED_ORIGINS.append("http://localhost:8080")
 SWAGGER_SETTINGS = {
     "LOGIN_URL": "/login",
     "USE_SESSION_AUTH": False,
@@ -368,3 +378,11 @@ SWAGGER_SETTINGS = {
     "SHOW_REQUEST_HEADERS": True,
     "OPERATIONS_SORTER": "alpha",
 }
+
+SPECTACULAR_SETTINGS = {
+    "COMPONENT_SPLIT_REQUEST": True,  # Needed for file upload to work
+}
+
+
+# This is a very intense library that causes timeouts when run and requires a bigger server
+USE_TWEAKER = config("USE_TWEAKER", cast=bool, default=False)

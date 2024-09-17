@@ -5,15 +5,10 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 # Install system-level dependencies.
-RUN apt-get update \
-    # dependencies for building Python packages
-    && apt-get install -y build-essential \
-    && apt-get install -y gcc \
-    # psycopg2 dependencies
-    && apt-get install -y libpq-dev \
-    # Pillow dependencies
-    && apt-get install -y libjpeg-dev zlib1g-dev \
-    && apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y \ 
+    build-essential gcc libpq-dev libjpeg-dev zlib1g-dev python3-pip cura
+
+ENV CURA_ENGINE_SEARCH_PATH=/usr/share/cura/resources/definitions
 
 # Set the name of the working directory inside the docker container
 WORKDIR /app

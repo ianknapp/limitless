@@ -24,7 +24,7 @@ export function requireAuth(to, from, next) {
 export function requireNoAuth(to, from, next) {
   if (store.getters.isLoggedIn) {
     next({
-      name: 'Dashboard',
+      name: 'Home',
     })
   } else {
     next()

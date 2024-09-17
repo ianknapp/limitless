@@ -50,7 +50,7 @@ export function useUsers() {
       if (redirectPath) {
         router.push({ path: redirectPath as string })
       } else {
-        router.push({ name: 'Dashboard' })
+        router.push({ name: 'Home' })
       }
       qc.invalidateQueries({ queryKey: ['user'] })
     },
@@ -82,7 +82,7 @@ export function useUsers() {
     onSuccess: (data: UserShape) => {
       loading.value = false
       store.dispatch('setUser', data)
-      router.push({ name: 'Dashboard' })
+      router.push({ name: 'Home' })
       qc.invalidateQueries({ queryKey: ['user'] })
     },
   })
@@ -98,7 +98,7 @@ export function useUsers() {
     },
     onSuccess: (data: UserShape) => {
       store.dispatch('setUser', data)
-      router.push({ name: 'Dashboard' })
+      router.push({ name: 'Home' })
       qc.invalidateQueries({ queryKey: ['user'] })
       loading.value = false
     },

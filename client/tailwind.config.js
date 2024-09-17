@@ -4,15 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#042642',
+        primary: '#FFFFFF',
         primaryLight: '#183A56',
-        accent: '#d93a00',
+        purple: '#7237E5',
+        accent: '#7237E5',
         success: '#4faf64',
         warning: '#f4b942',
         error: '#d72638',
       },
       fontFamily: {
-        avenir: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['source-serif-pro', 'serif'],
+        sans: ['Poppins', 'sans-serif']
       },
     },
     container: {
