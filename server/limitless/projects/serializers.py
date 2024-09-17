@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from .models import Printer, Project, ProjectFile
+from limitless.cura.serializers import CuraSettingsSerializer
+
+from .models import Printer, Project, ProjectFile, UserProfile
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -18,6 +20,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ProjectDetailsSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     model = serializers.SerializerMethodField()
+    settings = CuraSettingsSerializer(required=False)
 
     def get_image(self, obj):
         image = obj.files.filter(file_type=ProjectFile.TypeChoices.IMAGE, primary=False).first()
@@ -29,7 +32,8 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ("id", "title", "description", "image", "model")
+        fields = ("id", "title", "description", "image", "model", "settings")
+        read_only = ["settings"]
 
 
 class PrinterSerializer(serializers.ModelSerializer):
@@ -39,3 +43,9 @@ class PrinterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Printer
         fields = ("label", "value")
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ("minimize_supports", "printer")

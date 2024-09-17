@@ -7,6 +7,7 @@ import {
   SET_ADHESION_TYPES,
   SET_PRINTERS,
   SET_PROJECTS,
+  SET_TOKEN,
 } from './mutation-types'
 
 const STORAGE_HASH = 'vlmEcQtqIS'
@@ -19,6 +20,7 @@ const state = {
   supportTypes: [],
   adhesionTypes: [],
   projects: [],
+  token: null,
 }
 
 const mutations = {
@@ -40,11 +42,18 @@ const mutations = {
   [SET_PROJECTS]: (state, payload) => {
     state.projects = payload
   },
+  [SET_TOKEN]: (state, payload) => {
+    state.token = payload
+  },
 }
 
 const actions = {
   setUser({ commit }, user) {
-    commit(SET_USER, user)
+    const { token, ...userData } = user
+    commit(SET_USER, userData)
+    if (token) {
+      commit(SET_TOKEN, token)
+    }
   },
   setSupportStructures({ commit }, supportStructures) {
     commit(SET_SUPPORT_STRUCTURES, supportStructures)
@@ -71,7 +80,7 @@ const getters = {
     return state.user
   },
   token: (state) => {
-    return state.user ? state.user.token : null
+    return state.token
   },
   supportStructures: (state) => {
     return state.supportStructures

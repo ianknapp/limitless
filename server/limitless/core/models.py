@@ -6,7 +6,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.db import models
 
 from limitless.common.models import AbstractBaseModel
-from limitless.cura.models import AbstractCuraSettingsModel
 from limitless.utils.sites import get_site_url
 
 logger = logging.getLogger(__name__)
@@ -48,7 +47,7 @@ class UserManager(BaseUserManager):
         ordering = ("id",)
 
 
-class User(AbstractUser, AbstractBaseModel, AbstractCuraSettingsModel):
+class User(AbstractUser, AbstractBaseModel):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     username = None

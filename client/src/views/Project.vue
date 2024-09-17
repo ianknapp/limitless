@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, h } from 'vue'
+import { computed, ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
@@ -114,6 +114,9 @@ export default {
     const cameraPosition = ref()
     const scale = ref()
     const minimizeSupports = ref(false)
+    const user = computed(() => {
+      return store.getters.user
+    })
 
     const getProjectData = async () => {
       project.value = await projectApi.retrieve(route.params.id)
@@ -134,13 +137,20 @@ export default {
     onBeforeMount(async () => {
       await getProjectData()
       adhesionChoices.value = store.getters.adhesionTypes
-      adhesion.value = adhesionChoices.value[0]
+      adhesion.value = adhesionChoices.value.find(
+        (el) => el.value === project.value.settings?.adhesionType,
+      )
       supportStructureChoices.value = store.getters.supportStructures
-      supportStructure.value = supportStructureChoices.value[0]
+      supportStructure.value = supportStructureChoices.value.find(
+        (el) => el.value === project.value.settings?.supportStructure,
+      )
       supportTypeChoices.value = store.getters.supportTypes
-      supportType.value = supportTypeChoices.value[0]
+      supportType.value = supportTypeChoices.value.find(
+        (el) => el.value === project.value.settings?.supportType,
+      )
       printerChoices.value = store.getters.printers
-      printer.value = printerChoices.value[0]
+      printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
+      minimizeSupports.value = user.value.profile.minimize_supports
       rotation.value = {
         x: Math.PI / 2,
         y: Math.PI,
