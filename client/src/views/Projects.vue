@@ -63,7 +63,7 @@ export default {
 
     const getProjects = async () => {
       await projects.value.refresh().catch((error) => {
-        alert(error)
+        console.log('getProjects: ', error)
       })
       triggerRef(projects)
       store.dispatch('setProjects', projects.value.list)
