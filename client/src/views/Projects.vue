@@ -32,6 +32,7 @@
 
 <script>
 import { ref, computed, onBeforeMount, triggerRef } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
@@ -47,6 +48,7 @@ export default {
   },
   setup() {
     const store = useStore()
+    const router = useRouter()
     const { projectCollection, projectFilters } = projectFunctions()
     const projects = ref(projectCollection)
     const form = ref(new SearchForm())
@@ -63,7 +65,12 @@ export default {
 
     const getProjects = async () => {
       await projects.value.refresh().catch((error) => {
-        alert(error)
+        console.log('getProjects: ', error)
+        if (error.response && error.response.status === 401) {
+          // User session expired
+          store.dispatch('logoutUser')
+          router.push({ name: 'Login' })
+        }
       })
       triggerRef(projects)
       store.dispatch('setProjects', projects.value.list)

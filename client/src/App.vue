@@ -56,6 +56,11 @@ export default {
       store.dispatch('setPrinters', response.printers)
     }
     function handleFailure(error) {
+      if (error.response && error.response.status === 401) {
+        // User session expired
+        store.dispatch('logoutUser')
+        router.push({ name: 'Login' })
+      }
       console.log(error)
     }
 
