@@ -64,6 +64,11 @@ export default {
     const getProjects = async () => {
       await projects.value.refresh().catch((error) => {
         console.log('getProjects: ', error)
+        if (error.response && error.response.status === 401) {
+          // User session expired
+          store.dispatch('logoutUser')
+          router.push({ name: 'Login' })
+        }
       })
       triggerRef(projects)
       store.dispatch('setProjects', projects.value.list)
