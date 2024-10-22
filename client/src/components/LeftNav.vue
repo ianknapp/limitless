@@ -61,7 +61,7 @@ export default {
     let profileMenuOpen = ref(false)
 
     const getProjects = async () => {
-      projectFilters.recentlyViewed = true
+      projectFilters.recentlyViewed = 'true'
       await projects.value.refresh()
       triggerRef(projects)
       store.dispatch('setProjects', projects.value.list)
