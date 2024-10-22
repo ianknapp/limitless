@@ -14,6 +14,10 @@
           <img class="pr-4" src="@/assets/icons/home.png" alt="Home" />
           Home
         </router-link>
+        <div class="flex flex-col gap-4 justify-start pt-16 font-semibold w-72">
+          <div class="font-sans text-left">Recently Viewed</div>
+          <ProjectMiniCard v-for="project in projects.list" :project="project" :key="project.id" />
+        </div>
       </div>
     </div>
   </div>
@@ -29,13 +33,18 @@
 </template>
 
 <script>
-import { userApi } from '@/services/users'
-import { computed, ref } from 'vue'
-
+import { computed, ref, onBeforeMount, triggerRef } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import ProjectMiniCard from '@/components/ProjectMiniCard.vue'
+import { projectFunctions } from '@/services/projects'
+import { userApi } from '@/services/users'
 
 export default {
+  name: 'LeftNav',
+  components: {
+    ProjectMiniCard,
+  },
   props: {
     expandLeftNav: {
       type: Boolean,
@@ -46,9 +55,17 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const { projectCollection, projectFilters } = projectFunctions()
+    const projects = ref(projectCollection)
     let mobileMenuOpen = ref(false)
     let profileMenuOpen = ref(false)
 
+    const getProjects = async () => {
+      projectFilters.recentlyViewed = 'true'
+      await projects.value.refresh()
+      triggerRef(projects)
+      store.dispatch('setProjects', projects.value.list)
+    }
     async function logout() {
       try {
         await userApi.csc.logout()
@@ -64,6 +81,9 @@ export default {
         router.push({ name: 'Home' })
       }
     }
+    onBeforeMount(async () => {
+      await getProjects()
+    })
 
     return {
       logout,
@@ -71,6 +91,7 @@ export default {
       user: computed(() => store.getters.user),
       mobileMenuOpen,
       profileMenuOpen,
+      projects,
     }
   },
 }

@@ -21,7 +21,7 @@ class ProjectFileInlineAdmin(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     change_form_template = "admin/build_project_form.html"
-    list_display = ("title", "owner", "num_files", "cura_settings", "hidden", "created")
+    list_display = ("title", "owner", "num_files", "cura_settings", "hidden", "recently_viewed", "created")
     list_filter = ("hidden",)
     readonly_fields = ["cura_settings"]
     inlines = [ProjectFileInlineAdmin]
@@ -35,6 +35,7 @@ class ProjectAdmin(admin.ModelAdmin):
                     "owner",
                     "cura_settings",
                     "hidden",
+                    "recently_viewed",
                 )
             },
         ),
