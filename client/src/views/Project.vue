@@ -78,6 +78,7 @@
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
       </div>
+      <Advertisement v-if="showAd" />
     </div>
   </div>
 </template>
@@ -89,10 +90,12 @@ import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { vue3dLoader } from 'vue-3d-loader'
 import { PrintForm, projectApi } from '@/services/projects'
+import Advertisement from '@/components/Advertisement.vue'
 
 export default {
   name: 'Project',
   components: {
+    Advertisement,
     vSelect,
     vue3dLoader,
   },
@@ -114,6 +117,7 @@ export default {
     const cameraPosition = ref()
     const scale = ref()
     const minimizeSupports = ref(false)
+    const showAd = ref(false)
     const user = computed(() => {
       return store.getters.user
     })
@@ -165,6 +169,7 @@ export default {
     })
 
     function print() {
+      showAd.value = true
       projectApi.csc
         .print({
           pk: route.params.id,
@@ -184,6 +189,7 @@ export default {
       let d = new Date()
       const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
       link.download = fileElements.join('_') + '.gcode'
+      showAd.value = false
       link.click()
     }
     function handleFailure(error) {
@@ -207,6 +213,7 @@ export default {
       cameraPosition,
       scale,
       minimizeSupports,
+      showAd,
     }
   },
 }
