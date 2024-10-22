@@ -78,7 +78,7 @@
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
       </div>
-      <Advertisement v-if="showAd" />
+      <Advertisement v-if="showAd" @close-modal="closeModal" />
     </div>
   </div>
 </template>
@@ -117,7 +117,8 @@ export default {
     const cameraPosition = ref()
     const scale = ref()
     const minimizeSupports = ref(false)
-    const showAd = ref(false)
+    let showAd = ref(false)
+    const link = ref()
     const user = computed(() => {
       return store.getters.user
     })
@@ -130,6 +131,37 @@ export default {
         .split(' ')
         .map((word) => word.toLowerCase())
         .join('_')
+    }
+
+    function closeModal() {
+      showAd.value = false
+      link.value.click()
+    }
+
+    function print() {
+      showAd.value = true
+      projectApi.csc
+        .print({
+          pk: route.params.id,
+          printer: printer.value.value,
+          supportStructure: supportStructure.value.value,
+          supportType: supportType.value.value,
+          adhesionType: adhesion.value.value,
+          minimizeSupports: minimizeSupports.value,
+        })
+        .then(handleGcodeSuccess)
+        .catch(handleFailure)
+    }
+    function handleGcodeSuccess(response) {
+      const title = project.value.title
+      link.value = document.createElement('a')
+      link.value.href = URL.createObjectURL(new Blob([response], { type: 'application/gcode' }))
+      let d = new Date()
+      const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
+      link.value.download = fileElements.join('_') + '.gcode'
+    }
+    function handleFailure(error) {
+      console.log(error)
     }
 
     vSelect.props.components.default = () => ({
@@ -168,37 +200,10 @@ export default {
       scale.value = { x: 1.5, y: 1.5, z: 1.5 }
     })
 
-    function print() {
-      showAd.value = true
-      projectApi.csc
-        .print({
-          pk: route.params.id,
-          printer: printer.value.value,
-          supportStructure: supportStructure.value.value,
-          supportType: supportType.value.value,
-          adhesionType: adhesion.value.value,
-          minimizeSupports: minimizeSupports.value,
-        })
-        .then(handleGcodeSuccess)
-        .catch(handleFailure)
-    }
-    function handleGcodeSuccess(response) {
-      const title = project.value.title
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(new Blob([response], { type: 'application/gcode' }))
-      let d = new Date()
-      const fileElements = [snakeCase(title), d.getMonth() + 1, d.getDate(), d.getFullYear()]
-      link.download = fileElements.join('_') + '.gcode'
-      showAd.value = false
-      link.click()
-    }
-    function handleFailure(error) {
-      console.log(error)
-    }
-
     return {
       adhesion,
       adhesionChoices,
+      closeModal,
       supportStructureChoices,
       supportStructure,
       supportTypeChoices,
