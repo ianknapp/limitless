@@ -21,6 +21,6 @@ export const printShape = {
 }
 
 export const projectFiltersShape = {
-  search: z.string().optional(),
-  recentlyViewed: z.boolean().optional(),
+  search: z.string(),
+  recentlyViewed: z.string(),
 }
