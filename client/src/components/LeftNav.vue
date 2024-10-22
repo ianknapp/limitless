@@ -37,7 +37,7 @@ import { computed, ref, onBeforeMount, triggerRef } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import ProjectMiniCard from '@/components/ProjectMiniCard.vue'
-import { projectFunctions, SearchForm } from '@/services/projects'
+import { projectFunctions } from '@/services/projects'
 import { userApi } from '@/services/users'
 
 export default {
