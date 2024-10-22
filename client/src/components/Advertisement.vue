@@ -1,6 +1,10 @@
 <template>
-  <div class="z-20 w-full fixed left-0 top-0 h-full backdrop-blur-sm p-4 flex items-center justify-center">
-    <div class="bg-primaryLight rounded p-5 w-full h-full md:h-fit md:w-1/2 max-h-full flex flex-col items-center justify-evenly md:justify-between">
+  <div
+    class="z-20 w-full fixed left-0 top-0 h-full backdrop-blur-sm p-4 flex items-center justify-center"
+  >
+    <div
+      class="bg-primaryLight rounded p-5 w-full h-full md:h-fit md:w-1/2 max-h-full flex flex-col items-center justify-evenly md:justify-between"
+    >
       <img
         src="@/assets/icons/x-mark.svg"
         alt="Close"
@@ -14,12 +18,7 @@
         <slot></slot>
       </main>
       <footer class="flex gap-2 py-2">
-
-        <button
-          :disabled="loading"
-          @click="submit"
-          class="btn--primary bg-zinc-900"
-        >
+        <button :disabled="loading" @click="submit" class="btn--primary bg-zinc-900">
           Finish Advertisement
         </button>
       </footer>
