@@ -12,6 +12,8 @@ class Project(AbstractBaseModel):
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     hidden = models.BooleanField(default=True)
+    # Dummy flag to fake the recently viewed feature in the app
+    recently_viewed = models.BooleanField(default=False)
 
     def delete(self):
         if self.settings:

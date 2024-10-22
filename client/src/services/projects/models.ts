@@ -8,6 +8,7 @@ export const projectShape = {
   primaryImage: z.string().optional(),
   secondaryImage: z.string().optional(),
   model: z.string().optional(),
+  recentlyViewed: z.boolean().optional(),
 }
 
 export const printShape = {
@@ -20,5 +21,6 @@ export const printShape = {
 }
 
 export const projectFiltersShape = {
-  search: z.string(),
+  search: z.string().optional(),
+  recentlyViewed: z.boolean().optional(),
 }

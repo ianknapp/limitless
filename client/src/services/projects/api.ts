@@ -29,6 +29,7 @@ export const projectFunctions = () => {
   const projectFilters = {
     ordering: '-title',
     search: '',
+    recentlyViewed: false,
   }
 
   const projectCollection = createCollectionManager({

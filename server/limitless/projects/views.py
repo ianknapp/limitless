@@ -28,8 +28,10 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 
     def filter_queryset(self, queryset):
         search_query = self.request.query_params.get("search", "")
-        logger.info(f"filtering for: {search_query=}")
+        recently_viewed = self.request.query_params.get("recently_viewed")
 
+        if recently_viewed:
+            queryset = queryset.filter(recently_viewed=True)
         if search_query:
             search_query = search_query.strip()
             queryset = queryset.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
