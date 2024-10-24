@@ -33,35 +33,27 @@
             >
               <div class="w-5 h-5 relative">
                 <img
-                  class="h-6 w-6 rounded-full"
-                  src="@/assets/icons/profile-circle.svg"
+                  class="h-5 w-4 left-[1.97px] top-[0.87px] absolute"
+                  src="@/assets/icons/gear.svg"
                   alt="Profile"
                 />
               </div>
             </div>
             <div
               v-if="profileMenuOpen"
-              class="absolute right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              class="absolute font-sans right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div class="block cursor-pointer px-4 py-2 text-sm text-primary" @click="logout()">
+              <router-link :to="{ name: 'Settings' }">
+                <div class="py-2 hover:bg-zinc-600/30">My Profile</div>
+              </router-link>
+              <hr class="w-1/2 bg-purple dark:bg-purple my-2 h-1 mt-1 rounded border-0 mx-auto" />
+              <div
+                class="block cursor-pointer px-4 py-2 text-sm textprimary hover:bg-zinc-600/30"
+                @click="logout()"
+              >
                 Log Out
               </div>
             </div>
-          </div>
-          <!-- Settings -->
-          <div class="relative ml-3 focus:ring-2" v-if="isLoggedIn">
-            <router-link :to="{ name: 'Settings' }">
-              <div
-                class="h-13 p-4 bg-neutral-700 rounded-full justify-start items-center gap-2.5 inline-flex"
-              >
-                <div class="w-5 h-5 relative">
-                  <img
-                    class="w-4 h-5 left-[1.97px] top-[0.87px] absolute"
-                    src="@/assets/icons/gear.svg"
-                  />
-                </div>
-              </div>
-            </router-link>
           </div>
         </div>
         <div class="flex items-center sm:hidden">

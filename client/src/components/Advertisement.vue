@@ -18,7 +18,7 @@
         <slot></slot>
       </main>
       <footer class="flex gap-2 py-2">
-        <button :disabled="loading" @click="submit" class="btn--primary bg-zinc-900">
+        <button :disabled="loading" @click="submit" class="btn--primary bg-zinc-900 px-12 pt-3">
           Finish Advertisement
         </button>
       </footer>
