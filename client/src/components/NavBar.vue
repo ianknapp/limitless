@@ -43,11 +43,14 @@
               v-if="profileMenuOpen"
               class="absolute font-sans right-0 z-10 mt-2 w-48 rounded-md bg-zinc-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
-              <div class="pt-2">
-                <router-link :to="{ name: 'Settings' }"> My Profile </router-link>
-              </div>
-              <hr class="w-1/2 bg-purple dark:bg-purple my-2 h-1 mt-3 rounded border-0 mx-auto" />
-              <div class="block cursor-pointer px-4 py-2 text-sm textprimary" @click="logout()">
+              <router-link :to="{ name: 'Settings' }">
+                <div class="py-2 hover:bg-zinc-600/30">My Profile</div>
+              </router-link>
+              <hr class="w-1/2 bg-purple dark:bg-purple my-2 h-1 mt-1 rounded border-0 mx-auto" />
+              <div
+                class="block cursor-pointer px-4 py-2 text-sm textprimary hover:bg-zinc-600/30"
+                @click="logout()"
+              >
                 Log Out
               </div>
             </div>
