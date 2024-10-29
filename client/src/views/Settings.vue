@@ -14,6 +14,16 @@
           ></v-select>
         </span>
         <span>
+          <label class="mx-2 font-sans capitalize">Your Default Filament</label>
+          <v-select
+            class="w-96"
+            :options="filamentChoices"
+            v-model="filament"
+            label="label"
+            placeholder="select your default..."
+          ></v-select>
+        </span>
+        <span>
           <input
             class="rounded-full checked:accent-amber-600"
             :id="minimizeSupports"
@@ -45,6 +55,8 @@ export default {
   },
   setup() {
     const store = useStore()
+    const filamentChoices = ref([])
+    const filament = ref()
     const printerChoices = ref([])
     const printer = ref()
     const minimizeSupports = ref(false)
@@ -59,14 +71,17 @@ export default {
     })
 
     onBeforeMount(async () => {
-      printerChoices.value = store.getters.printers
       minimizeSupports.value = user.value.profile.minimize_supports
+      filamentChoices.value = store.getters.filaments
+      filament.value = filamentChoices.value.find((el) => el.value === user.value.profile.filament)
+      printerChoices.value = store.getters.printers
       printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
     })
 
     function save() {
       userApi.csc
         .saveSettings({
+          filament: filament.value?.value,
           printer: printer.value?.value,
           minimizeSupports: minimizeSupports.value,
         })
@@ -82,6 +97,8 @@ export default {
     }
 
     return {
+      filament,
+      filamentChoices,
       printer,
       printerChoices,
       minimizeSupports,

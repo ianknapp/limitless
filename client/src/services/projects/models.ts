@@ -16,6 +16,7 @@ export const printShape = {
   supportStructure: z.string(),
   supportType: z.string(),
   adhesionType: z.string(),
+  filament: z.string(),
   printer: z.string(),
   minimizeSupports: z.boolean().optional(),
 }

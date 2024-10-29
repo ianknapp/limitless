@@ -70,9 +70,22 @@ class Printer(AbstractBaseModel):
         ordering = ["name"]
 
 
+class Filament(AbstractBaseModel):
+    name = models.CharField(max_length=255)
+    config = models.TextField(blank=True, null=True)
+    hidden = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["name"]
+
+
 class UserProfile(AbstractBaseModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
     minimize_supports = models.BooleanField(default=False)
+    filament = models.ForeignKey(Filament, on_delete=models.SET_NULL, null=True, related_name="user_profiles")
     printer = models.ForeignKey(Printer, on_delete=models.SET_NULL, null=True, related_name="user_profiles")
 
     def __str__(self):

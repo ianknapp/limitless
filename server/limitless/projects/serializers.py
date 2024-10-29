@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from limitless.cura.serializers import CuraSettingsSerializer
 
-from .models import Printer, Project, ProjectFile, UserProfile
+from .models import Filament, Printer, Project, ProjectFile, UserProfile
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -47,6 +47,15 @@ class PrinterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Printer
+        fields = ("label", "value")
+
+
+class FilamentSerializer(serializers.ModelSerializer):
+    label = serializers.CharField(source="name")
+    value = serializers.CharField(source="id")
+
+    class Meta:
+        model = Filament
         fields = ("label", "value")
 
 

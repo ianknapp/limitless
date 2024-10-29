@@ -16,8 +16,13 @@ from limitless.cura.settings import (
 )
 from limitless.cura.tasks import slice_model
 
-from .models import Printer, Project, ProjectFile
-from .serializers import PrinterSerializer, ProjectDetailsSerializer, ProjectSerializer
+from .models import Filament, Printer, Project, ProjectFile
+from .serializers import (
+    FilamentSerializer,
+    PrinterSerializer,
+    ProjectDetailsSerializer,
+    ProjectSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +51,8 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 @api_view(["POST"])
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
-    printer = Printer.objects.get(pk=request.data["printer"])
+    filament = Filament.objects.get(pk=request.data["filament"])
+    printer = Printer.objects.get(pk=request.data["printer"]).slug
     settings = CuraSettings()
     settings.enable_support = project.settings.enable_support
     settings.infill_sparse_density = project.settings.infill_sparse_density
@@ -55,7 +61,7 @@ def print(request):
     settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
 
-    file_path = slice_model(stl_file, printer.slug, cura_settings_str(settings), request.data.get("minimize_supports", False))
+    file_path = slice_model(stl_file, filament.config, printer, cura_settings_str(settings), request.data.get("minimize_supports", False))
     file_data = {}
     with open(file_path, "rb") as f:
         file_data = f.read()
@@ -69,5 +75,6 @@ def print(request):
 def settings(request):
     # Return global setting options to inject into session storage
     data = AllSettingsSerializer("").data
-    data["printers"] = PrinterSerializer(Printer.objects.all(), many=True).data
+    data["printers"] = PrinterSerializer(Printer.objects.filter(hidden=False).all(), many=True).data
+    data["filaments"] = FilamentSerializer(Filament.objects.filter(hidden=False).all(), many=True).data
     return Response(data)

@@ -29,7 +29,7 @@ def _get_file_name_root(file_name):
     return file_name.split(".")[0][:-18]
 
 
-def slice_model(obj, printer_config_filename, cura_settings_str="", minimize_supports=False):
+def slice_model(obj, filament_config, printer_config_filename, cura_settings_str="", minimize_supports=False):
     _download_file(obj.file.url, obj.file.name)
     # _download_file(obj.print_config.url, obj.print_config.name)
     file_name_root = _get_file_name_root(obj.file.name)
@@ -39,6 +39,7 @@ def slice_model(obj, printer_config_filename, cura_settings_str="", minimize_sup
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
     config_path = f"$(echo $CURA_ENGINE_SEARCH_PATH)/{printer_config_filename}"
     cura_args = f"-j {config_path} -l {obj.file.name} -o /tmp/{file_name}"
+    # TODO - directly mix in whatever filament args there are???
     logger.info(f"Running Cura with command: '{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}'")
     run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}")
     return Path(ROOT, file_name)
