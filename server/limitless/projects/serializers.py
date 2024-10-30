@@ -62,4 +62,4 @@ class FilamentSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ("minimize_supports", "printer")
+        fields = ("minimize_supports", "printer", "filament")

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-fit flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap">
+  <div class="w-fit flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap font-sans">
     <div class="pt-8 text-left xl:max-w-2xl h-full">
       <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Print Settings</h1>
       <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
