@@ -39,8 +39,9 @@ def slice_model(obj, filament_config, printer_config_filename, cura_settings_str
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
     config_path = f"$(echo $CURA_ENGINE_SEARCH_PATH)/{printer_config_filename}"
     cura_args = f"-j {config_path} -l {obj.file.name} -o /tmp/{file_name}"
-    logger.info(f"Running Cura with command: '{export_cmd} && CuraEngine slice {cura_args} {cura_settings_str}'")
-    run_command("", f"{export_cmd} && CuraEngine slice {cura_args} {filament_config} {cura_settings_str}")
+    cura_command = f"{export_cmd} && CuraEngine slice {cura_args} {filament_config} {cura_settings_str}"
+    logger.info(f"Running Cura with command: '{cura_command}'")
+    run_command("", cura_command)
     return Path(ROOT, file_name)
 
 
