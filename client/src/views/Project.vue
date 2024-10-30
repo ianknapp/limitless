@@ -73,6 +73,7 @@
           label="label"
           :searchable="false"
         ></v-select>
+        <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
         <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
         <div class="w-full">
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
@@ -109,6 +110,8 @@ export default {
     const supportStructure = ref()
     const supportTypeChoices = ref([])
     const supportType = ref()
+    const filamentChoices = ref([])
+    const filament = ref()
     const printerChoices = ref([])
     const printer = ref()
     const form = ref(new PrintForm())
@@ -143,6 +146,7 @@ export default {
       projectApi.csc
         .print({
           pk: route.params.id,
+          filament: filament.value.value,
           printer: printer.value.value,
           supportStructure: supportStructure.value.value,
           supportType: supportType.value.value,
@@ -184,6 +188,8 @@ export default {
       supportType.value = supportTypeChoices.value.find(
         (el) => el.value === project.value.settings?.supportType,
       )
+      filamentChoices.value = store.getters.filaments
+      filament.value = filamentChoices.value.find((el) => el.value === user.value.profile.filament)
       printerChoices.value = store.getters.printers
       printer.value = printerChoices.value.find((el) => el.value === user.value.profile.printer)
       minimizeSupports.value = user.value.profile.minimize_supports
@@ -212,6 +218,8 @@ export default {
       print,
       printSuccess,
       form,
+      filament,
+      filamentChoices,
       printer,
       printerChoices,
       rotation,

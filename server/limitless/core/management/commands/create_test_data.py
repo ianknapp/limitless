@@ -68,6 +68,10 @@ class Command(BaseCommand):
         # projects.Printer > server/limitless/projects/fixtures/printers.json
         call_command("loaddata", "printers", verbosity=1)
 
+        # TODO Add filaments here after we create a bunch in production
+        # projects.Filament > server/limitless/projects/fixtures/filaments.json
+        # call_command("loaddata", "filaments", verbosity=1)
+
         # NOTE - This is done this way so we can replace foreign keys in the fixture with our own
         fixture_root = "server/limitless/projects/fixtures"
         # projects.Project > server/limitless/projects/fixtures/projects.json

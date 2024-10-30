@@ -50,6 +50,7 @@ export default {
       settingsApi.csc.getSettings().then(handleSuccess).catch(handleFailure)
     })
     function handleSuccess(response) {
+      store.dispatch('setFilaments', response.filaments)
       store.dispatch('setSupportStructures', response.supportStructures)
       store.dispatch('setSupportTypes', response.supportTypes)
       store.dispatch('setAdhesionTypes', response.adhesionTypes)

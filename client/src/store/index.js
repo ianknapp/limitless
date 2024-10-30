@@ -5,6 +5,7 @@ import {
   SET_SUPPORT_STRUCTURES,
   SET_SUPPORT_TYPES,
   SET_ADHESION_TYPES,
+  SET_FILAMENTS,
   SET_PRINTERS,
   SET_PROJECTS,
   SET_TOKEN,
@@ -15,6 +16,7 @@ export const STORAGE_KEY = `limitless-${STORAGE_HASH}`
 
 const state = {
   user: null,
+  filaments: [],
   printers: [],
   supportStructures: [],
   supportTypes: [],
@@ -35,6 +37,9 @@ const mutations = {
   },
   [SET_ADHESION_TYPES]: (state, payload) => {
     state.adhesionTypes = payload
+  },
+  [SET_FILAMENTS]: (state, payload) => {
+    state.filaments = payload
   },
   [SET_PRINTERS]: (state, payload) => {
     state.printers = payload
@@ -68,6 +73,9 @@ const actions = {
   setAdhesionTypes({ commit }, adhesionTypes) {
     commit(SET_ADHESION_TYPES, adhesionTypes)
   },
+  setFilaments({ commit }, filaments) {
+    commit(SET_FILAMENTS, filaments)
+  },
   setPrinters({ commit }, printers) {
     commit(SET_PRINTERS, printers)
   },
@@ -94,6 +102,9 @@ const getters = {
   },
   adhesionTypes: (state) => {
     return state.adhesionTypes
+  },
+  filaments: (state) => {
+    return state.filaments
   },
   printers: (state) => {
     return state.printers

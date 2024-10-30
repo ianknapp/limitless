@@ -16,6 +16,7 @@ export const nameIdShape = {
 export type NameIdShape = GetInferredFromRaw<typeof nameIdShape>
 
 export const settingsShape = {
+  filaments: z.array(z.object(nameValueShape)),
   supportStructures: z.array(z.object(nameValueShape)),
   supportTypes: z.array(z.object(nameValueShape)),
   adhesionTypes: z.array(z.object(nameValueShape)),

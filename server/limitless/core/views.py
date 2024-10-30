@@ -18,7 +18,7 @@ from rest_framework.decorators import (
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from limitless.projects.models import Printer
+from limitless.projects.models import Filament, Printer
 from limitless.utils.emails import send_html_email
 
 from .forms import PreviewTemplateForm
@@ -35,6 +35,9 @@ def save_settings(request, *args, **kwargs):
     printer = Printer.objects.filter(pk=request.data.get("printer")).first()
     if printer:
         profile.printer = printer
+    filament = Filament.objects.filter(pk=request.data.get("filament")).first()
+    if filament:
+        profile.filament = filament
     profile.minimize_supports = request.data.get("minimize_supports", False)
     profile.save()
     serializer = UserSerializer(instance=request.user)

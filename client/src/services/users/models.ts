@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { baseModelShape } from '../base-model'
 
 export const settingsShape = {
+  filament: z.string().optional(),
   printer: z.string().optional(),
   minimizeSupports: z.boolean().optional(),
 }

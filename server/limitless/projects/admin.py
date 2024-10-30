@@ -8,7 +8,7 @@ from django.utils.html import format_html
 from limitless.cura.settings import cura_settings_str
 from limitless.cura.tasks import slice_model
 
-from .models import Printer, Project, ProjectFile, UserProfile
+from .models import Filament, Printer, Project, ProjectFile, UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +93,12 @@ class PrinterAdmin(admin.ModelAdmin):
     list_filter = ("cura_managed", "hidden")
 
 
+@admin.register(Filament)
+class FilamentAdmin(admin.ModelAdmin):
+    list_display = ("name", "hidden")
+    list_filter = ("hidden",)
+
+
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("user", "filament", "printer", "minimize_supports")
