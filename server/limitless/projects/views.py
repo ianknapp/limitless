@@ -42,6 +42,16 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
             queryset = queryset.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
         return queryset.distinct()
 
+    def create(self, request, *args, **kwargs):
+        breakpoint()
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=201, headers=headers)
+        """
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = ProjectDetailsSerializer(instance)

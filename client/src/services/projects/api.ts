@@ -15,7 +15,7 @@ const print = createCustomServiceCall({
   },
 })
 
-export const projectApi = createApi({
+export const ProjectApi = createApi({
   client: axiosInstance,
   baseUri: '/projects/',
   models: {
@@ -33,7 +33,7 @@ export const projectFunctions = () => {
   }
 
   const projectCollection = createCollectionManager({
-    fetchList: projectApi.list,
+    fetchList: ProjectApi.list,
     filters: projectFilters,
     pagination: new Pagination({ size: 24 }),
   })
