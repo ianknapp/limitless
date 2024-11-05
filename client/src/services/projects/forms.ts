@@ -29,9 +29,6 @@ export class SearchForm extends Form<SearchFormInputs> {
 export type ProjectFormInputs = {
   title: IFormField<string>
   description: IFormField<string>
-  primaryImage: IFormField<string>
-  secondaryImage: IFormField<string>
-  model: IFormField<string>
   recommendedFilament: IFormField<string>
 }
 
@@ -49,30 +46,6 @@ export class ProjectForm extends Form<ProjectFormInputs> {
     placeholder: 'Description',
     type: 'text',
     validators: [new RequiredValidator({ message: 'Please enter a description' })],
-    value: '',
-  })
-
-  static primaryImage = FormField.create({
-    label: 'Primary Image',
-    placeholder: 'Primary Image',
-    type: 'text',
-    validators: [new RequiredValidator({ message: 'Please enter a primary image' })],
-    value: '',
-  })
-
-  static secondaryImage = FormField.create({
-    label: 'Secondary Image',
-    placeholder: 'Secondary Image',
-    type: 'text',
-    validators: [new RequiredValidator({ message: 'Please enter a secondary image' })],
-    value: '',
-  })
-
-  static model = FormField.create({
-    label: 'Model',
-    placeholder: 'Model',
-    type: 'text',
-    validators: [new RequiredValidator({ message: 'Please enter a model' })],
     value: '',
   })
 

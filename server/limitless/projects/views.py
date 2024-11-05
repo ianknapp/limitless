@@ -2,7 +2,7 @@ import logging
 
 from django.db.models import Q
 from django.http import HttpResponse
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
@@ -20,6 +20,7 @@ from .models import Filament, Printer, Project, ProjectFile
 from .serializers import (
     FilamentSerializer,
     PrinterSerializer,
+    ProjectCreationSerializer,
     ProjectDetailsSerializer,
     ProjectSerializer,
 )
@@ -42,20 +43,26 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
             queryset = queryset.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
         return queryset.distinct()
 
-    def create(self, request, *args, **kwargs):
-        breakpoint()
-        """
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=201, headers=headers)
-        """
-
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = ProjectDetailsSerializer(instance)
         return Response(serializer.data)
+
+
+@api_view(["POST"])
+def create_project(request):
+    data = request.data
+    data["owner"] = request.user.pk
+    serializer = ProjectCreationSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    project = serializer.save()
+    # TODO - error catching
+    # Also, don't pass empty values from the FE
+    # Do this in the serializer maybe
+    ProjectFile.objects.create(project=project, file=data["primaryImage"], file_type=ProjectFile.TypeChoices.IMAGE, primary=True)
+    ProjectFile.objects.create(project=project, file=data["scecondaryImage"], file_type=ProjectFile.TypeChoices.IMAGE)
+    ProjectFile.objects.create(project=project, file=data["model"], file_type=ProjectFile.TypeChoices.MODEL)
+    return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])

@@ -15,6 +15,27 @@ const print = createCustomServiceCall({
   },
 })
 
+const createProject = createCustomServiceCall({
+  inputShape: projectShape,
+  outputShape: projectShape,
+  cb: async ({ client, input, utils }) => {
+    const formData = new FormData()
+    formData.append('title', input.title)
+    formData.append('description', input.description)
+    formData.append('recommendedFilament', input.recommendedFilament)
+    formData.append('model', input.model)
+    formData.append('primaryImage', input.primaryImage)
+    formData.append('secondaryImage', input.secondaryImage)
+
+    const res = await client.post('/projects/create/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return utils.fromApi(res.data)
+  },
+})
+
 export const ProjectApi = createApi({
   client: axiosInstance,
   baseUri: '/projects/',
@@ -22,7 +43,7 @@ export const ProjectApi = createApi({
     entity: projectShape,
     extraFilters: projectFiltersShape,
   },
-  customCalls: { print },
+  customCalls: { print, createProject },
 })
 
 export const projectFunctions = () => {

@@ -21,30 +21,24 @@
         />
       </span>
       <span>
-        <label class="mx-2 font-sans capitalize">Primary Image</label>
-        <InputField
-          v-model:value="form.primaryImage.value"
-          :errors="form.primaryImage.errors"
-          @blur="form.primaryImage.validate()"
-          placeholder="Image URL"
-        />
-      </span>
-      <span>
-        <label class="mx-2 font-sans capitalize">Secondary Image</label>
-        <InputField
-          v-model:value="form.secondaryImage.value"
-          :errors="form.secondaryImage.errors"
-          @blur="form.secondaryImage.validate()"
-          placeholder="Image URL"
+        <label class="mx-2 font-sans capitalize">Images</label>
+        <FileField
+          @update:assets="onMultipleImagesChange"
+          :assets="imagesToUpload"
+          :asset-types="assetTypeMap.image"
+          multiple
+          class="flex-grow flex flex-col overflow-y-auto"
+          container-class="flex-grow overflow-y-auto"
         />
       </span>
       <span>
         <label class="mx-2 font-sans capitalize">Model File</label>
-        <InputField
-          v-model:value="form.model.value"
-          :errors="form.model.errors"
-          @blur="form.model.validate()"
-          placeholder="(.stl, etc)"
+        <FileField
+          @update:assets="onModelChange"
+          :asset="modelToUpload"
+          :asset-types="assetTypeMap.model"
+          class="flex-grow flex flex-col overflow-y-auto"
+          container-class="flex-grow overflow-y-auto"
         />
       </span>
       <span>
@@ -70,10 +64,13 @@ import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import vSelect from 'vue-select'
 import { ProjectForm, ProjectApi } from '@/services/projects'
+import FileField from '@/components/inputs/FileField.vue'
+import { assetTypeMap } from '@/constants/files'
 
 export default {
   name: 'CreateProject',
   components: {
+    FileField,
     InputField,
     vSelect,
   },
@@ -85,6 +82,14 @@ export default {
     const user = computed(() => {
       return store.getters.user
     })
+    const imagesToUpload = ref([])
+    const onMultipleImagesChange = (eventFiles) => {
+      imagesToUpload.value = eventFiles
+    }
+    const modelToUpload = ref()
+    const onModelChange = (eventFile) => {
+      modelToUpload.value = eventFile
+    }
 
     onBeforeMount(async () => {
       filamentChoices.value = store.getters.filaments
@@ -93,10 +98,18 @@ export default {
 
     function save() {
       const unwrappedForm = form.value
-      unwrappedForm.recommendedFilament.value = filament.value.value
+      unwrappedForm.recommendedFilament.value = filament.value?.value
       unwrappedForm.validate()
       if (!unwrappedForm.isValid) return
-      ProjectApi.create(unwrappedForm.value).then(handleSuccess).catch(handleFailure)
+      const fileData = {
+        model: modelToUpload.value,
+        primaryImage: imagesToUpload.value[0],
+        secondaryImage: imagesToUpload.value[1],
+      }
+      ProjectApi.csc
+        .createProject(Object.assign({}, unwrappedForm.value, fileData))
+        .then(handleSuccess)
+        .catch(handleFailure)
     }
     function handleSuccess(response) {
       console.log('Saved!')
@@ -106,10 +119,15 @@ export default {
     }
 
     return {
+      assetTypeMap,
       filament,
       filamentChoices,
       form,
       save,
+      imagesToUpload,
+      onMultipleImagesChange,
+      modelToUpload,
+      onModelChange,
     }
   },
 }
