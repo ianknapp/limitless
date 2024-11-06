@@ -26,7 +26,7 @@ const myProjects = createCustomServiceCall({
 
 const deleteProject = createCustomServiceCall({
   inputShape: { pk: z.string().uuid() },
-  cb: async ({ client, input, utils }) => {
+  cb: async ({ client, input }) => {
     const res = await client.delete(`/projects/${input.pk}/`)
     return res.data
   },
