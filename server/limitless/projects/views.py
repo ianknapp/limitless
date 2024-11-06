@@ -3,8 +3,8 @@ import logging
 from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.db.models import Q
 from django.http import HttpResponse
-from rest_framework import mixins, status, viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework import mixins, parsers, status, viewsets
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 
 from limitless.cura.models import CuraSettings
@@ -65,6 +65,7 @@ def is_3d_model(f):
 
 
 @api_view(["POST"])
+@parser_classes([parsers.FormParser, parsers.MultiPartParser])
 def create_project(request):
     serializer = ProjectCreationSerializer(data=request.data, context={"owner": request.user.pk})
     serializer.is_valid(raise_exception=True)
