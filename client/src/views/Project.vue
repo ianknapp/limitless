@@ -42,7 +42,7 @@
           {{ project.description }}
         </div>
       </div>
-      <div class="mb-2 grid grid-cols-1 gap-4 mt-24 content-end h-96">
+      <div class="mb-2 grid grid-cols-1 gap-4 content-end h-96">
         <h2 class="text-base font-semibold">Suggested Model Settings</h2>
         <div class="">
           <span>
@@ -55,25 +55,30 @@
             <label class="mx-2 font-sans capitalize">Minimize Supports</label>
           </span>
         </div>
+        <label class="mx-2 font-sans capitalize">Adhesion</label>
         <v-select
           :options="adhesionChoices"
           v-model="adhesion"
           label="label"
           :searchable="false"
         ></v-select>
+        <label class="mx-2 font-sans capitalize">Support Structure</label>
         <v-select
           :options="supportStructureChoices"
           v-model="supportStructure"
           label="label"
           :searchable="false"
         ></v-select>
+        <label class="mx-2 font-sans capitalize">Support Type</label>
         <v-select
           :options="supportTypeChoices"
           v-model="supportType"
           label="label"
           :searchable="false"
         ></v-select>
+        <label class="mx-2 font-sans capitalize">Filament</label>
         <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
+        <label class="mx-2 font-sans capitalize">Printer</label>
         <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
         <div class="w-full">
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>

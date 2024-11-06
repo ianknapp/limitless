@@ -11,7 +11,10 @@
           label="label"
           placeholder="select your default..."
         ></v-select>
-      </span>
+    </span>
+    <div class="text-end hover:underline">
+        <a href="mailto:support@limitless-3d.com" target="_blank" class="text-xs text-primary">Don't see your printer?</a>
+      </div>
       <span>
         <label class="mx-2 font-sans capitalize">Your Default Filament</label>
         <v-select
