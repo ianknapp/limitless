@@ -34,7 +34,7 @@
       <span>
         <label class="mx-2 font-sans capitalize">Model File</label>
         <FileField
-          @update:assets="onModelChange"
+          @update:asset="onModelChange"
           :asset="modelToUpload"
           :asset-types="assetTypeMap.model"
           class="flex-grow flex flex-col overflow-y-auto"
