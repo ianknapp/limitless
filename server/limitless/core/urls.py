@@ -16,7 +16,7 @@ router.register("projects", project_views.ProjectViewSet)
 urlpatterns = [
     path(r"api/projects/print/", project_views.print),
     path(r"api/projects/create/", project_views.create_project),
-    path(r"api/projects/<str:pk>/", project_views.delete_project),
+    path(r"api/projects/delete/<str:pk>/", project_views.delete_project),
     path(r"api/settings/", project_views.settings),
     path(r"api/my_projects/", project_views.my_projects),
     path(r"api/user/settings/", core_views.save_settings),
