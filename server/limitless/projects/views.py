@@ -83,6 +83,23 @@ def create_project(request):
     return Response(status=status.HTTP_201_CREATED)
 
 
+@api_view(["GET"])
+def my_projects(request):
+    data = ProjectSerializer(request.user.projects.all(), many=True).data
+    return Response(data)
+
+
+@api_view(["DELETE"])
+def delete_project(request, *args, **kwargs):
+    project = Project.objects.get(pk=kwargs.get("pk"))
+    if not project:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if not (project.owner == request.user or request.user.is_staff):
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    project.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(["POST"])
 def print(request):
     project = Project.objects.get(pk=request.data["pk"])
