@@ -19,15 +19,13 @@
 </template>
 
 <script>
-import { computed, ref, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
+import { ref, onBeforeMount } from 'vue'
 import { ProjectApi } from '@/services/projects'
 
 export default {
   name: 'MyProjects',
   components: {},
   setup() {
-    const store = useStore()
     const projects = ref()
 
     onBeforeMount(async () => {
