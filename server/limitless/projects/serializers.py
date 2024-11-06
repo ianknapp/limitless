@@ -18,6 +18,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectCreationSerializer(serializers.ModelSerializer):
+
+    def to_internal_value(self, data):
+        data["owner"] = self.context["owner"]
+        return super().to_internal_value(data)
+
     class Meta:
         model = Project
         fields = ("title", "description", "owner")
