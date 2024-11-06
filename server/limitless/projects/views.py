@@ -66,14 +66,12 @@ def is_3d_model(f):
 
 @api_view(["POST"])
 def create_project(request):
-    primary_image = request.data.pop("primaryImage")[0]
-    secondary_image = request.data.pop("secondaryImage")[0]
-    model_file = request.data.pop("model")[0]
-    data = request.data.copy()
-    data["owner"] = request.user.pk
-    serializer = ProjectCreationSerializer(data=data)
+    serializer = ProjectCreationSerializer(data=request.data, context={"owner": request.user.pk})
     serializer.is_valid(raise_exception=True)
     project = serializer.save()
+    primary_image = request.data.get("primaryImage")
+    secondary_image = request.data.get("secondaryImage")
+    model_file = request.data.get("model")
     if is_image(primary_image):
         ProjectFile.objects.create(project=project, file=primary_image, file_type=ProjectFile.TypeChoices.IMAGE, primary=True)
     if is_image(secondary_image):
