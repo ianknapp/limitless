@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { computed, ref, onBeforeMount, h } from 'vue'
+import { computed, ref, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import vSelect from 'vue-select'
@@ -111,7 +111,7 @@ export default {
         .then(handleSuccess)
         .catch(handleFailure)
     }
-    function handleSuccess(response) {
+    function handleSuccess() {
       console.log('Saved!')
     }
     function handleFailure(error) {

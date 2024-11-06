@@ -6,9 +6,6 @@
 </template>
 
 <script>
-import { computed, ref, onBeforeMount, h } from 'vue'
-import { useStore } from 'vuex'
-import { userApi } from '@/services/users'
 import SettingsSection from '@/components/SettingsSection.vue'
 import CreateProject from '@/components/CreateProject.vue'
 
