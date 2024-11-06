@@ -84,7 +84,6 @@ def create_project(request):
 
 
 @api_view(["GET"])
-@permission_classes([])
 def my_projects(request):
     data = ProjectSerializer(request.user.projects.all(), many=True).data
     return Response(data)
