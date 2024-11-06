@@ -4,10 +4,11 @@ import { baseModelShape } from '../base-model'
 export const projectShape = {
   ...baseModelShape,
   title: z.string(),
-  description: z.string().optional(),
-  primaryImage: z.string().optional(),
-  secondaryImage: z.string().optional(),
-  model: z.string().optional(),
+  description: z.string(),
+  recommendedFilament: z.string(),
+  primaryImage: z.any(),
+  secondaryImage: z.any(),
+  model: z.any(),
   recentlyViewed: z.boolean().optional(),
 }
 

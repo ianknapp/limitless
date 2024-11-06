@@ -1,8 +1,9 @@
 import logging
 
+from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.db.models import Q
 from django.http import HttpResponse
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
@@ -20,6 +21,7 @@ from .models import Filament, Printer, Project, ProjectFile
 from .serializers import (
     FilamentSerializer,
     PrinterSerializer,
+    ProjectCreationSerializer,
     ProjectDetailsSerializer,
     ProjectSerializer,
 )
@@ -46,6 +48,39 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
         instance = self.get_object()
         serializer = ProjectDetailsSerializer(instance)
         return Response(serializer.data)
+
+
+def is_image(f):
+    if not isinstance(f, TemporaryUploadedFile):
+        return False
+    file_ext = f.content_type.split("/")[-1].lower()
+    return file_ext in ["png", "jpeg", "gif", "svg"]
+
+
+def is_3d_model(f):
+    if not isinstance(f, TemporaryUploadedFile):
+        return False
+    file_ext = f.name.split(".")[-1].lower()
+    return file_ext in ["stl"]
+
+
+@api_view(["POST"])
+def create_project(request):
+    primary_image = request.data.pop("primaryImage")[0]
+    secondary_image = request.data.pop("secondaryImage")[0]
+    model_file = request.data.pop("model")[0]
+    data = request.data.copy()
+    data["owner"] = request.user.pk
+    serializer = ProjectCreationSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    project = serializer.save()
+    if is_image(primary_image):
+        ProjectFile.objects.create(project=project, file=primary_image, file_type=ProjectFile.TypeChoices.IMAGE, primary=True)
+    if is_image(secondary_image):
+        ProjectFile.objects.create(project=project, file=secondary_image, file_type=ProjectFile.TypeChoices.IMAGE)
+    if is_3d_model(model_file):
+        ProjectFile.objects.create(project=project, file=model_file, file_type=ProjectFile.TypeChoices.MODEL)
+    return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])

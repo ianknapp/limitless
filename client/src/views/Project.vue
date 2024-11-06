@@ -90,7 +90,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import vSelect from 'vue-select'
 import { vue3dLoader } from 'vue-3d-loader'
-import { PrintForm, projectApi } from '@/services/projects'
+import { PrintForm, ProjectApi } from '@/services/projects'
 import Advertisement from '@/components/Advertisement.vue'
 
 export default {
@@ -127,7 +127,7 @@ export default {
     })
 
     const getProjectData = async () => {
-      project.value = await projectApi.retrieve(route.params.id)
+      project.value = await ProjectApi.retrieve(route.params.id)
     }
     const snakeCase = (value) => {
       return value
@@ -143,7 +143,7 @@ export default {
 
     function print() {
       showAd.value = true
-      projectApi.csc
+      ProjectApi.csc
         .print({
           pk: route.params.id,
           filament: filament.value.value,

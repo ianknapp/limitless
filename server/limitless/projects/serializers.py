@@ -17,6 +17,12 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "image", "recently_viewed")
 
 
+class ProjectCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ("title", "description", "owner")
+
+
 class ProjectDetailsSerializer(serializers.ModelSerializer):
     primary_image = serializers.SerializerMethodField()
     secondary_image = serializers.SerializerMethodField()
