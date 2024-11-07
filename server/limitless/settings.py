@@ -253,7 +253,10 @@ if config("USE_AWS_STORAGE", cast=bool, default=False):
     if ENABLE_LARGE_FILE_STORAGE:
         INSTALLED_APPS.append("s3file")
         MIDDLEWARE.append("s3file.middleware.S3FileMiddleware")
-        DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
+        # TODO - Turning this off for now.
+        # Errors for non-admin uploaded files in Heroku only (works on local)
+        # Error is from the django-s3file library. "The content object must be a S3 object and contain a valid key"
+        # DEFAULT_FILE_STORAGE = "limitless.utils.storages.PrivateLargeMediaStorage"
         AWS_LOCATION = PRIVATE_MEDIAFILES_LOCATION
 
 
