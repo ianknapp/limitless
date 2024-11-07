@@ -4,7 +4,7 @@ from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.db.models import Q
 from django.http import HttpResponse
 from rest_framework import mixins, parsers, status, viewsets
-from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.response import Response
 
 from limitless.cura.models import CuraSettings
@@ -52,7 +52,6 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 
 def is_image(f):
     if not isinstance(f, TemporaryUploadedFile):
-        logger.warning(f"File is not an image: {f}")
         return False
     file_ext = f.content_type.split("/")[-1].lower()
     return file_ext in ["png", "jpeg", "gif", "svg"]
@@ -60,7 +59,6 @@ def is_image(f):
 
 def is_3d_model(f):
     if not isinstance(f, TemporaryUploadedFile):
-        logger.warning(f"File is not a model: {f}")
         return False
     file_ext = f.name.split(".")[-1].lower()
     return file_ext in ["stl"]
@@ -76,7 +74,6 @@ def create_project(request):
     secondary_image = request.FILES.get("secondaryImage")
     model_file = request.FILES.get("model")
     if is_image(primary_image):
-        logger.info(f"Primary image: {primary_image}")
         ProjectFile.objects.create(project=project, file=primary_image, file_type=ProjectFile.TypeChoices.IMAGE, primary=True)
     if is_image(secondary_image):
         ProjectFile.objects.create(project=project, file=secondary_image, file_type=ProjectFile.TypeChoices.IMAGE)
