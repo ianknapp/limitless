@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')]">
+  <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')] w-full">
     <div class="flex justify-center">
       <div
         class="w-1/2 h-full opacity-20 bg-violet-900 rounded-full blur-3xl absolute z-0 -top-full mt-40"
@@ -9,14 +9,14 @@
       </div>
       <div
         v-else
-        class="flex flex-row w-full max-w-7xl text-center font-serif text-primary antialiased"
+        class="flex flex-row w-full text-center font-serif text-primary antialiased md:max-w-[80%] 3xl:max-w-[70%]"
       >
         <AlertAlert />
 
         <LeftNav :expandLeftNav="leftNav" />
-        <div class="flex min-h-full flex-1 flex-col">
+        <div class="flex justify-center min-h-full flex-1 flex-col w-full">
           <NavBar @toggle-left-nav="toggleLeftNav" />
-          <div class="mb-8 px-6">
+          <div class="px-6 overflow-auto">
             <router-view />
           </div>
         </div>
