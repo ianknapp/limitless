@@ -69,7 +69,6 @@ def is_3d_model(f):
 @api_view(["POST"])
 @parser_classes([parsers.FormParser, parsers.MultiPartParser])
 def create_project(request):
-    breakpoint()
     serializer = ProjectCreationSerializer(data=request.data, context={"owner": request.user.pk})
     serializer.is_valid(raise_exception=True)
     project = serializer.save()
