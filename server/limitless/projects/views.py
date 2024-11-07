@@ -75,6 +75,7 @@ def create_project(request):
     secondary_image = request.data.get("secondaryImage")
     model_file = request.data.get("model")
     if is_image(primary_image):
+        logger.info(f"Primary image: {primary_image}")
         ProjectFile.objects.create(project=project, file=primary_image, file_type=ProjectFile.TypeChoices.IMAGE, primary=True)
     if is_image(secondary_image):
         ProjectFile.objects.create(project=project, file=secondary_image, file_type=ProjectFile.TypeChoices.IMAGE)
