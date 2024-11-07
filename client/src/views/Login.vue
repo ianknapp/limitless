@@ -19,7 +19,8 @@
           inputClass="pl-10"
           type="email"
           data-cy="email"
-          placeholder="Email"
+          :placeholder="form.email.placeholder"
+          :label="form.email.label"
           :id="form.email.id"
         />
         <div>
@@ -30,7 +31,8 @@
               @blur="form.password.validate()"
               type="password"
               data-cy="password"
-              placeholder="Password"
+              :placeholder="form.password.placeholder"
+              :label="form.password.label"
               autocomplete="current-password"
               :id="form.password.id"
             >

@@ -152,11 +152,13 @@ export type TLoginForm = LoginFormInputs & LoginForm
 
 export class LoginForm extends Form<LoginFormInputs> {
   static email = new FormField({
+    label: 'Email',
     placeholder: 'Email',
     type: 'emailAddress',
     validators: [new EmailValidator({ message: 'Please enter a valid email' })],
   })
   static password = new FormField({
+    label: 'Password',
     validators: [new RequiredValidator({ message: 'Please enter your password' })],
     placeholder: 'Password',
     value: '',
