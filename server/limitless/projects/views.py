@@ -52,6 +52,7 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
 
 def is_image(f):
     if not isinstance(f, TemporaryUploadedFile):
+        logger.warning(f"File is not an image: {f}")
         return False
     file_ext = f.content_type.split("/")[-1].lower()
     return file_ext in ["png", "jpeg", "gif", "svg"]
@@ -59,13 +60,13 @@ def is_image(f):
 
 def is_3d_model(f):
     if not isinstance(f, TemporaryUploadedFile):
+        logger.warning(f"File is not a model: {f}")
         return False
     file_ext = f.name.split(".")[-1].lower()
     return file_ext in ["stl"]
 
 
 @api_view(["POST"])
-@parser_classes([parsers.FormParser, parsers.MultiPartParser])
 def create_project(request):
     serializer = ProjectCreationSerializer(data=request.data, context={"owner": request.user.pk})
     serializer.is_valid(raise_exception=True)
