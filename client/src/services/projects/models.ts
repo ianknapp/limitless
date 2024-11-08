@@ -12,6 +12,13 @@ export const projectShape = {
   recentlyViewed: z.boolean().optional(),
 }
 
+export const simplifiedProjectShape = {
+  id: projectShape.id,
+  title: projectShape.title,
+  image: projectShape.primaryImage,
+  recentlyViewed: projectShape.recentlyViewed,
+}
+
 export const printShape = {
   pk: z.string(),
   supportStructure: z.string(),

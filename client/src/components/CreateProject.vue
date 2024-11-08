@@ -1,6 +1,16 @@
 <template>
-  <div class="pt-8 text-left xl:max-w-2xl h-full">
-    <h1 class="pt-2 pl-6 text-4xl font-bold">Create a new Project</h1>
+  <section v-if="!inCreateMode">
+    <button type="button" @click="inCreateMode = true" class="btn--primary bg-zinc-900">
+      Create a new Project
+    </button>
+  </section>
+  <div v-else class="pt-8 text-left xl:max-w-2xl h-full">
+    <section class="flex justify-between">
+      <h1 class="pt-2 pl-6 text-4xl font-bold">Create a new Project</h1>
+      <button type="button" @click="inCreateMode = false" class="text-purple text-lg">
+        Cancel
+      </button>
+    </section>
     <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
       <span>
         <label class="mx-2 font-sans capitalize">Title</label>
@@ -68,7 +78,9 @@
         ></v-select>
       </span>
       <div class="w-24">
-        <button class="btn--primary bg-zinc-900" @click.prevent="save()">Save</button>
+        <button class="btn--primary bg-zinc-900" @click.prevent="save()" :disabled="isCreating">
+          Save
+        </button>
       </div>
     </div>
   </div>
@@ -79,9 +91,10 @@ import { computed, ref, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import vSelect from 'vue-select'
-import { ProjectForm, ProjectApi } from '@/services/projects'
+import { ProjectForm, ProjectApi, projectQueries } from '@/services/projects'
 import FileField from '@/components/inputs/FileField.vue'
 import { assetTypeMap } from '@/constants/files'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 
 export default {
   name: 'CreateProject',
@@ -91,6 +104,7 @@ export default {
     vSelect,
   },
   setup() {
+    const inCreateMode = ref(false)
     const store = useStore()
     const form = ref(new ProjectForm())
     const filamentChoices = ref([])
@@ -110,6 +124,12 @@ export default {
       filament.value = filamentChoices.value.find((el) => el.value === user.value.profile.filament)
     })
 
+    const queryClient = useQueryClient()
+
+    const { mutate: createProject, isPending: isCreating } = useMutation({
+      mutationFn: ProjectApi.csc.createProject,
+    })
+
     function save() {
       const unwrappedForm = form.value
       unwrappedForm.recommendedFilament.value = filament.value?.value
@@ -123,16 +143,16 @@ export default {
         primaryImage: form.value.imagesToUpload.value[0],
         secondaryImage: form.value.imagesToUpload.value[1],
       }
-      ProjectApi.csc
-        .createProject(Object.assign({}, unwrappedForm.value, fileData))
-        .then(handleSuccess)
-        .catch(handleFailure)
-    }
-    function handleSuccess() {
-      console.log('Saved!')
-    }
-    function handleFailure(error) {
-      console.log(error)
+      createProject(Object.assign({}, unwrappedForm.value, fileData), {
+        onSuccess: () => {
+          queryClient.invalidateQueries(projectQueries.all())
+          console.log('Saved!')
+          form.value = new ProjectForm()
+        },
+        onError: (error) => {
+          console.error(error)
+        },
+      })
     }
 
     return {
@@ -143,6 +163,8 @@ export default {
       save,
       onMultipleImagesChange,
       onModelChange,
+      isCreating,
+      inCreateMode,
     }
   },
 }

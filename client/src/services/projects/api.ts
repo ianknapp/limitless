@@ -5,7 +5,7 @@ import {
   Pagination,
 } from '@thinknimble/tn-models'
 import axiosInstance from '../AxiosClient'
-import { projectFiltersShape, projectShape, printShape } from './models'
+import { projectFiltersShape, projectShape, printShape, simplifiedProjectShape } from './models'
 import { z } from 'zod'
 
 const print = createCustomServiceCall({
@@ -17,7 +17,7 @@ const print = createCustomServiceCall({
 })
 
 const myProjects = createCustomServiceCall({
-  inputShape: projectShape,
+  outputShape: z.object(simplifiedProjectShape).array(),
   cb: async ({ client }) => {
     const res = await client.get('/my_projects/')
     return res.data
