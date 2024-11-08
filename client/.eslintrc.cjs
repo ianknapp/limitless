@@ -37,5 +37,4 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'prettier/prettier': 'off',
   },
-  exclude: ['tailwind.config.js'],
 }
