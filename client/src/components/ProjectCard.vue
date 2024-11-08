@@ -10,7 +10,7 @@
         </div>
       </div>
     </router-link>
-    <div class="pt-2 font-semibold text-sm">
+    <div class="pt-2 font-semibold text-sm text-center">
       {{ project.title }}
     </div>
   </div>

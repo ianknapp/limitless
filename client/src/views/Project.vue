@@ -169,16 +169,7 @@ export default {
 
     const getProjectData = async () => {
       const projectServer = await ProjectApi.retrieve(route.params.id)
-      //TODO: remove this...
-      const devServer = import.meta.env.VITE_DEV_BACKEND_URL
-      project.value = devServer
-        ? {
-            ...projectServer,
-            primaryImage: `${devServer}${projectServer.primaryImage}`,
-            secondaryImage: `${devServer}${projectServer.secondaryImage}`,
-            model: `/src/assets/icons/nimbly_2024-08-08T173336.stl`,
-          }
-        : projectServer
+      project.value = projectServer
     }
     const snakeCase = (value) => {
       return value
