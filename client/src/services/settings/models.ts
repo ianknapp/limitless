@@ -2,7 +2,7 @@ import { GetInferredFromRaw } from '@thinknimble/tn-models'
 import { z } from 'zod'
 
 export const nameValueShape = {
-  name: z.string(),
+  label: z.string(),
   value: z.string(),
 }
 
@@ -20,7 +20,7 @@ export const settingsShape = {
   supportStructures: z.array(z.object(nameValueShape)),
   supportTypes: z.array(z.object(nameValueShape)),
   adhesionTypes: z.array(z.object(nameValueShape)),
-  printers: z.array(z.object(nameIdShape)),
+  printers: z.array(z.object(nameValueShape)),
 }
 
 export type SettingsShape = GetInferredFromRaw<typeof settingsShape>

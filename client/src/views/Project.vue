@@ -1,39 +1,63 @@
 <template>
-  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap font-sans pt-12">
-    <div class="w-full">
-      <div class="mb-auto px-6 pt-4 flex justify-center">
-        <img class="rounded-lg w-full pointer-events-none" :src="project.primaryImage" />
+  <div class="flex flex-row justify-center flex-wrap-reverse lg:flex-nowrap font-sans flex-grow">
+    <div class="w-full flex flex-col items-center justify-center flex-grow">
+      <div class="px-6 flex items-center justify-center flex-grow">
+        <img
+          v-if="currentImageSrc !== project.model"
+          class="rounded-lg pointer-events-none object-contain sm:h-[300px] sm:w-[300px] md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px] xl:h-[600px] xl:w-[600px] 3xl:h-[1000px] 3xl:w-[1000px]"
+          :src="currentImageSrc"
+        />
+        <vue3dLoader
+          v-if="currentImageSrc === project.model"
+          :enableAxesHelper="true"
+          :enableGridHelper="true"
+          backgroundColor="#042642"
+          :filePath="currentImageSrc"
+          fileType="stl"
+          :rotation="rotation"
+          :cameraPosition="cameraPosition"
+          :scale="scale"
+          class="sm:h-[300px] sm:w-[300px] md:h-[400px] md:w-[400px] lg:h-[450px] lg:w-[450px] 3xl:h-[1000px] 3xl:w-[1000px]"
+        ></vue3dLoader>
       </div>
-      <div class="mb-auto px-6 pt-4 grid grid-cols-2 xl:grid-cols-4 gap-4 pb-4 content-start">
+      <div class="px-6 pt-4 grid grid-cols-2 xl:grid-cols-4 gap-4 pb-4 content-start">
         <div class="flex flex-shrink-0 items-center">
-          <div class="rounded-lg flex bg-zinc-900 p-2 h-full w-full justify-self-center">
+          <button
+            type="button"
+            @click="currentImageSrc = project.primaryImage"
+            :class="`rounded-lg flex bg-zinc-900 p-2 justify-self-center ${
+              currentImageSrc === project.primaryImage ? 'border-2 border-accent-amber-600' : ''
+            }`"
+          >
             <img class="rounded-lg flex-shrink pointer-events-none" :src="project.primaryImage" />
-          </div>
+          </button>
         </div>
         <div class="flex flex-shrink-0 items-center">
-          <div class="rounded-lg flex bg-zinc-900 p-2 justify-self-center">
+          <button
+            type="button"
+            @click="currentImageSrc = project.secondaryImage"
+            :class="`rounded-lg flex bg-zinc-900 p-2 justify-self-center ${
+              currentImageSrc === project.secondaryImage ? 'border-2 border-accent-amber-600' : ''
+            }`"
+          >
             <img class="rounded-lg flex-shrink pointer-events-none" :src="project.secondaryImage" />
-          </div>
+          </button>
         </div>
         <div class="flex flex-shrink-0 items-center">
-          <div class="rounded-lg bg-zinc-900 p-2 justify-self-center">
-            <vue3dLoader
-              :enableAxesHelper="true"
-              :enableGridHelper="true"
-              :height="115"
-              :width="115"
-              backgroundColor="#042642"
-              :filePath="project.model"
-              fileType="stl"
-              :rotation="rotation"
-              :cameraPosition="cameraPosition"
-              :scale="scale"
-            ></vue3dLoader>
-          </div>
+          <button
+            type="button"
+            @click="currentImageSrc = project.model"
+            :class="`rounded-lg bg-zinc-900 p-2 flex flex-col items-center justify-center justify-self-center w-full h-full ${
+              currentImageSrc === project.model ? 'border-2 border-accent-amber-600' : ''
+            }`"
+          >
+            <p className="text-xl">Model</p>
+            <Square3Stack3DIcon class="h-6 w-6 text-white" />
+          </button>
         </div>
       </div>
     </div>
-    <div class="pt-2 text-left xl:max-w-2xl h-full w-96">
+    <div class="pt-2 text-left xl:max-w-2xl min-w-[300px]">
       <h1 class="pt-2 text-3xl font-bold">
         {{ project.title }}
       </h1>
@@ -42,7 +66,7 @@
           {{ project.description }}
         </div>
       </div>
-      <div class="mb-2 grid grid-cols-1 gap-4 mt-24 content-end h-96">
+      <div class="flex flex-col gap-2 content-end pt-3">
         <h2 class="text-base font-semibold">Suggested Model Settings</h2>
         <div class="">
           <span>
@@ -52,29 +76,44 @@
               type="checkbox"
               v-model="minimizeSupports"
             />
-            <label class="mx-2 font-sans capitalize">Minimize Supports</label>
+            <label class="px-2 font-sans capitalize">Minimize Supports</label>
           </span>
         </div>
-        <v-select
-          :options="adhesionChoices"
-          v-model="adhesion"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <v-select
-          :options="supportStructureChoices"
-          v-model="supportStructure"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <v-select
-          :options="supportTypeChoices"
-          v-model="supportType"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
-        <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Adhesion</label>
+          <v-select
+            :options="adhesionChoices"
+            v-model="adhesion"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Support Structure</label>
+          <v-select
+            :options="supportStructureChoices"
+            v-model="supportStructure"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Support Type</label>
+          <v-select
+            :options="supportTypeChoices"
+            v-model="supportType"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Filament</label>
+          <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Printer</label>
+          <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
+        </section>
         <div class="w-full">
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
@@ -92,6 +131,7 @@ import vSelect from 'vue-select'
 import { vue3dLoader } from 'vue-3d-loader'
 import { PrintForm, ProjectApi } from '@/services/projects'
 import Advertisement from '@/components/Advertisement.vue'
+import { Square3Stack3DIcon } from '@heroicons/vue/24/solid'
 
 export default {
   name: 'Project',
@@ -99,6 +139,7 @@ export default {
     Advertisement,
     vSelect,
     vue3dLoader,
+    Square3Stack3DIcon,
   },
   setup() {
     const store = useStore()
@@ -127,7 +168,8 @@ export default {
     })
 
     const getProjectData = async () => {
-      project.value = await ProjectApi.retrieve(route.params.id)
+      const projectServer = await ProjectApi.retrieve(route.params.id)
+      project.value = projectServer
     }
     const snakeCase = (value) => {
       return value
@@ -176,6 +218,7 @@ export default {
 
     onBeforeMount(async () => {
       await getProjectData()
+      currentImageSrc.value = project.value.primaryImage
       adhesionChoices.value = store.getters.adhesionTypes
       adhesion.value = adhesionChoices.value.find(
         (el) => el.value === project.value.settings?.adhesionType,
@@ -206,6 +249,8 @@ export default {
       scale.value = { x: 1.5, y: 1.5, z: 1.5 }
     })
 
+    const currentImageSrc = ref('')
+
     return {
       adhesion,
       adhesionChoices,
@@ -227,6 +272,7 @@ export default {
       scale,
       minimizeSupports,
       showAd,
+      currentImageSrc,
     }
   },
 }

@@ -1,4 +1,10 @@
-import Form, { FormField, IFormField, RequiredValidator } from '@thinknimble/tn-forms'
+import { FileIsOfTypeValidator } from '@/utils/validators'
+import Form, {
+  FormField,
+  IFormField,
+  RequiredValidator,
+  MinLengthValidator,
+} from '@thinknimble/tn-forms'
 
 export type PrintFormInputs = {
   printer: IFormField<string>
@@ -30,7 +36,11 @@ export type ProjectFormInputs = {
   title: IFormField<string>
   description: IFormField<string>
   recommendedFilament: IFormField<string>
+  imagesToUpload: IFormField<File[]>
+  modelToUpload: IFormField<File>
 }
+
+const validModelFormats = ['dae', 'fbx', 'gltf', 'glb', 'obj', 'ply', 'stl', 'json']
 
 export class ProjectForm extends Form<ProjectFormInputs> {
   static title = FormField.create({
@@ -54,6 +64,31 @@ export class ProjectForm extends Form<ProjectFormInputs> {
     placeholder: 'Recommended Filament',
     type: 'text',
     validators: [new RequiredValidator({ message: 'Please enter a recommended filament' })],
+    value: '',
+  })
+
+  static imagesToUpload = FormField.create({
+    label: 'Images',
+    placeholder: 'Images',
+    type: 'file',
+    validators: [
+      new MinLengthValidator({ message: 'Please upload at least one image', minLength: 1 }),
+    ],
+    value: [],
+  })
+
+  static modelToUpload = FormField.create({
+    label: 'Model',
+    placeholder: 'Model',
+    type: 'file',
+    validators: [
+      new FileIsOfTypeValidator({
+        message: `Please upload a valid model file (${validModelFormats.join(', ')})`,
+        code: 'file-type',
+        isRequired: true,
+        types: validModelFormats,
+      }),
+    ],
     value: '',
   })
 }

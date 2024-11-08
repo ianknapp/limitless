@@ -17,13 +17,15 @@
             v-model:value="form.firstName.value"
             :errors="form.firstName.errors"
             @blur="form.firstName.validate()"
-            placeholder="First Name"
+            :placeholder="form.firstName.placeholder"
+            :label="form.firstName.label"
           />
           <InputField
             v-model:value="form.lastName.value"
             :errors="form.lastName.errors"
             @blur="form.lastName.validate()"
-            placeholder="Last Name"
+            :placeholder="form.lastName.placeholder"
+            :label="form.lastName.label"
           />
         </div>
 
@@ -33,7 +35,8 @@
             :errors="form.email.errors"
             @blur="form.email.validate()"
             type="email"
-            placeholder="Email"
+            :placeholder="form.email.placeholder"
+            :label="form.email.label"
           />
         </div>
 
@@ -43,7 +46,8 @@
             :errors="form.password.errors"
             @blur="form.password.validate()"
             type="password"
-            placeholder="Password"
+            :placeholder="form.password.placeholder"
+            :label="form.password.label"
           />
         </div>
         <div>
@@ -52,7 +56,8 @@
             :errors="form.confirmPassword.errors"
             @blur="form.confirmPassword.validate()"
             type="password"
-            placeholder="Confirm Password"
+            :placeholder="form.confirmPassword.placeholder"
+            :label="form.confirmPassword.label"
           />
         </div>
         <div class="pt-12">

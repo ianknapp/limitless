@@ -1,3 +1,5 @@
+const { screens } = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js}'],
@@ -14,7 +16,7 @@ module.exports = {
       },
       fontFamily: {
         serif: ['source-serif-pro', 'serif'],
-        sans: ['Poppins', 'sans-serif']
+        sans: ['Poppins', 'sans-serif'],
       },
     },
     container: {
@@ -25,6 +27,10 @@ module.exports = {
         xl: '5rem',
         '2xl': '6rem',
       },
+    },
+    screens: {
+      ...screens,
+      '3xl': '1920px',
     },
   },
   plugins: [],
