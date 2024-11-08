@@ -100,7 +100,10 @@ export default {
       const unwrappedForm = form.value
       unwrappedForm.recommendedFilament.value = filament.value?.value
       unwrappedForm.validate()
-      if (!unwrappedForm.isValid) return
+      if (!unwrappedForm.isValid) {
+        console.error(unwrappedForm.errors)
+        return
+      }
       const fileData = {
         model: modelToUpload.value,
         primaryImage: imagesToUpload.value[0],

@@ -34,8 +34,7 @@ const deleteProject = createCustomServiceCall({
 
 const createProject = createCustomServiceCall({
   inputShape: projectShape,
-  outputShape: projectShape,
-  cb: async ({ client, input, utils }) => {
+  cb: async ({ client, input }) => {
     const formData = new FormData()
     formData.append('title', input.title)
     formData.append('description', input.description ?? '')
@@ -49,7 +48,7 @@ const createProject = createCustomServiceCall({
         'Content-Type': 'multipart/form-data',
       },
     })
-    return utils.fromApi(res.data)
+    return res.data
   },
 })
 

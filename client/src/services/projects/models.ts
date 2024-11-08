@@ -6,9 +6,9 @@ export const projectShape = {
   title: z.string(),
   description: z.string().optional(),
   recommendedFilament: z.string().optional(),
-  primaryImage: z.any(),
-  secondaryImage: z.any(),
-  model: z.any(),
+  primaryImage: z.string(),
+  secondaryImage: z.string(),
+  model: z.string(),
   recentlyViewed: z.boolean().optional(),
 }
 

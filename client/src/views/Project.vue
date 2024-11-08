@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="pt-2 text-left xl:max-w-2xl h-full w-96">
+    <div class="pt-2 text-left xl:max-w-2xl w-96">
       <h1 class="pt-2 text-3xl font-bold">
         {{ project.title }}
       </h1>
@@ -42,7 +42,7 @@
           {{ project.description }}
         </div>
       </div>
-      <div class="mb-2 grid grid-cols-1 gap-4 content-end h-96">
+      <div class="flex flex-col gap-2 content-end pt-3">
         <h2 class="text-base font-semibold">Suggested Model Settings</h2>
         <div class="">
           <span>
@@ -52,34 +52,44 @@
               type="checkbox"
               v-model="minimizeSupports"
             />
-            <label class="mx-2 font-sans capitalize">Minimize Supports</label>
+            <label class="px-2 font-sans capitalize">Minimize Supports</label>
           </span>
         </div>
-        <label class="mx-2 font-sans capitalize">Adhesion</label>
-        <v-select
-          :options="adhesionChoices"
-          v-model="adhesion"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <label class="mx-2 font-sans capitalize">Support Structure</label>
-        <v-select
-          :options="supportStructureChoices"
-          v-model="supportStructure"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <label class="mx-2 font-sans capitalize">Support Type</label>
-        <v-select
-          :options="supportTypeChoices"
-          v-model="supportType"
-          label="label"
-          :searchable="false"
-        ></v-select>
-        <label class="mx-2 font-sans capitalize">Filament</label>
-        <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
-        <label class="mx-2 font-sans capitalize">Printer</label>
-        <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Adhesion</label>
+          <v-select
+            :options="adhesionChoices"
+            v-model="adhesion"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Support Structure</label>
+          <v-select
+            :options="supportStructureChoices"
+            v-model="supportStructure"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Support Type</label>
+          <v-select
+            :options="supportTypeChoices"
+            v-model="supportType"
+            label="label"
+            :searchable="false"
+          ></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Filament</label>
+          <v-select :options="filamentChoices" v-model="filament" label="label"></v-select>
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Printer</label>
+          <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
+        </section>
         <div class="w-full">
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
@@ -132,7 +142,17 @@ export default {
     })
 
     const getProjectData = async () => {
-      project.value = await ProjectApi.retrieve(route.params.id)
+      const projectServer = await ProjectApi.retrieve(route.params.id)
+      //TODO: remove this...
+      const devServer = import.meta.env.VITE_DEV_BACKEND_URL
+      project.value = devServer
+        ? {
+            ...projectServer,
+            primaryImage: `${devServer}${projectServer.primaryImage}`,
+            secondaryImage: `${devServer}${projectServer.secondaryImage}`,
+            model: `${devServer}${projectServer.model}`,
+          }
+        : projectServer
     }
     const snakeCase = (value) => {
       return value
