@@ -1,6 +1,6 @@
 <template>
   <div class="pt-8 text-left xl:max-w-2xl h-full">
-    <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Create a new Project</h1>
+    <h1 class="pt-2 pl-6 text-4xl font-bold">Create a new Project</h1>
     <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
       <span>
         <label class="mx-2 font-sans capitalize">Title</label>
@@ -24,22 +24,38 @@
         <label class="mx-2 font-sans capitalize">Images</label>
         <FileField
           @update:assets="onMultipleImagesChange"
-          :assets="imagesToUpload"
+          :assets="form.imagesToUpload.value"
           :asset-types="assetTypeMap.image"
           multiple
           class="flex-grow flex flex-col overflow-y-auto"
           container-class="flex-grow overflow-y-auto"
         />
+        <ul v-if="form.imagesToUpload.errors.length">
+          <li
+            v-for="(error, index) in form.imagesToUpload.errors"
+            :key="index"
+            v-text="error.message"
+            class="input--error"
+          />
+        </ul>
       </span>
       <span>
         <label class="mx-2 font-sans capitalize">Model File</label>
         <FileField
           @update:asset="onModelChange"
-          :asset="modelToUpload"
+          :asset="form.modelToUpload.value"
           :asset-types="assetTypeMap.model"
           class="flex-grow flex flex-col overflow-y-auto"
           container-class="flex-grow overflow-y-auto"
         />
+        <ul v-if="form.modelToUpload.errors.length">
+          <li
+            v-for="(error, index) in form.modelToUpload.errors"
+            :key="index"
+            v-text="error.message"
+            class="input--error"
+          />
+        </ul>
       </span>
       <span>
         <label class="mx-2 font-sans capitalize">Recommended Filament</label>
@@ -82,13 +98,11 @@ export default {
     const user = computed(() => {
       return store.getters.user
     })
-    const imagesToUpload = ref([])
     const onMultipleImagesChange = (eventFiles) => {
-      imagesToUpload.value = eventFiles
+      form.value.imagesToUpload.value = eventFiles
     }
-    const modelToUpload = ref()
     const onModelChange = (eventFile) => {
-      modelToUpload.value = eventFile
+      form.value.modelToUpload.value = eventFile
     }
 
     onBeforeMount(async () => {
@@ -105,9 +119,9 @@ export default {
         return
       }
       const fileData = {
-        model: modelToUpload.value,
-        primaryImage: imagesToUpload.value[0],
-        secondaryImage: imagesToUpload.value[1],
+        model: form.value.modelToUpload.value,
+        primaryImage: form.value.imagesToUpload.value[0],
+        secondaryImage: form.value.imagesToUpload.value[1],
       }
       ProjectApi.csc
         .createProject(Object.assign({}, unwrappedForm.value, fileData))
@@ -127,9 +141,7 @@ export default {
       filamentChoices,
       form,
       save,
-      imagesToUpload,
       onMultipleImagesChange,
-      modelToUpload,
       onModelChange,
     }
   },
