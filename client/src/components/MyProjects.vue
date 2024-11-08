@@ -44,10 +44,6 @@ export default {
       },
     })
 
-    function handleFailure(error) {
-      console.log(error)
-    }
-
     return {
       deleteProject,
       myProjects,
