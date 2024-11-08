@@ -38,8 +38,8 @@ const createProject = createCustomServiceCall({
   cb: async ({ client, input, utils }) => {
     const formData = new FormData()
     formData.append('title', input.title)
-    formData.append('description', input.description)
-    formData.append('recommendedFilament', input.recommendedFilament)
+    formData.append('description', input.description ?? '')
+    formData.append('recommendedFilament', input.recommendedFilament ?? '')
     formData.append('model', input.model)
     formData.append('primaryImage', input.primaryImage)
     formData.append('secondaryImage', input.secondaryImage)
