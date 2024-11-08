@@ -11,7 +11,7 @@ import { baseModelShape } from '../base-model'
 
 export const settingsShape = {
   filament: z.string().nullable(),
-  printer: z.string().optional(),
+  printer: z.string().optional().nullable(),
   minimizeSupports: z.boolean().optional(),
 }
 
