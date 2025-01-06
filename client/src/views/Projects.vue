@@ -61,7 +61,7 @@ export default {
     const addNextPage = async () => {
       await projects.value.addNextPage()
       triggerRef(projects)
-    }    
+    }
     // Added this section to handle URL search params
     onBeforeMount(async () => {
       if (route.query.search) {
@@ -90,7 +90,7 @@ export default {
       if (!unwrappedForm.isValid) return
       projectFilters.search = unwrappedForm.query.value
       router.push({
-        query: { search: unwrappedForm.query.value }
+        query: { search: unwrappedForm.query.value },
       })
       getProjects()
     }

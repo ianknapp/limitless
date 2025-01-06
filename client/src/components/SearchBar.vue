@@ -25,17 +25,17 @@ export default {
 
     const handleSearch = () => {
       if (!searchQuery.value) return
-      
+
       router.push({
         name: 'Home',
-        query: { search: searchQuery.value }
+        query: { search: searchQuery.value },
       })
     }
 
     return {
       searchQuery,
-      handleSearch
+      handleSearch,
     }
-  }
+  },
 }
 </script>

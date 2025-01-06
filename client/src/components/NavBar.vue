@@ -1,8 +1,7 @@
 <template>
   <div class="top-0 z-10 shadow sm:pt-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-row justify-end sm:justify-between h-16">
-        <!-- Left section with nav toggle and search -->
+      <div class="flex flex-row items-center justify-between h-16">
         <div class="flex items-center">
           <div class="content-center hidden sm:inline-block">
             <img
@@ -20,13 +19,11 @@
               @click="toggleLeftNav"
             />
           </div>
-          <!-- Add SearchBar here -->
           <div class="hidden sm:block">
             <SearchBar />
           </div>
         </div>
 
-        <!-- Right section with login/profile -->
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
             <router-link :to="{ name: 'Login' }" class="btn--primary bg-zinc-900" data-cy="login"
@@ -88,9 +85,8 @@
         </div>
       </div>
     </div>
-    <!-- Mobile menu -->
+
     <div class="sm:hidden font-sans bg-gray-500/10" v-if="mobileMenuOpen">
-      <!-- Add SearchBar to mobile menu -->
       <div class="px-2 pt-2 pb-3">
         <SearchBar />
       </div>
@@ -164,16 +160,16 @@ import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   name: 'NavBar',
-  components: {    
+  components: {
     SearchBar,
   },
   emits: ['toggleLeftNav'],
   setup(props, context) {
     const store = useStore()
     const router = useRouter()
-    let leftNavOpen = ref(true)
-    let mobileMenuOpen = ref(false)
-    let profileMenuOpen = ref(false)
+    const leftNavOpen = ref(true)
+    const mobileMenuOpen = ref(false)
+    const profileMenuOpen = ref(false)
 
     async function logout() {
       try {
@@ -199,6 +195,8 @@ export default {
     return {
       toggleLeftNav,
       leftNavOpen,
+      mobileMenuOpen,
+      profileMenuOpen,
       logout,
       isLoggedIn: computed(() => store.getters.isLoggedIn),
       user: computed(() => store.getters.user),
