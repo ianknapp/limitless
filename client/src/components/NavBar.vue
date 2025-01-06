@@ -2,22 +2,31 @@
   <div class="top-0 z-10 shadow sm:pt-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-row justify-end sm:justify-between h-16">
-        <div class="content-center hidden sm:inline-block">
-          <img
-            class="block h-6 w-6 cursor-pointer"
-            v-if="leftNavOpen"
-            src="@/assets/icons/chevron_left.png"
-            alt="Hide Navigation"
-            @click="toggleLeftNav"
-          />
-          <img
-            class="block h-6 w-6 cursor-pointer"
-            v-if="!leftNavOpen"
-            src="@/assets/icons/chevron_right.png"
-            alt="Open Navigation"
-            @click="toggleLeftNav"
-          />
+        <!-- Left section with nav toggle and search -->
+        <div class="flex items-center">
+          <div class="content-center hidden sm:inline-block">
+            <img
+              class="block h-6 w-6 cursor-pointer"
+              v-if="leftNavOpen"
+              src="@/assets/icons/chevron_left.png"
+              alt="Hide Navigation"
+              @click="toggleLeftNav"
+            />
+            <img
+              class="block h-6 w-6 cursor-pointer"
+              v-if="!leftNavOpen"
+              src="@/assets/icons/chevron_right.png"
+              alt="Open Navigation"
+              @click="toggleLeftNav"
+            />
+          </div>
+          <!-- Add SearchBar here -->
+          <div class="hidden sm:block">
+            <SearchBar />
+          </div>
         </div>
+
+        <!-- Right section with login/profile -->
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
             <router-link :to="{ name: 'Login' }" class="btn--primary bg-zinc-900" data-cy="login"
@@ -79,8 +88,12 @@
         </div>
       </div>
     </div>
-
+    <!-- Mobile menu -->
     <div class="sm:hidden font-sans bg-gray-500/10" v-if="mobileMenuOpen">
+      <!-- Add SearchBar to mobile menu -->
+      <div class="px-2 pt-2 pb-3">
+        <SearchBar />
+      </div>
       <div class="space-y-1 pb-3 pt-2">
         <router-link
           :to="{ name: 'Home' }"
@@ -145,11 +158,15 @@
 <script>
 import { userApi } from '@/services/users'
 import { computed, ref } from 'vue'
-
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import SearchBar from '@/components/SearchBar.vue'
 
 export default {
+  name: 'NavBar',
+  components: {    
+    SearchBar,
+  },
   emits: ['toggleLeftNav'],
   setup(props, context) {
     const store = useStore()

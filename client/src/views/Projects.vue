@@ -34,6 +34,7 @@
 <script>
 import { ref, computed, onBeforeMount, triggerRef } from 'vue'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
@@ -50,6 +51,7 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
     const { projectCollection, projectFilters } = projectFunctions()
     const projects = ref(projectCollection)
     const form = ref(new SearchForm())
@@ -59,8 +61,13 @@ export default {
     const addNextPage = async () => {
       await projects.value.addNextPage()
       triggerRef(projects)
-    }
+    }    
+    // Added this section to handle URL search params
     onBeforeMount(async () => {
+      if (route.query.search) {
+        form.value.query.value = route.query.search
+        projectFilters.search = route.query.search
+      }
       await getProjects()
     })
 
@@ -76,11 +83,15 @@ export default {
       triggerRef(projects)
       store.dispatch('setProjects', projects.value.list)
     }
+    // Updated attemptSearch to modify URL
     function attemptSearch() {
       const unwrappedForm = form.value
       unwrappedForm.validate()
       if (!unwrappedForm.isValid) return
       projectFilters.search = unwrappedForm.query.value
+      router.push({
+        query: { search: unwrappedForm.query.value }
+      })
       getProjects()
     }
     return {
