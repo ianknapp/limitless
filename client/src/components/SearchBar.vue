@@ -24,7 +24,7 @@
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import VSelect from 'vue-select'
-import { projectApi } from '@/services/projects/api'
+import { projectApi } from '@/services/projects'
 import 'vue-select/dist/vue-select.css'
 
 export default {
