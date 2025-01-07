@@ -3,8 +3,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-row justify-end sm:justify-between h-16">
         <!-- Left section with nav toggle and search -->
-        <div class="flex items-center">
-          <div class="content-center hidden sm:inline-block">
+        <div class="flex items-center space-x-4">          
             <img
               class="block h-6 w-6 cursor-pointer"
               v-if="leftNavOpen"
@@ -20,13 +19,13 @@
               @click="toggleLeftNav"
             />
           </div>
-          <!-- Add SearchBar here -->
-          <div class="hidden sm:block">
+           <!-- Center section with search -->
+          <div class="flex-1 flex justify-center">
             <SearchBar />
           </div>
-
+          
         <!-- Right section with login/profile -->
-        <div class="hidden sm:ml-6 sm:flex sm:items-center">
+        <div class="hidden sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
             <router-link :to="{ name: 'Login' }" class="btn--primary bg-zinc-900" data-cy="login"
               >Login</router-link
