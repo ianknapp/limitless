@@ -52,6 +52,14 @@ const createProject = createCustomServiceCall({
   },
 })
 
+const searchProjects = createCustomServiceCall({
+  outputShape: simplifiedProjectShape,
+  cb: async ({ client, utils }, searchQuery: string) => {
+    const res = await client.get(`/projects/search-suggestions/?q=${searchQuery}`)
+    return res.data
+  },
+})
+
 export const ProjectApi = createApi({
   client: axiosInstance,
   baseUri: '/projects/',
@@ -59,7 +67,7 @@ export const ProjectApi = createApi({
     entity: projectShape,
     extraFilters: projectFiltersShape,
   },
-  customCalls: { print, createProject, myProjects, deleteProject },
+  customCalls: { print, createProject, myProjects, deleteProject, searchProjects },
 })
 
 export const projectFunctions = () => {

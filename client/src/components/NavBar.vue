@@ -3,27 +3,27 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Left section with nav toggle and search -->
-        <div class="flex items-center space-x-4">          
-            <img
-              class="block h-6 w-6 cursor-pointer"
-              v-if="leftNavOpen"
-              src="@/assets/icons/chevron_left.png"
-              alt="Hide Navigation"
-              @click="toggleLeftNav"
-            />
-            <img
-              class="block h-6 w-6 cursor-pointer"
-              v-if="!leftNavOpen"
-              src="@/assets/icons/chevron_right.png"
-              alt="Open Navigation"
-              @click="toggleLeftNav"
-            />
-          </div>
-          <!-- Center section with search -->
-          <div class="flex-1 flex justify-center">
-            <SearchBar />
-          </div>
-          
+        <div class="flex items-center space-x-4">
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="leftNavOpen"
+            src="@/assets/icons/chevron_left.png"
+            alt="Hide Navigation"
+            @click="toggleLeftNav"
+          />
+          <img
+            class="block h-6 w-6 cursor-pointer"
+            v-if="!leftNavOpen"
+            src="@/assets/icons/chevron_right.png"
+            alt="Open Navigation"
+            @click="toggleLeftNav"
+          />
+        </div>
+        <!-- Center section with search -->
+        <div class="flex-1 flex justify-center">
+          <SearchBar />
+        </div>
+
         <!-- Right section with login/profile -->
         <div class="hidden sm:flex sm:items-center">
           <template v-if="!isLoggedIn">
@@ -179,7 +179,7 @@ export default {
       // Implement your search logic here, e.g., navigate to a search results page
       router.push({ name: 'Projects', query: { search: searchQuery.value } })
     }
-    
+
     async function logout() {
       try {
         await userApi.csc.logout()

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from rest_framework import mixins, parsers, status, viewsets
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.response import Response
+from rest_framework import filters
 
 from limitless.cura.models import CuraSettings
 from limitless.cura.serializers import AllSettingsSerializer
@@ -32,6 +33,8 @@ logger = logging.getLogger(__name__)
 class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin):
     queryset = Project.objects.filter(hidden=False)
     serializer_class = ProjectSerializer
+    filter_backends = [filters.SearchFilter]  # Add this
+    search_fields = ['title', 'description']  # Add this
 
     def filter_queryset(self, queryset):
         search_query = self.request.query_params.get("search", "")
@@ -42,7 +45,8 @@ class ProjectViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.
         if search_query:
             search_query = search_query.strip()
             queryset = queryset.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
-        return queryset.distinct()
+        
+        return queryset.order_by('-created')  # Sort by newest first
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -129,3 +133,23 @@ def settings(request):
     data["printers"] = PrinterSerializer(Printer.objects.filter(hidden=False).all(), many=True).data
     data["filaments"] = FilamentSerializer(Filament.objects.filter(hidden=False).all(), many=True).data
     return Response(data)
+
+@api_view(["GET"])
+def search_suggestions(request):
+    search_query = request.query_params.get('q', '').strip()
+    if len(search_query) < 1:
+        return Response([])
+
+    projects = Project.objects.filter(
+        Q(title__icontains=search_query) |
+        Q(description__icontains=search_query),
+        hidden=False
+    ).distinct()[:5]  # Limit to 5 suggestions
+
+    suggestions = [{
+        'id': project.id,
+        'title': project.title,
+        'image': project.primaryImage,
+    } for project in projects]
+
+    return Response(suggestions)

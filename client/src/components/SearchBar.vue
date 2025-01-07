@@ -9,9 +9,7 @@
       placeholder="Search Models"
       class="w-72"
     >
-      <template #no-options>
-        Type to search projects...
-      </template>
+      <template #no-options> Type to search projects... </template>
       <template #option="{ title, image }">
         <div class="flex items-center">
           <img v-if="image" :src="image" class="h-8 w-8 rounded mr-2" />
@@ -26,6 +24,7 @@
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import VSelect from 'vue-select'
+import { projectApi } from '@/services/projects/api'
 import 'vue-select/dist/vue-select.css'
 
 export default {
@@ -40,25 +39,31 @@ export default {
     const isLoading = ref(false)
 
     const onSearch = async (search) => {
-      if (search.length < 1) return
-      
+      if (search.length < 1) {
+        options.value = []
+        return
+      }
+
       isLoading.value = true
       try {
-        // Use your existing API endpoint
-        const response = await fetch(`/api/projects/?search=${search}`)
-        const data = await response.json()
-        options.value = data
+        const results = await projectApi.csc.searchProjects(search)
+        options.value = results.map((project) => ({
+          id: project.id,
+          title: project.title,
+          image: project.image,
+        }))
       } catch (error) {
         console.error('Search error:', error)
+        options.value = []
       } finally {
         isLoading.value = false
       }
     }
 
-    // Watch for changes in selection
     watch(selected, (newValue) => {
       if (newValue) {
         router.push({ name: 'Project', params: { id: newValue.id } })
+        selected.value = null // Reset after navigation
       }
     })
 
@@ -68,7 +73,7 @@ export default {
       isLoading,
       onSearch,
     }
-  }
+  },
 }
 </script>
 
