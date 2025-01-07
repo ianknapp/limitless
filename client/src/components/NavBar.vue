@@ -19,9 +19,15 @@
               @click="toggleLeftNav"
             />
           </div>
-           <!-- Center section with search -->
+          <!-- Center section with search -->
           <div class="flex-1 flex justify-center">
-            <SearchBar />
+            <form @submit.prevent="handleSearch">
+              <input
+                v-model="searchQuery"
+                placeholder="Search Models"
+                class="pl-6 h-12 w-72 bg-zinc-900/50 rounded-full cursor-pointer"
+              />
+            </form>
           </div>
           
         <!-- Right section with login/profile -->
@@ -158,13 +164,9 @@ import { userApi } from '@/services/users'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import SearchBar from '@/components/SearchBar.vue'
 
 export default {
   name: 'NavBar',
-  components: {
-    SearchBar,
-  },
   emits: ['toggleLeftNav'],
   setup(props, context) {
     const store = useStore()
@@ -172,7 +174,14 @@ export default {
     let leftNavOpen = ref(true)
     let mobileMenuOpen = ref(false)
     let profileMenuOpen = ref(false)
+    const searchQuery = ref('')
 
+    function handleSearch() {
+      if (!searchQuery.value) return
+      // Implement your search logic here, e.g., navigate to a search results page
+      router.push({ name: 'Projects', query: { search: searchQuery.value } })
+    }
+    
     async function logout() {
       try {
         await userApi.csc.logout()
