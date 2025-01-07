@@ -24,7 +24,7 @@
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import VSelect from 'vue-select'
-import { projectApi } from '@/services/projects'
+import { ProjectApi } from '@/services/projects'
 import 'vue-select/dist/vue-select.css'
 
 export default {
@@ -46,7 +46,7 @@ export default {
 
       isLoading.value = true
       try {
-        const results = await projectApi.csc.searchProjects(search)
+        const results = await ProjectApi.csc.searchProjects(search)
         options.value = results.map((project) => ({
           id: project.id,
           title: project.title,
