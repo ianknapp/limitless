@@ -24,7 +24,6 @@
           <div class="hidden sm:block">
             <SearchBar />
           </div>
-        </div>
 
         <!-- Right section with login/profile -->
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
