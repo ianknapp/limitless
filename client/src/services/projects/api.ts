@@ -53,7 +53,7 @@ const createProject = createCustomServiceCall({
 })
 
 const searchProjects = createCustomServiceCall({
-  outputShape: simplifiedProjectShape,
+  outputShape: z.object(simplifiedProjectShape).array(),
   cb: async ({ client, utils }, searchQuery: string) => {
     const res = await client.get(`/projects/search-suggestions/?q=${searchQuery}`)
     return res.data

@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style>
-/* Custom styles to match your dark theme */
+/* Custom styles to match dark theme */
 .v-select {
   background-color: rgba(24, 24, 27, 0.5);
   border-radius: 9999px;
