@@ -11,5 +11,7 @@
     "client/node_modules",
     ".cache/Cypress"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "vue-select": "^3.20.3"
+  }
 }

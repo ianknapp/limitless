@@ -1,7 +1,7 @@
 <template>
   <div class="top-0 z-10 shadow sm:pt-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-row justify-end sm:justify-between h-16">
+      <div class="flex items-center justify-between h-16">
         <!-- Left section with nav toggle and search -->
         <div class="flex items-center space-x-4">          
             <img
@@ -21,13 +21,7 @@
           </div>
           <!-- Center section with search -->
           <div class="flex-1 flex justify-center">
-            <form @submit.prevent="handleSearch">
-              <input
-                v-model="searchQuery"
-                placeholder="Search Models"
-                class="pl-6 h-12 w-72 bg-zinc-900/50 rounded-full cursor-pointer"
-              />
-            </form>
+            <SearchBar />
           </div>
           
         <!-- Right section with login/profile -->
@@ -164,9 +158,13 @@ import { userApi } from '@/services/users'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'NavBar',
+  components: {
+    SearchBar,
+  },
   emits: ['toggleLeftNav'],
   setup(props, context) {
     const store = useStore()
