@@ -1,27 +1,24 @@
 <template>
-  <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')] w-full flex">
-    <div class="flex justify-center flex-grow">
-      <div
-        class="w-1/2 h-full opacity-20 bg-violet-900 rounded-full blur-3xl absolute z-0 -top-full mt-40"
-      ></div>
-      <div v-if="skipNav">
-        <router-view />
-      </div>
-      <div
-        v-else
-        class="flex flex-row w-full text-center font-serif text-primary antialiased md:max-w-[80%] 3xl:max-w-[70%] flex-grow"
-      >
-        <AlertAlert />
-
-        <LeftNav :expandLeftNav="leftNav" />
-        <div class="flex justify-center flex-grow flex-col w-full">
-          <NavBar @toggle-left-nav="toggleLeftNav" />
-          <div class="px-6 overflow-auto flex flex-grow">
-            <router-view />
-          </div>
+  <div class="min-h-screen bg-black bg-[url('@/assets/icons/hex.png')] w-full flex flex-col">
+    <!-- Fixed top navbar -->
+    <NavBar v-if="!skipNav" />
+    
+    <div class="flex flex-grow">
+      <!-- Right side categories panel -->
+      <LeftNav v-if="!skipNav" />
+      
+      <!-- Main content area -->
+      <div class="flex-grow">
+        <div v-if="skipNav">
+          <router-view />
+        </div>
+        <div v-else class="px-6 overflow-auto">
+          <router-view />
         </div>
       </div>
     </div>
+    
+    <AlertAlert />
   </div>
 </template>
 

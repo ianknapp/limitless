@@ -23,3 +23,11 @@
 .form-container {
   @apply container mx-auto w-full content-center rounded-lg bg-slate-200 py-5 sm:max-w-prose;
 }
+
+body {
+  padding-top: 4rem; /* Height of navbar */
+}
+
+.main-content {
+  margin-top: 4rem;
+}
