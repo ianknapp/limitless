@@ -1,33 +1,44 @@
 <template>
-  <div class="p-6"> <!-- Added padding to match content area -->
+  <div class="p-6">
     <MarketplaceHeader
       @search="attemptSearch"
       @filter-change="handleFilterChange"
     />
 
     <LoadingSpinner v-if="loading" />
-    <div v-if="!loading" class="flex">
+    
+    <!-- Debug info -->
+    <div v-if="!loading && (!projects?.list || projects.list.length === 0)" class="text-white">
+      No projects found
+    </div>
+
+    <!-- Project Grid -->
+    <div v-if="!loading && projects?.list && projects.list.length > 0">
       <div
-        class="mb-8 grid gap-4 content-start w-full"
-        style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
-        <ProjectCard v-for="project in projects.list" :project="project" :key="project.id" />
-        <button
-          class="col-start-1 col-span-2 md:col-span-4 justify-self-center btn--primary mt-12 w-40 text-center"
-          v-if="projects.pagination.next"
-          @click="addNextPage()"
-        >
-          See More
-        </button>
+        <ProjectCard 
+          v-for="project in projects.list" 
+          :project="project" 
+          :key="project.id" 
+          class="w-full"
+        />
       </div>
+      
+      <button
+        v-if="projects.pagination?.next"
+        @click="addNextPage"
+        class="mx-auto block btn--primary mt-12 w-40 text-center"
+      >
+        See More
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed, onBeforeMount, triggerRef } from 'vue'
-import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted, triggerRef } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import InputField from '@/components/inputs/InputField.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
@@ -50,52 +61,68 @@ export default {
     const { projectCollection, projectFilters } = projectFunctions()
     const projects = ref(projectCollection)
     const form = ref(new SearchForm())
-    const loading = computed(() => {
-      return projects.value?.refreshing
-    })
-    const addNextPage = async () => {
-      await projects.value.addNextPage()
-      triggerRef(projects)
+    const loading = ref(true)
+
+    const getProjects = async () => {
+      loading.value = true
+      try {
+        console.log('Fetching projects...')
+        await projects.value.refresh()
+        triggerRef(projects)
+        store.dispatch('setProjects', projects.value.list)
+        console.log('Projects loaded:', projects.value.list)
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        if (error.response?.status === 401) {
+          store.dispatch('logoutUser')
+          router.push({ name: 'Login' })
+        }
+      } finally {
+        loading.value = false
+      }
     }
-    // Added this section to handle URL search params
-    onBeforeMount(async () => {
+
+    const addNextPage = async () => {
+      if (loading.value) return
+      loading.value = true
+      try {
+        await projects.value.addNextPage()
+        triggerRef(projects)
+      } catch (error) {
+        console.error('Error loading more projects:', error)
+      } finally {
+        loading.value = false
+      }
+    }
+
+    function attemptSearch(query) {
+      projectFilters.search = query
+      router.push({ query: { search: query } })
+      getProjects()
+    }
+
+    function handleFilterChange({ filter, time }) {
+      projectFilters.filter = filter
+      projectFilters.timeRange = time
+      router.push({ query: { ...route.query, filter, time } })
+      getProjects()
+    }
+
+    // Initialize projects on component mount
+    onMounted(async () => {
       if (route.query.search) {
-        form.value.query.value = route.query.search
         projectFilters.search = route.query.search
       }
       await getProjects()
     })
 
-    const getProjects = async () => {
-      await projects.value.refresh().catch((error) => {
-        console.log('getProjects: ', error)
-        if (error.response && error.response.status === 401) {
-          // User session expired
-          store.dispatch('logoutUser')
-          router.push({ name: 'Login' })
-        }
-      })
-      triggerRef(projects)
-      store.dispatch('setProjects', projects.value.list)
-    }
-    // Updated attemptSearch to modify URL
-    function attemptSearch() {
-      const unwrappedForm = form.value
-      unwrappedForm.validate()
-      if (!unwrappedForm.isValid) return
-      projectFilters.search = unwrappedForm.query.value
-      router.push({
-        query: { search: unwrappedForm.query.value },
-      })
-      getProjects()
-    }
     return {
+      projects,
+      loading,
       attemptSearch,
+      handleFilterChange,
       addNextPage,
       form,
-      loading,
-      projects,
-      projectFilters,
     }
   },
 }

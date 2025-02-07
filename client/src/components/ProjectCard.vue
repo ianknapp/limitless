@@ -6,7 +6,12 @@
     >
       <div class="rounded-lg bg-zinc-900/30">
         <div class="mb-auto flex w-48 h-36 justify-center">
-          <img class="rounded-lg flex-shrink max-h-full pointer-events-none" :src="project.image" />
+          <img 
+            v-if="project.image"
+            class="rounded-lg flex-shrink max-h-full pointer-events-none" 
+            :src="project.image" 
+            :alt="project.title"
+          />
         </div>
       </div>
     </router-link>
@@ -16,7 +21,7 @@
       <h3 class="font-semibold text-lg mb-2">{{ project.title }}</h3>
       
       <!-- Creator Info -->
-      <div class="flex items-center space-x-2 mb-3">
+      <div v-if="project.creator" class="flex items-center space-x-2 mb-3">
         <img 
           :src="project.creator.avatar" 
           :alt="project.creator.username"
@@ -30,11 +35,11 @@
         <div class="flex items-center space-x-4">
           <span class="flex items-center space-x-1">
             <i class="icon-download" />
-            {{ formatNumber(project.downloads) }}
+            {{ formatNumber(project.downloads || 0) }}
           </span>
           <span class="flex items-center space-x-1">
             <i class="icon-eye" />
-            {{ formatNumber(project.views) }}
+            {{ formatNumber(project.views || 0) }}
           </span>
         </div>
         
@@ -44,7 +49,7 @@
           :class="{ 'text-primary': isSaved }"
         >
           <i :class="isSaved ? 'icon-bookmark-filled' : 'icon-bookmark'" />
-          {{ formatNumber(project.saves) }}
+          {{ formatNumber(project.saves || 0) }}
         </button>
       </div>
     </div>
@@ -60,7 +65,10 @@ export default {
   props: {
     project: {
       type: Object,
-      required: true
+      required: true,
+      validator: (prop) => {
+        return prop && prop.id && prop.title // Add basic validation
+      }
     }
   },
   setup(props) {
@@ -68,6 +76,7 @@ export default {
     const isSaved = ref(props.project.is_saved || false)
 
     const formatNumber = (num) => {
+      if (!num) return '0'
       if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
       if (num >= 1000) return `${(num / 1000).toFixed(1)}K`
       return num.toString()
