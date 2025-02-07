@@ -1,0 +1,142 @@
+//Backend
+
+You are an expert in Python, Django, and scalable web application development.
+
+Key Principles
+- Write clear, technical responses with precise Django examples.
+- Use Django's built-in features and tools wherever possible to leverage its full capabilities.
+- Prioritize readability and maintainability; follow Django's coding style guide (PEP 8 compliance).
+- Use descriptive variable and function names; adhere to naming conventions (e.g., lowercase with underscores for functions and variables).
+- Structure your project in a modular way using Django apps to promote reusability and separation of concerns.
+
+Django/Python
+- Use Django’s class-based views (CBVs) for more complex views; prefer function-based views (FBVs) for simpler logic.
+- Leverage Django’s ORM for database interactions; avoid raw SQL queries unless necessary for performance.
+- Use Django’s built-in user model and authentication framework for user management.
+- Utilize Django's form and model form classes for form handling and validation.
+- Follow the MVT (Model-View-Template) pattern strictly for clear separation of concerns.
+- Use middleware judiciously to handle cross-cutting concerns like authentication, logging, and caching.
+
+Error Handling and Validation
+- Implement error handling at the view level and use Django's built-in error handling mechanisms.
+- Use Django's validation framework to validate form and model data.
+- Prefer try-except blocks for handling exceptions in business logic and views.
+- Customize error pages (e.g., 404, 500) to improve user experience and provide helpful information.
+- Use Django signals to decouple error handling and logging from core business logic.
+
+Dependencies
+- Django
+- Django REST Framework (for API development)
+- Celery (for background tasks)
+- Redis (for caching and task queues)
+- PostgreSQL or MySQL (preferred databases for production)
+
+Django-Specific Guidelines
+- Use Django templates for rendering HTML and DRF serializers for JSON responses.
+- Keep business logic in models and forms; keep views light and focused on request handling.
+- Use Django's URL dispatcher (urls.py) to define clear and RESTful URL patterns.
+- Apply Django's security best practices (e.g., CSRF protection, SQL injection protection, XSS prevention).
+- Use Django’s built-in tools for testing (unittest and pytest-django) to ensure code quality and reliability.
+- Leverage Django’s caching framework to optimize performance for frequently accessed data.
+- Use Django’s middleware for common tasks such as authentication, logging, and security.
+
+Performance Optimization
+- Optimize query performance using Django ORM's select_related and prefetch_related for related object fetching.
+- Use Django’s cache framework with backend support (e.g., Redis or Memcached) to reduce database load.
+- Implement database indexing and query optimization techniques for better performance.
+- Use asynchronous views and background tasks (via Celery) for I/O-bound or long-running operations.
+- Optimize static file handling with Django’s static file management system (e.g., WhiteNoise or CDN integration).
+
+Key Conventions
+1. Follow Django's "Convention Over Configuration" principle for reducing boilerplate code.
+2. Prioritize security and performance optimization in every stage of development.
+3. Maintain a clear and logical project structure to enhance readability and maintainability.
+
+Refer to Django documentation for best practices in views, models, forms, and security considerations.
+
+//Frontend
+
+You are an expert in TypeScript, Node.js, Vite, Vue.js, Vue Router, Pinia, VueUse, Headless UI, Element Plus, and Tailwind, with a deep understanding of best practices and performance optimization techniques in these technologies.
+
+Code Style and Structure
+- Write concise, maintainable, and technically accurate TypeScript code with relevant examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Favor iteration and modularization to adhere to DRY principles and avoid code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Organize files systematically: each file should contain only related content, such as exported components, subcomponents, helpers, static content, and types.
+
+Naming Conventions
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Favor named exports for functions.
+
+TypeScript Usage
+- Use TypeScript for all code; prefer interfaces over types for their extendability and ability to merge.
+- Avoid enums; use maps instead for better type safety and flexibility.
+- Use functional components with TypeScript interfaces.
+
+Syntax and Formatting
+- Use the "function" keyword for pure functions to benefit from hoisting and clarity.
+- Always use the Vue Composition API script setup style.
+
+UI and Styling
+- Use Headless UI, Element Plus, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+
+Performance Optimization
+- Leverage VueUse functions where applicable to enhance reactivity and performance.
+- Wrap asynchronous components in Suspense with a fallback UI.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+- Implement an optimized chunking strategy during the Vite build process, such as code splitting, to generate smaller bundle sizes.
+
+Key Conventions
+- Optimize Web Vitals (LCP, CLS, FID) using tools like Lighthouse or WebPageTest.
+
+// Project-Specific Configuration
+
+Development Environment
+- Use Docker for local development and testing
+- Follow the make commands for common operations (e.g., make build, make run)
+- Maintain separate .env files for local development (.env.local) and production
+- Use pipenv for Python dependency management
+- Use npm for frontend dependency management
+
+Deployment
+- Production environment hosted on Heroku
+- Configure Django and Vue.js for Heroku deployment
+- Ensure proper environment variable configuration in Heroku
+- Use Heroku's PostgreSQL add-on for production database
+- Configure WhiteNoise for static file serving on Heroku
+
+Project Structure
+- Maintain separation between client (Vue.js) and server (Django) directories
+- Keep static assets in client/public/static for proper serving
+- Follow favicon configuration in client/public/static/favicons
+- Maintain logo assets in:
+  - client/src/assets/icons/glyph.svg (webapp)
+  - server/limitless/core/static/images/logo.png (emails)
+
+Testing and Quality Assurance
+- Run backend tests with pytest: pipenv run pytest server
+- Format Python code with black: pipenv run black server
+- Sort imports with isort: pipenv run isort server
+- Run frontend tests with Cypress: npm run cypress
+- Maintain test data creation scripts for local development
+
+Vue.js Specific
+- Use Vue 3 Composition API for component development
+- Handle reactive state properly using Vue 3's reactivity system
+- Implement proper favicon configuration across platforms
+- Follow the established directory structure for components and assets
+- Use the unwrap helper method for handling reactive variables
+
+API Documentation
+- Maintain API documentation at /api/docs/
+- Keep Django admin interface at /staff/
+- Document all API endpoints for frontend development
+
+Data Management
+- Use make create-test-data for initial data setup
+- Maintain test user accounts:
+  - SuperUser: admin@thinknimble.com
+  - Test User: cypress@thinknimble.com

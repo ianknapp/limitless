@@ -15,6 +15,8 @@
     </div>
     
     <AlertAlert />
+    
+    <AlertAlert />
   </div>
 </template>
 
