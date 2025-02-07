@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left font-sans">
+  <div class="text-left font-sans text-white">
     <router-link
       :to="{ name: 'Project', params: { id: project.id } }"
       class="flex flex-shrink-0 items-center"
@@ -30,3 +30,5 @@ export default {
   },
 }
 </script>
+
+

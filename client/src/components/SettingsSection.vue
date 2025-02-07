@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-8 text-left xl:max-w-2xl h-full">
+  <div class="pt-8 text-left xl:max-w-2xl h-full text-white">
     <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Print Settings</h1>
     <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
       <span>
@@ -116,7 +116,8 @@ export default {
 @import 'vue-select/dist/vue-select.css';
 
 .vs__selected {
-  color: #ffffff;
+  color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 .vs__dropdown-toggle {
@@ -126,10 +127,36 @@ export default {
   border-width: 0.12rem;
   border-radius: 0.5rem;
   background-color: #18181b;
+  color: white;
 }
+
 .vs__dropdown-menu {
   max-height: 12rem;
   font-weight: 600;
   background-color: #18181b;
+  color: white;
+}
+
+.vs__dropdown-option {
+  color: white !important;
+}
+
+.vs__search::placeholder,
+.vs__search,
+.vs__selected-options {
+  color: white !important;
+}
+
+.vs__actions {
+  fill: white;
+}
+
+.vs__clear,
+.vs__open-indicator {
+  fill: white !important;
+}
+
+.vs__search::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 </style>

@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Projects.vue'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Marketplace.vue'),
     beforeEnter: requireAuth,
   },
   {
