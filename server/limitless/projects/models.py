@@ -14,6 +14,10 @@ class Project(AbstractBaseModel):
     hidden = models.BooleanField(default=True)
     # Dummy flag to fake the recently viewed feature in the app
     recently_viewed = models.BooleanField(default=False)
+    views = models.PositiveIntegerField(default=0)
+    downloads = models.PositiveIntegerField(default=0)
+    saves = models.PositiveIntegerField(default=0)
+    posted_at = models.DateTimeField(auto_now_add=True)
 
     def delete(self):
         if self.settings:
@@ -24,7 +28,7 @@ class Project(AbstractBaseModel):
         return self.title
 
     class Meta:
-        ordering = ["-last_edited"]
+        ordering = ["-posted_at"]
 
 
 class ProjectFile(AbstractBaseModel):
