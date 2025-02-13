@@ -9,8 +9,7 @@ class Settings(TextChoices):
     SUPPORT_TYPE = "support_type", _("Support Type")
     INFILL_SPARSE_DENSITY = "infill_sparse_density", _("Infill Percentage")
     INFILL_LINE_DISTANCE = "infill_line_distance", _("Infill Line Distance")
-    LAYER_HEIGHT = "layer_height", _("Layer Height")
-    INITIAL_LAYER_HEIGHT = "layer_height_0", _("Initial Layer Height")
+
 
 class SupportStructure(TextChoices):
     NORMAL = "normal", _("Normal")
@@ -33,8 +32,8 @@ def cura_settings_str(settings):
     data = {
         Settings.INFILL_LINE_DISTANCE: compute_infill_line_distance(settings.infill_sparse_density),
         Settings.SUPPORT_ENABLE: ("true" if settings.enable_support else "false"),
-        Settings.LAYER_HEIGHT: settings.layer_height,
-        Settings.INITIAL_LAYER_HEIGHT: settings.layer_height_0,
+        "layer_height": settings.layer_height,
+        "layer_height_0": settings.initial_layer_height,
         **(
             {
                 Settings.SUPPORT_STRUCTURE: settings.support_structure,
