@@ -44,7 +44,9 @@ def cura_settings_str(settings):
         ),
         **({Settings.ADHESION_TYPE: settings.adhesion_type} if settings.adhesion_type != AdhesionType.NONE else {}),
     }
-    return " ".join(f"-s {key}={value}" for key, value in data.items())
+    command_str = " ".join(f"-s {key}={value}" for key, value in data.items())
+    logger.debug(f"Generated CLI command: {command_str}")  # Add this line for logging
+    return command_str
 
 
 def compute_infill_line_distance(infill_sparse_density=50, infill_line_width=0.4, infill_pattern="cubic"):
