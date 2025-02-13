@@ -114,6 +114,14 @@
           <label class="px-2 font-sans capitalize">Printer</label>
           <v-select :options="printerChoices" v-model="printer" label="label"></v-select>
         </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Layer Height (mm)</label>
+          <input class="text-black" type="number" v-model="layerHeight" min="0.001" max="0.8" step="0.001" />
+        </section>
+        <section class="flex flex-col gap-1">
+          <label class="px-2 font-sans capitalize">Initial Layer Height (mm)</label>
+          <input class="text-black" type="number" v-model="initialLayerHeight" min="0.01" max="0.8" step="0.005" />
+        </section>
         <div class="w-full">
           <button class="btn--primary bg-zinc-900" @click.prevent="print()">Download Files</button>
         </div>
@@ -161,6 +169,8 @@ export default {
     const cameraPosition = ref()
     const scale = ref()
     const minimizeSupports = ref(false)
+    const layerHeight = ref(0.2)
+    const initialLayerHeight = ref(0.3)
     let showAd = ref(false)
     const link = ref()
     const user = computed(() => {
@@ -194,6 +204,8 @@ export default {
           supportType: supportType.value.value,
           adhesionType: adhesion.value.value,
           minimizeSupports: minimizeSupports.value,
+          layerHeight: layerHeight.value,
+          initialLayerHeight: initialLayerHeight.value,
         })
         .then(handleGcodeSuccess)
         .catch(handleFailure)
@@ -271,6 +283,8 @@ export default {
       cameraPosition,
       scale,
       minimizeSupports,
+      layerHeight,
+      initialLayerHeight,
       showAd,
       currentImageSrc,
     }

@@ -3,7 +3,7 @@
     <h1 class="pt-2 pl-6 pt-12 text-4xl font-bold">Print Settings</h1>
     <div class="mt-8 mb-2 pt-4 grid grid-cols-1 gap-6 pl-6 content-end pb-12">
       <span>
-        <label class="mx-2 font-sans capitalize">Your Default Printer</label>
+        <label class="mx-2 font-sans capitalize">Select A Default Printer</label>
         <v-select
           class="w-96"
           :options="printerChoices"
@@ -12,10 +12,13 @@
           placeholder="select your default..."
         ></v-select>
       </span>
-      <div class="text-end hover:underline">
-        <a href="mailto:support@limitless-3d.com" target="_blank" class="text-xs text-primary"
-          >Don't see your printer?</a
-        >
+      <div class="printer-actions">
+        <button @click="addCustomPrinter" class="btn--primary bg-zinc-900 add-custom-printer-btn">Add Custom Printer</button>
+        <div class="text-end hover:underline">
+          <a href="mailto:support@limitless-3d.com" target="_blank" class="text-xs text-primary"
+            >Don't see your printer?</a
+          >
+        </div>
       </div>
       <span>
         <label class="mx-2 font-sans capitalize">Your Default Filament</label>
@@ -27,6 +30,9 @@
           placeholder="select your default..."
         ></v-select>
       </span>
+      <div class="filament-actions">
+        <button @click="addFilamentProfile" class="btn--primary bg-zinc-900 add-filament-profile-btn">Add Filament Profile</button>
+      </div>
       <span>
         <input
           class="rounded-full checked:accent-amber-600"
@@ -37,7 +43,7 @@
         <label class="mx-2 font-sans capitalize">Minimize Supports</label>
       </span>
       <div class="w-24">
-        <button class="btn--primary bg-zinc-900" @click.prevent="save()">Save</button>
+        <button class="btn--primary bg-zinc-900 save-button" @click.prevent="save()">Save</button>
       </div>
     </div>
   </div>
@@ -47,14 +53,12 @@
 import { computed, ref, onBeforeMount, h } from 'vue'
 import { useStore } from 'vuex'
 import vSelect from 'vue-select'
-import { vue3dLoader } from 'vue-3d-loader'
 import { userApi } from '@/services/users'
 
 export default {
   name: 'SettingsSection',
   components: {
     vSelect,
-    vue3dLoader,
   },
   setup() {
     const store = useStore()
@@ -99,6 +103,18 @@ export default {
       console.log(error)
     }
 
+    function addCustomPrinter() {
+      console.log('Add Custom Printer clicked')
+    }
+
+    function showPrinterHelp() {
+      console.log('Show printer help')
+    }
+
+    function addFilamentProfile() {
+      console.log('Add Filament Profile clicked')
+    }
+
     return {
       filament,
       filamentChoices,
@@ -107,6 +123,9 @@ export default {
       minimizeSupports,
       save,
       user: computed(() => store.getters.user),
+      addCustomPrinter,
+      showPrinterHelp,
+      addFilamentProfile,
     }
   },
 }
@@ -158,5 +177,45 @@ export default {
 
 .vs__search::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.printer-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn--primary {
+  margin-right: 10px;
+}
+
+.add-custom-printer-btn {
+  width: 200px;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.filament-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.add-filament-profile-btn {
+  width: 200px;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.save-button:hover {
+  background-color: #24741d !important;
 }
 </style>

@@ -51,3 +51,14 @@ def test_project_cura_settings_str(sample_project):
     assert cura_settings_str(settings) == (
         "-s infill_line_distance=6.0 -s support_enable=true -s support_structure=tree -s support_type=everywhere -s adhesion_type=brim"
     )
+
+
+@pytest.mark.django_db
+def test_project_cura_settings_str_with_new_parameters(sample_project):
+    settings = sample_project.settings
+    settings.layer_height = 0.2
+    settings.initial_layer_height = 0.4
+    assert cura_settings_str(settings) == (
+        "-s infill_line_distance=2.4000000000000004 -s support_enable=false "
+        "-s layer_height=0.2 -s layer_height_0=0.4"
+    )

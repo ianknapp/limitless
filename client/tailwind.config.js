@@ -18,6 +18,9 @@ module.exports = {
         serif: ['source-serif-pro', 'serif'],
         sans: ['Poppins', 'sans-serif'],
       },
+      textColor: {
+        'default': '#ffffff', // Set default text color to white
+      },
     },
     container: {
       padding: {

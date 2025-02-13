@@ -114,6 +114,8 @@ def print(request):
     settings.support_structure = SupportStructure(request.data["support_structure"])
     settings.support_type = SupportType(request.data["support_type"])
     settings.adhesion_type = AdhesionType(request.data["adhesion_type"])
+    settings.layer_height = request.data["layer_height"]
+    settings.initial_layer_height = request.data["initial_layer_height"]
     stl_file = project.files.filter(file_type=ProjectFile.TypeChoices.MODEL).first()
 
     file_path = slice_model(stl_file, filament.config, printer, cura_settings_str(settings), request.data.get("minimize_supports", False))

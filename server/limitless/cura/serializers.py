@@ -25,4 +25,12 @@ class AllSettingsSerializer(serializers.Serializer):
 class CuraSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CuraSettings
-        fields = ("enable_support", "support_type", "support_structure", "infill_sparse_density", "adhesion_type")
+        fields = (
+            "enable_support",
+            "support_type",
+            "support_structure",
+            "infill_sparse_density",
+            "adhesion_type",
+            "layer_height",
+            "initial_layer_height",
+        )

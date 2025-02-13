@@ -27,6 +27,8 @@ export const printShape = {
   filament: z.string(),
   printer: z.string(),
   minimizeSupports: z.boolean().optional(),
+  layerHeight: z.number().min(0.001).max(0.8),
+  initialLayerHeight: z.number().min(0.001).max(0.8),
 }
 
 export const projectFiltersShape = {
