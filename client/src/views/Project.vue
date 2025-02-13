@@ -194,19 +194,24 @@ export default {
     }
 
     function print() {
+      const payload = {
+        pk: route.params.id,
+        filament: filament.value.value,
+        printer: printer.value.value,
+        supportStructure: supportStructure.value.value,
+        supportType: supportType.value.value,
+        adhesionType: adhesion.value.value,
+        minimizeSupports: minimizeSupports.value,
+        layerHeight: layerHeight.value,
+        initialLayerHeight: initialLayerHeight.value,
+      }
+
+      // Log the payload being sent to the backend
+      console.log('Payload being sent to backend:', payload)
+
       showAd.value = true
       ProjectApi.csc
-        .print({
-          pk: route.params.id,
-          filament: filament.value.value,
-          printer: printer.value.value,
-          supportStructure: supportStructure.value.value,
-          supportType: supportType.value.value,
-          adhesionType: adhesion.value.value,
-          minimizeSupports: minimizeSupports.value,
-          layerHeight: layerHeight.value,
-          initialLayerHeight: initialLayerHeight.value,
-        })
+        .print(payload)
         .then(handleGcodeSuccess)
         .catch(handleFailure)
     }
