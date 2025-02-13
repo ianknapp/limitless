@@ -1,6 +1,8 @@
 from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Settings(TextChoices):
     ADHESION_TYPE = "adhesion_type", _("Adhesion Type")
@@ -45,7 +47,7 @@ def cura_settings_str(settings):
         **({Settings.ADHESION_TYPE: settings.adhesion_type} if settings.adhesion_type != AdhesionType.NONE else {}),
     }
     command_str = " ".join(f"-s {key}={value}" for key, value in data.items())
-    logger.debug(f"Generated CLI command: {command_str}")  # Add this line for logging
+    logger.debug(f"Generated CLI command: {command_str}")  
     return command_str
 
 
