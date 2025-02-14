@@ -41,7 +41,7 @@ class Command(BaseCommand):
             with open(f"{extruder_folder}{file_name}", "r") as f:
                 data = json.loads(f.read())
                 name = file_name.replace(".def.json", "")
-                if not Printer.objects.filter(slug=name).exists():
-                    Printer.objects.get_or_create(slug=name, defaults={"name": data.get("name", "Unknown Extruder"), "hidden": False})
+                if not Printer.objects.filter(slug=file_name).exists():
+                    Printer.objects.get_or_create(slug=file_name, defaults={"name": name, "hidden": False})
 
         logger.info(f"Finished management command {__name__}")
