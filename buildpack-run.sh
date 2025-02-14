@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Specify the desired version
-desired_version="5.5"
+# Hardcode the desired Cura version
+version_number="5.5.0"
 
-echo "Fetching printer definitions from Cura"
-# The version number isn't easily found, so parse it ourselves
-echo $desired_version > cura_version.txt
-
-echo "Downloading: https://github.com/Ultimaker/Cura/archive/refs/heads/$desired_version.zip"
-curl -L https://github.com/Ultimaker/Cura/archive/refs/heads/$desired_version.zip > cura-code.zip
+echo "Downloading: https://github.com/Ultimaker/Cura/archive/refs/tags/$version_number.zip"
+curl -L https://github.com/Ultimaker/Cura/archive/refs/tags/$version_number.zip > cura-code.zip
 unzip -q cura-code.zip
+
+# Add the new CuraEngine to the PATH
+export PATH="/app/Cura-$version_number/build:$PATH"
+
+echo $version_number > cura_version.txt
 
 echo "Installing the Tweaker library to auto-orient STL files"
 pip install git+https://github.com/ChristophSchranz/Tweaker-3.git
