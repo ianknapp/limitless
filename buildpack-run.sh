@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the desired version
-desired_version="5.5.0"
+desired_version="5.5"
 
 echo "Fetching printer definitions from Cura"
 # The version number isn't easily found, so parse it ourselves
