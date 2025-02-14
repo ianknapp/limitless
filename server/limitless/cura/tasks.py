@@ -37,6 +37,7 @@ def slice_model(obj, filament_config, printer_config_filename, cura_settings_str
     optimize_model_position(obj.file.name, minimize_supports)
     # Need to export this here for reasons. See buildpack-run.sh
     export_cmd = "export CURA_ENGINE_SEARCH_PATH=/app/Cura-$(cat /app/cura_version.txt)/resources/definitions"
+    logger.info(f"CURA_ENGINE_SEARCH_PATH: {export_cmd}")
     config_path = f"$(echo $CURA_ENGINE_SEARCH_PATH)/{printer_config_filename}"
     cura_args = f"-j {config_path} -l {obj.file.name} -o /tmp/{file_name}"
     cura_command = f"{export_cmd} && CuraEngine slice {cura_args} {filament_config} {cura_settings_str}"

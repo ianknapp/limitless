@@ -1,24 +1,22 @@
 <template>
-  <div class="text-left font-sans text-white">
+  <div class="border border-gray-700 rounded-lg overflow-hidden bg-zinc-900/30">
     <router-link
       :to="{ name: 'Project', params: { id: project.id } }"
-      class="flex flex-shrink-0 items-center"
+      class="block"
     >
-      <div class="rounded-lg bg-zinc-900/30">
-        <div class="mb-auto flex w-48 h-36 justify-center">
-          <img 
-            v-if="project.image"
-            class="rounded-lg flex-shrink max-h-full pointer-events-none" 
-            :src="project.image" 
-            :alt="project.title"
-          />
-        </div>
+      <div class="flex justify-center items-center h-48 bg-black">
+        <img 
+          v-if="project.image"
+          class="max-h-full max-w-full object-contain" 
+          :src="project.image" 
+          :alt="project.title"
+        />
       </div>
     </router-link>
 
     <!-- Project Info -->
     <div class="p-4">
-      <h3 class="font-semibold text-lg mb-2">{{ project.title }}</h3>
+      <h3 class="font-semibold text-lg mb-2 text-white">{{ project.title }}</h3>
       
       <!-- Creator Info -->
       <div v-if="project.creator" class="flex items-center space-x-2 mb-3">
@@ -34,11 +32,11 @@
       <div class="flex items-center justify-between text-sm text-gray-400">
         <div class="flex items-center space-x-4">
           <span class="flex items-center space-x-1">
-            <i class="icon-download" />
+            <img src="@/assets/icons/download-svgrepo-com.svg" class="w-4 h-4 filter-white mr-1" />
             {{ formatNumber(project.downloads || 0) }}
           </span>
           <span class="flex items-center space-x-1">
-            <i class="icon-eye" />
+            <img src="@/assets/icons/eye-svgrepo-com.svg" class="w-4 h-4 filter-white mr-1" />
             {{ formatNumber(project.views || 0) }}
           </span>
         </div>
@@ -48,7 +46,8 @@
           class="flex items-center space-x-1"
           :class="{ 'text-primary': isSaved }"
         >
-          <i :class="isSaved ? 'icon-bookmark-filled' : 'icon-bookmark'" />
+          <img v-if="isSaved" src="@/assets/icons/bookmark-fill-svgrepo-com.svg" class="w-4 h-4 filter-white " />
+          <img v-else src="@/assets/icons/bookmark-svgrepo-com.svg" class="w-4 h-4 filter-white" />
           {{ formatNumber(project.saves || 0) }}
         </button>
       </div>
@@ -104,5 +103,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.filter-white {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+</style>
 
 
