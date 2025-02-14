@@ -20,7 +20,7 @@ def _get_list_of_files(folder):
 
 
 class Command(BaseCommand):
-    help = "Runs on release. Makes sure we have all the printers in the DB that Cura has available"
+    help = "Runs on release. Makes sure we have all the printers and extruders in the DB that Cura has available"
 
     def handle(self, *args, **kwargs):
         logger.info(f"Starting management command {__name__}")
@@ -33,4 +33,14 @@ class Command(BaseCommand):
                 if not Printer.objects.filter(slug=file_name).exists():
                     # hotfix. refactor later. For some reason this results in duplicates in the DB
                     Printer.objects.get_or_create(slug=file_name, defaults={"name": data["name"], "hidden": False})
+
+        # Process extruder definition files
+        extruder_folder = f"/app/Cura-{version}/resources/extruders/"
+        extruder_file_names = _get_list_of_files(extruder_folder)
+        for file_name in extruder_file_names:
+            with open(f"{extruder_folder}{file_name}", "r") as f:
+                data = json.loads(f.read())
+                if not Printer.objects.filter(slug=file_name).exists():
+                    Printer.objects.get_or_create(slug=file_name, defaults={"name": data.get("name", "Unknown Extruder"), "hidden": False})
+
         logger.info(f"Finished management command {__name__}")
